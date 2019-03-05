@@ -15,21 +15,6 @@ from PyQt4 import QtWebKit
 import sys
 import os
 
-'''
-
-import sys
-
-addPathArray = [r'D:\gitLab\ssToolShelf',r'C:\gitLab\ssToolShelf',r'C:\Python27\Lib\site-packages']
-for pt in addPathArray:
-    if not pt in sys.path:
-        #sys.path.append(pt)
-        pass
-
-
-import sys, os, time, json, shutil, random, math
-
-from Qt import QtWidgets as qw, QtGui, QtCore, IsPySide, IsPySide2
-
 if IsPySide:
     from shiboken import wrapInstance
 elif IsPySide2:
@@ -52,16 +37,27 @@ try:
     MayaParent = getMayaWindow()
 except:
     MayaParent = ''
+'''
+
+import sys
+
+addPathArray = [r'D:\gitLab\ssToolShelf',r'C:\gitLab\ssToolShelf',r'C:\Python27\Lib\site-packages']
+for pt in addPathArray:
+    if not pt in sys.path:
+        #sys.path.append(pt)
+        pass
+
+
+import sys, os, time, json, shutil, random, math
+
+from Qt import QtWidgets as qw, QtGui, QtCore, IsPySide, IsPySide2
+
 
 import bin.Mstyle_RB as Mstyle_RB
 
 Mstyle = Mstyle_RB.RedBlackStyleSheet()
 '''
-try:
-    _fromUtf8 = QtCore.QString.fromUtf8
-except AttributeError:
-    def _fromUtf8(s):
-        return s
+
 
 try:
     _encoding = qw.QApplication.UnicodeUTF8
@@ -72,121 +68,147 @@ except AttributeError:
         return qw.QApplication.translate(context, text, disambig)
 
 class Ui_MainWindow(qw.QMainWindow):
+    scale = 2
+    def getScale(self):
+        return self.scale
+
+    def setScale(self,val):
+        self.scale = int(val)
+        # reload ui form
+
     def setupUi(self):
-        self.setObjectName(_fromUtf8("MainWindow"))
-        self.resize(1024, 528)
-        self.setMinimumSize(QtCore.QSize(1024, 528))
-        self.setWindowOpacity(0.9)
-        self.setStyleSheet(_fromUtf8("QPushButton {color:rgb(170, 85, 255);font: 75 9pt \"Arial\";}\n"
+        uiWidth = 1280 * self.scale
+        uiHeight = 728 * self.scale
+        unitSize = 32 * self.scale
+        fontHeight = 20 * self.scale
+
+        self.setObjectName(u'浏览器界面')
+        self.setMinimumSize(QtCore.QSize(uiWidth*0.5, uiHeight*0.5))
+        self.resize(uiWidth, uiHeight)
+        self.setWindowOpacity(0.95)
+        self.setStyleSheet(("QPushButton {color:rgb(170, 85, 255);font: 75 9pt \"Arial\";}\n"
 "QPushButton#closeBtn { background-color: red }\n"
-"QLineEdit{ background-color: red }\n"
-"QLineEdit[readOnly=\"true\"]{ background-color: gray }"))
+"QsearchLine{ background-color: red }\n"
+"QsearchLine[readOnly=\"true\"]{ background-color: gray }"))
+
+
         self.centralwidget = qw.QWidget(self)
         self.centralwidget.setAutoFillBackground(True)
-        self.centralwidget.setObjectName(_fromUtf8("centralwidget"))
+        self.centralwidget.setObjectName(("centralwidget"))
+
         self.verticalLayout = qw.QVBoxLayout(self.centralwidget)
-        self.verticalLayout.setObjectName(_fromUtf8("verticalLayout"))
+        self.verticalLayout.setObjectName(("mainVLayout"))
+
         self.horizontalLayout_4 = qw.QHBoxLayout()
-        self.horizontalLayout_4.setObjectName(_fromUtf8("horizontalLayout_4"))
-        self.label_2 = qw.QLabel(self.centralwidget)
-        self.label_2.setMaximumSize(QtCore.QSize(16777215, 25))
-        self.label_2.setObjectName(_fromUtf8("label_2"))
-        self.horizontalLayout_4.addWidget(self.label_2)
-        self.label_3 = qw.QLabel(self.centralwidget)
-        self.label_3.setMaximumSize(QtCore.QSize(16777215, 25))
-        self.label_3.setObjectName(_fromUtf8("label_3"))
-        self.horizontalLayout_4.addWidget(self.label_3)
+        self.horizontalLayout_4.setObjectName(("titleHLayout"))
+
+        self.logoLab = qw.QLabel(self.centralwidget)
+        self.logoLab.setMaximumSize(QtCore.QSize(16777215, fontHeight))
+        self.logoLab.setObjectName(("logoLab"))
+
+        self.horizontalLayout_4.addWidget(self.logoLab)
+        self.titleLab = qw.QLabel(self.centralwidget)
+        self.titleLab.setMaximumSize(QtCore.QSize(16777215, fontHeight))
+        self.titleLab.setObjectName(("titleLab"))
+        self.horizontalLayout_4.addWidget(self.titleLab)
         spacerItem = qw.QSpacerItem(0, 0, qw.QSizePolicy.Expanding, qw.QSizePolicy.Minimum)
         self.horizontalLayout_4.addItem(spacerItem)
         self.progressBar = qw.QProgressBar(self.centralwidget)
-        self.progressBar.setMinimumSize(QtCore.QSize(50, 0))
-        self.progressBar.setMaximumSize(QtCore.QSize(200, 16777215))
+        self.progressBar.setMinimumSize(QtCore.QSize(fontHeight*2, 0))
+        self.progressBar.setMaximumSize(QtCore.QSize(fontHeight*5, 16777215))
         self.progressBar.setProperty("value", 24)
         self.progressBar.setTextVisible(True)
         self.progressBar.setInvertedAppearance(True)
         self.progressBar.setTextDirection(qw.QProgressBar.TopToBottom)
-        self.progressBar.setObjectName(_fromUtf8("progressBar"))
+        self.progressBar.setObjectName(("progressBar"))
         self.horizontalLayout_4.addWidget(self.progressBar)
-        self.pushButton_9 = qw.QPushButton(self.centralwidget)
-        self.pushButton_9.setMaximumSize(QtCore.QSize(25, 25))
-        self.pushButton_9.setObjectName(_fromUtf8("pushButton_9"))
-        self.horizontalLayout_4.addWidget(self.pushButton_9)
+
+        self.maxResumeUI = qw.QPushButton(self.centralwidget)
+        self.maxResumeUI.setMaximumSize(QtCore.QSize(fontHeight, fontHeight))
+        self.maxResumeUI.setObjectName(("maxResumeUI"))
+        self.horizontalLayout_4.addWidget(self.maxResumeUI)
         self.closeBtn = qw.QPushButton(self.centralwidget)
-        self.closeBtn.setMaximumSize(QtCore.QSize(25, 25))
-        self.closeBtn.setObjectName(_fromUtf8("closeBtn"))
+        self.closeBtn.setMaximumSize(QtCore.QSize(fontHeight, fontHeight))
+        self.closeBtn.setObjectName(("closeBtn"))
         self.horizontalLayout_4.addWidget(self.closeBtn)
         self.verticalLayout.addLayout(self.horizontalLayout_4)
+
+        # ================ titile part over =======================
+
         self.horizontalLayout_2 = qw.QHBoxLayout()
         self.horizontalLayout_2.setSpacing(0)
         self.horizontalLayout_2.setSizeConstraint(qw.QLayout.SetMinimumSize)
-        self.horizontalLayout_2.setContentsMargins(0, -1, -1, -1)
-        self.horizontalLayout_2.setObjectName(_fromUtf8("horizontalLayout_2"))
+        self.horizontalLayout_2.setContentsMargins(0, 0, 0, 0)
+        self.horizontalLayout_2.setObjectName(("horizontalLayout_2"))
         self.guildButton = qw.QPushButton(self.centralwidget)
-        self.guildButton.setMinimumSize(QtCore.QSize(40, 40))
-        self.guildButton.setMaximumSize(QtCore.QSize(40, 40))
+        self.guildButton.setMinimumSize(QtCore.QSize(unitSize, unitSize))
+        self.guildButton.setMaximumSize(QtCore.QSize(unitSize, unitSize))
         self.guildButton.setFlat(False)
-        self.guildButton.setObjectName(_fromUtf8("guildButton"))
+        self.guildButton.setObjectName(("guildButton"))
         self.horizontalLayout_2.addWidget(self.guildButton)
-        self.pushButton_5 = qw.QPushButton(self.centralwidget)
-        self.pushButton_5.setMinimumSize(QtCore.QSize(40, 40))
-        self.pushButton_5.setMaximumSize(QtCore.QSize(40, 40))
-        self.pushButton_5.setObjectName(_fromUtf8("pushButton_5"))
-        self.horizontalLayout_2.addWidget(self.pushButton_5)
-        self.pushButton = qw.QPushButton(self.centralwidget)
-        self.pushButton.setMinimumSize(QtCore.QSize(40, 40))
-        self.pushButton.setMaximumSize(QtCore.QSize(40, 40))
-        self.pushButton.setObjectName(_fromUtf8("pushButton"))
-        self.horizontalLayout_2.addWidget(self.pushButton)
-        self.pushButton_8 = qw.QPushButton(self.centralwidget)
-        self.pushButton_8.setMinimumSize(QtCore.QSize(40, 40))
-        self.pushButton_8.setMaximumSize(QtCore.QSize(0, 40))
-        self.pushButton_8.setObjectName(_fromUtf8("pushButton_8"))
-        self.horizontalLayout_2.addWidget(self.pushButton_8)
+        self.backButton = qw.QPushButton(self.centralwidget)
+        self.backButton.setMinimumSize(QtCore.QSize(unitSize,unitSize))
+        self.backButton.setMaximumSize(QtCore.QSize(unitSize,unitSize))
+        self.backButton.setObjectName(("backButton"))
+        self.horizontalLayout_2.addWidget(self.backButton)
+        self.upButton = qw.QPushButton(self.centralwidget)
+        self.upButton.setMinimumSize(QtCore.QSize(unitSize,unitSize))
+        self.upButton.setMaximumSize(QtCore.QSize(unitSize,unitSize))
+        self.upButton.setObjectName(("upButton"))
+        self.horizontalLayout_2.addWidget(self.upButton)
+        self.projectButton = qw.QPushButton(self.centralwidget)
+        self.projectButton.setMinimumSize(QtCore.QSize(unitSize,unitSize))
+        self.projectButton.setMaximumSize(QtCore.QSize(0, unitSize))
+        self.projectButton.setObjectName(("projectButton"))
+        self.horizontalLayout_2.addWidget(self.projectButton)
         self.comboBox = qw.QComboBox(self.centralwidget)
-        self.comboBox.setMinimumSize(QtCore.QSize(0, 40))
-        self.comboBox.setMaximumSize(QtCore.QSize(16777215, 40))
+        self.comboBox.setMinimumSize(QtCore.QSize(0, unitSize))
+        self.comboBox.setMaximumSize(QtCore.QSize(16777215, unitSize))
         self.comboBox.setEditable(True)
         self.comboBox.setSizeAdjustPolicy(qw.QComboBox.AdjustToMinimumContentsLength)
-        self.comboBox.setObjectName(_fromUtf8("comboBox"))
+        self.comboBox.setObjectName(("comboBox"))
         self.horizontalLayout_2.addWidget(self.comboBox)
-        self.pushButton_4 = qw.QPushButton(self.centralwidget)
-        self.pushButton_4.setMinimumSize(QtCore.QSize(40, 40))
-        self.pushButton_4.setMaximumSize(QtCore.QSize(40, 40))
-        self.pushButton_4.setObjectName(_fromUtf8("pushButton_4"))
-        self.horizontalLayout_2.addWidget(self.pushButton_4)
-        self.pushButton_6 = qw.QPushButton(self.centralwidget)
-        self.pushButton_6.setMinimumSize(QtCore.QSize(40, 40))
-        self.pushButton_6.setMaximumSize(QtCore.QSize(40, 40))
-        self.pushButton_6.setObjectName(_fromUtf8("pushButton_6"))
-        self.horizontalLayout_2.addWidget(self.pushButton_6)
-        self.pushButton_2 = qw.QPushButton(self.centralwidget)
-        self.pushButton_2.setMinimumSize(QtCore.QSize(40, 40))
-        self.pushButton_2.setMaximumSize(QtCore.QSize(40, 40))
-        self.pushButton_2.setObjectName(_fromUtf8("pushButton_2"))
-        self.horizontalLayout_2.addWidget(self.pushButton_2)
+        self.moduleButton = qw.QPushButton(self.centralwidget)
+        self.moduleButton.setMinimumSize(QtCore.QSize(unitSize,unitSize))
+        self.moduleButton.setMaximumSize(QtCore.QSize(unitSize,unitSize))
+        self.moduleButton.setObjectName(("moduleButton"))
+        self.horizontalLayout_2.addWidget(self.moduleButton)
+        self.attributeButton = qw.QPushButton(self.centralwidget)
+        self.attributeButton.setMinimumSize(QtCore.QSize(unitSize,unitSize))
+        self.attributeButton.setMaximumSize(QtCore.QSize(unitSize,unitSize))
+        self.attributeButton.setObjectName(("attributeButton"))
+        self.horizontalLayout_2.addWidget(self.attributeButton)
+        self.batchButton = qw.QPushButton(self.centralwidget)
+        self.batchButton.setMinimumSize(QtCore.QSize(unitSize,unitSize))
+        self.batchButton.setMaximumSize(QtCore.QSize(unitSize,unitSize))
+        self.batchButton.setObjectName(("batchButton"))
+        self.horizontalLayout_2.addWidget(self.batchButton)
         self.pushButton_3 = qw.QPushButton(self.centralwidget)
-        self.pushButton_3.setMinimumSize(QtCore.QSize(40, 40))
-        self.pushButton_3.setMaximumSize(QtCore.QSize(40, 40))
-        self.pushButton_3.setObjectName(_fromUtf8("pushButton_3"))
+        self.pushButton_3.setMinimumSize(QtCore.QSize(unitSize,unitSize))
+        self.pushButton_3.setMaximumSize(QtCore.QSize(unitSize,unitSize))
+        self.pushButton_3.setObjectName(("pushButton_3"))
         self.horizontalLayout_2.addWidget(self.pushButton_3)
-        self.pushButton_7 = qw.QPushButton(self.centralwidget)
-        self.pushButton_7.setMinimumSize(QtCore.QSize(40, 40))
-        self.pushButton_7.setMaximumSize(QtCore.QSize(40, 40))
-        self.pushButton_7.setObjectName(_fromUtf8("pushButton_7"))
-        self.horizontalLayout_2.addWidget(self.pushButton_7)
+        self.setupButton = qw.QPushButton(self.centralwidget)
+        self.setupButton.setMinimumSize(QtCore.QSize(unitSize,unitSize))
+        self.setupButton.setMaximumSize(QtCore.QSize(unitSize,unitSize))
+        self.setupButton.setObjectName(("setupButton"))
+        self.horizontalLayout_2.addWidget(self.setupButton)
         self.verticalLayout.addLayout(self.horizontalLayout_2)
+
+        #====================== tool bar over ==========================
+
         self.horizontalLayout = qw.QHBoxLayout()
-        self.horizontalLayout.setObjectName(_fromUtf8("horizontalLayout"))
+        self.horizontalLayout.setObjectName(("horizontalLayout"))
         self.widget = qw.QWidget(self.centralwidget)
-        self.widget.setObjectName(_fromUtf8("widget"))
+        self.widget.setObjectName(("widget"))
         self.horizontalLayout_3 = qw.QHBoxLayout(self.widget)
         self.horizontalLayout_3.setMargin(0)
-        self.horizontalLayout_3.setObjectName(_fromUtf8("horizontalLayout_3"))
+        self.horizontalLayout_3.setObjectName(("horizontalLayout_3"))
         self.splitter = qw.QSplitter(self.widget)
-        sizePolicy = qw.QSizePolicy(qw.QSizePolicy.Minimum, qw.QSizePolicy.Preferred)
+        sizePolicy = qw.QSizePolicy(qw.QSizePolicy.Maximum, qw.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.splitter.sizePolicy().hasHeightForWidth())
+        #sizePolicy.setHeightForWidth(self.splitter.sizePolicy().hasHeightForWidth())
         self.splitter.setSizePolicy(sizePolicy)
         self.splitter.setFrameShape(qw.QFrame.NoFrame)
         self.splitter.setLineWidth(0)
@@ -194,78 +216,82 @@ class Ui_MainWindow(qw.QMainWindow):
         self.splitter.setOrientation(QtCore.Qt.Horizontal)
         self.splitter.setOpaqueResize(False)
         self.splitter.setChildrenCollapsible(True)
-        self.splitter.setObjectName(_fromUtf8("splitter"))
-        self.widget_2 = qw.QWidget(self.splitter)
-        self.widget_2.setMinimumSize(QtCore.QSize(400, 0))
-        self.widget_2.setMaximumSize(QtCore.QSize(16777215, 16777215))
-        self.widget_2.setObjectName(_fromUtf8("widget_2"))
-        self.verticalLayout_5 = qw.QVBoxLayout(self.widget_2)
+        self.splitter.setObjectName(("splitter"))
+        self.dataListWidget = qw.QWidget(self.splitter)
+        self.dataListWidget.setMinimumSize(QtCore.QSize(uiWidth*0.6, 0))
+        self.dataListWidget.setMaximumSize(QtCore.QSize(16777215, 16777215))
+        self.dataListWidget.setObjectName(("dataListWidget"))
+        self.verticalLayout_5 = qw.QVBoxLayout(self.dataListWidget)
         self.verticalLayout_5.setMargin(0)
-        self.verticalLayout_5.setObjectName(_fromUtf8("verticalLayout_5"))
+        self.verticalLayout_5.setObjectName(("verticalLayout_5"))
+        self.dataListWidget.setLayout(self.verticalLayout_5)
         self.horizontalLayout_5 = qw.QHBoxLayout()
-        self.horizontalLayout_5.setObjectName(_fromUtf8("horizontalLayout_5"))
-        self.lineEdit = qw.QLineEdit(self.widget_2)
-        self.lineEdit.setMinimumSize(QtCore.QSize(0, 0))
-        self.lineEdit.setReadOnly(True)
-        self.lineEdit.setObjectName(_fromUtf8("lineEdit"))
-        self.horizontalLayout_5.addWidget(self.lineEdit)
-        self.pushButton_12 = qw.QPushButton(self.widget_2)
-        self.pushButton_12.setObjectName(_fromUtf8("pushButton_12"))
-        self.horizontalLayout_5.addWidget(self.pushButton_12)
-        self.pushButton_11 = qw.QPushButton(self.widget_2)
-        self.pushButton_11.setObjectName(_fromUtf8("pushButton_11"))
-        self.horizontalLayout_5.addWidget(self.pushButton_11)
+        self.horizontalLayout_5.setObjectName(("horizontalLayout_5"))
+        self.searchLine = qw.QLineEdit(self.dataListWidget)
+        self.searchLine.setMinimumSize(QtCore.QSize(0, 0))
+        self.searchLine.setReadOnly(True)
+        self.searchLine.setObjectName(("searchLine"))
+        self.horizontalLayout_5.addWidget(self.searchLine)
+        self.configSearchButton = qw.QPushButton(self.dataListWidget)
+        self.configSearchButton.setObjectName(("configSearchButton"))
+        self.horizontalLayout_5.addWidget(self.configSearchButton)
+        self.ruleSearchButton = qw.QPushButton(self.dataListWidget)
+        self.ruleSearchButton.setObjectName(("ruleSearchButton"))
+        self.horizontalLayout_5.addWidget(self.ruleSearchButton)
         self.verticalLayout_5.addLayout(self.horizontalLayout_5)
-        self.gridLayout = qw.QGridLayout()
-        self.gridLayout.setObjectName(_fromUtf8("gridLayout"))
-        self.frame = qw.QFrame(self.widget_2)
+        self.flowLayout = qw.QGridLayout()
+        self.flowLayout.setObjectName(("flowLayout"))
+
+        self.frame = qw.QFrame(self.dataListWidget)
         self.frame.setMinimumSize(QtCore.QSize(120, 72))
         self.frame.setMaximumSize(QtCore.QSize(80, 60))
         self.frame.setFrameShape(qw.QFrame.StyledPanel)
         self.frame.setFrameShadow(qw.QFrame.Raised)
-        self.frame.setObjectName(_fromUtf8("frame"))
+        self.frame.setObjectName(("frame"))
         self.label_4 = qw.QLabel(self.frame)
         self.label_4.setGeometry(QtCore.QRect(2, 2, 120, 80))
         self.label_4.setMinimumSize(QtCore.QSize(120, 80))
-        self.label_4.setText(_fromUtf8(""))
-        #self.label_4.setPixmap(qw.QPixmap(_fromUtf8("../Pictures/timg.jpg")))
-        self.label_4.setObjectName(_fromUtf8("label_4"))
+        self.label_4.setText((""))
+        #self.label_4.setPixmap(qw.QPixmap(("../Pictures/timg.jpg")))
+        self.label_4.setObjectName(("label_4"))
         self.label_5 = qw.QLabel(self.frame)
         self.label_5.setGeometry(QtCore.QRect(10, 10, 54, 12))
-        self.label_5.setObjectName(_fromUtf8("label_5"))
+        self.label_5.setObjectName(("label_5"))
         self.label_6 = qw.QLabel(self.frame)
         self.label_6.setGeometry(QtCore.QRect(10, 30, 54, 12))
-        self.label_6.setObjectName(_fromUtf8("label_6"))
+        self.label_6.setObjectName(("label_6"))
         self.pushButton_10 = qw.QPushButton(self.frame)
         self.pushButton_10.setGeometry(QtCore.QRect(20, 50, 75, 23))
-        self.pushButton_10.setObjectName(_fromUtf8("pushButton_10"))
-        self.gridLayout.addWidget(self.frame, 0, 0, 1, 1)
-        self.verticalLayout_5.addLayout(self.gridLayout)
+        self.pushButton_10.setObjectName(("pushButton_10"))
+        self.flowLayout.addWidget(self.frame, 0, 0, 1, 1)
+
+        self.verticalLayout_5.addLayout(self.flowLayout)
         spacerItem1 = qw.QSpacerItem(160, 40, qw.QSizePolicy.Minimum, qw.QSizePolicy.MinimumExpanding)
         self.verticalLayout_5.addItem(spacerItem1)
-        self.widget_3 = qw.QWidget(self.splitter)
+        self.attributeWidget = qw.QWidget(self.splitter)
         sizePolicy = qw.QSizePolicy(qw.QSizePolicy.MinimumExpanding, qw.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.widget_3.sizePolicy().hasHeightForWidth())
-        self.widget_3.setSizePolicy(sizePolicy)
-        self.widget_3.setMaximumSize(QtCore.QSize(16777215, 16777215))
-        self.widget_3.setObjectName(_fromUtf8("widget_3"))
-        self.verticalLayout_2 = qw.QVBoxLayout(self.widget_3)
+        #sizePolicy.setHeightForWidth(self.attributeWidget.sizePolicy().hasHeightForWidth())
+        self.attributeWidget.setSizePolicy(sizePolicy)
+        self.attributeWidget.setMaximumSize(QtCore.QSize(16777215, 16777215))
+        self.attributeWidget.setMinimumSize(QtCore.QSize(uiWidth*0.3, 16777215))
+        self.attributeWidget.setObjectName(("attributeWidget"))
+        self.verticalLayout_2 = qw.QVBoxLayout(self.attributeWidget)
         self.verticalLayout_2.setSpacing(0)
         self.verticalLayout_2.setMargin(0)
-        self.verticalLayout_2.setObjectName(_fromUtf8("verticalLayout_2"))
-        self.scrollArea = qw.QScrollArea(self.widget_3)
+        self.verticalLayout_2.setObjectName(("verticalLayout_2"))
+        self.scrollArea = qw.QScrollArea(self.attributeWidget)
         sizePolicy = qw.QSizePolicy(qw.QSizePolicy.Minimum, qw.QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.scrollArea.sizePolicy().hasHeightForWidth())
+        #sizePolicy.setHeightForWidth(self.scrollArea.sizePolicy().hasHeightForWidth())
         self.scrollArea.setSizePolicy(sizePolicy)
         self.scrollArea.setMinimumSize(QtCore.QSize(0, 0))
         self.scrollArea.setMaximumSize(QtCore.QSize(16777212, 16777215))
         self.scrollArea.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
         self.scrollArea.setWidgetResizable(True)
-        self.scrollArea.setObjectName(_fromUtf8("scrollArea"))
+        self.scrollArea.setObjectName(("scrollArea"))
         self.scrollAreaWidgetContents = qw.QWidget()
         self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 548, 337))
         sizePolicy = qw.QSizePolicy(qw.QSizePolicy.Minimum, qw.QSizePolicy.Preferred)
@@ -273,16 +299,16 @@ class Ui_MainWindow(qw.QMainWindow):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.scrollAreaWidgetContents.sizePolicy().hasHeightForWidth())
         self.scrollAreaWidgetContents.setSizePolicy(sizePolicy)
-        self.scrollAreaWidgetContents.setObjectName(_fromUtf8("scrollAreaWidgetContents"))
+        self.scrollAreaWidgetContents.setObjectName(("scrollAreaWidgetContents"))
         self.verticalLayout_3 = qw.QVBoxLayout(self.scrollAreaWidgetContents)
-        self.verticalLayout_3.setObjectName(_fromUtf8("verticalLayout_3"))
+        self.verticalLayout_3.setObjectName(("verticalLayout_3"))
         self.label = qw.QLabel(self.scrollAreaWidgetContents)
         sizePolicy = qw.QSizePolicy(qw.QSizePolicy.MinimumExpanding, qw.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.label.sizePolicy().hasHeightForWidth())
         self.label.setSizePolicy(sizePolicy)
-        self.label.setObjectName(_fromUtf8("label"))
+        self.label.setObjectName(("label"))
         self.verticalLayout_3.addWidget(self.label)
         self.toolBox = qw.QToolBox(self.scrollAreaWidgetContents)
         sizePolicy = qw.QSizePolicy(qw.QSizePolicy.Minimum, qw.QSizePolicy.Preferred)
@@ -292,22 +318,22 @@ class Ui_MainWindow(qw.QMainWindow):
         self.toolBox.setSizePolicy(sizePolicy)
         self.toolBox.setMinimumSize(QtCore.QSize(0, 200))
         self.toolBox.setMaximumSize(QtCore.QSize(16777215, 400))
-        self.toolBox.setObjectName(_fromUtf8("toolBox"))
+        self.toolBox.setObjectName(("toolBox"))
         self.page = qw.QWidget()
         self.page.setGeometry(QtCore.QRect(0, 0, 530, 180))
         self.page.setMinimumSize(QtCore.QSize(0, 150))
         self.page.setMaximumSize(QtCore.QSize(16777215, 240))
-        self.page.setObjectName(_fromUtf8("page"))
+        self.page.setObjectName(("page"))
         self.verticalLayout_4 = qw.QVBoxLayout(self.page)
         self.verticalLayout_4.setSpacing(0)
         self.verticalLayout_4.setMargin(0)
-        self.verticalLayout_4.setObjectName(_fromUtf8("verticalLayout_4"))
+        self.verticalLayout_4.setObjectName(("verticalLayout_4"))
         self.webView = QtWebKit.QWebView(self.page)
         self.webView.setMaximumSize(QtCore.QSize(16777215, 200))
-        self.webView.setUrl(QtCore.QUrl(_fromUtf8("about:blank")))
-        self.webView.setObjectName(_fromUtf8("webView"))
+        self.webView.setUrl(QtCore.QUrl(("about:blank")))
+        self.webView.setObjectName(("webView"))
         self.verticalLayout_4.addWidget(self.webView)
-        self.toolBox.addItem(self.page, _fromUtf8(""))
+        self.toolBox.addItem(self.page, (""))
         self.verticalLayout_3.addWidget(self.toolBox)
         self.toolBox_2 = qw.QToolBox(self.scrollAreaWidgetContents)
         sizePolicy = qw.QSizePolicy(qw.QSizePolicy.Minimum, qw.QSizePolicy.Preferred)
@@ -315,11 +341,11 @@ class Ui_MainWindow(qw.QMainWindow):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.toolBox_2.sizePolicy().hasHeightForWidth())
         self.toolBox_2.setSizePolicy(sizePolicy)
-        self.toolBox_2.setObjectName(_fromUtf8("toolBox_2"))
+        self.toolBox_2.setObjectName(("toolBox_2"))
         self.page_3 = qw.QWidget()
         self.page_3.setGeometry(QtCore.QRect(0, 0, 530, 69))
-        self.page_3.setObjectName(_fromUtf8("page_3"))
-        self.toolBox_2.addItem(self.page_3, _fromUtf8(""))
+        self.page_3.setObjectName(("page_3"))
+        self.toolBox_2.addItem(self.page_3, (""))
         self.verticalLayout_3.addWidget(self.toolBox_2)
         self.scrollArea.setWidget(self.scrollAreaWidgetContents)
         self.verticalLayout_2.addWidget(self.scrollArea)
@@ -328,7 +354,7 @@ class Ui_MainWindow(qw.QMainWindow):
         self.verticalLayout.addLayout(self.horizontalLayout)
         self.setCentralWidget(self.centralwidget)
         self.statusbar = qw.QStatusBar(self)
-        self.statusbar.setObjectName(_fromUtf8("statusbar"))
+        self.statusbar.setObjectName(("statusbar"))
         self.setStatusBar(self.statusbar)
 
         self.retranslateUi(self)
@@ -339,29 +365,29 @@ class Ui_MainWindow(qw.QMainWindow):
 
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow", None))
-        self.label_2.setText(_translate("MainWindow", "logoPic", None))
-        self.label_3.setText(_translate("MainWindow", "TextLabel", None))
-        self.pushButton_9.setText(_translate("MainWindow", "Max", None))
+        self.logoLab.setText(_translate("MainWindow", "logoPic", None))
+        self.titleLab.setText(_translate("MainWindow", "TextLabel", None))
+        self.maxResumeUI.setText(_translate("MainWindow", "Max", None))
         self.closeBtn.setText(_translate("MainWindow", "x", None))
         self.guildButton.setText(_translate("MainWindow", "Guild", None))
-        self.pushButton_5.setText(_translate("MainWindow", "←", None))
-        self.pushButton.setText(_translate("MainWindow", "↑", None))
-        self.pushButton_8.setText(_translate("MainWindow", "projectName", None))
-        self.pushButton_4.setToolTip(_translate("MainWindow", "切换视图模式", None))
-        self.pushButton_4.setText(_translate("MainWindow", "㗊", None))
-        self.pushButton_6.setStatusTip(_translate("MainWindow", "开启/关闭属性栏", None))
-        self.pushButton_6.setText(_translate("MainWindow", "三", None))
-        self.pushButton_2.setStatusTip(_translate("MainWindow", "批量操作列表", None))
-        self.pushButton_2.setText(_translate("MainWindow", "车", None))
+        self.backButton.setText(_translate("MainWindow", "←", None))
+        self.upButton.setText(_translate("MainWindow", "↑", None))
+        self.projectButton.setText(_translate("MainWindow", "projectName", None))
+        self.moduleButton.setToolTip(_translate("MainWindow", "切换视图模式", None))
+        self.moduleButton.setText(_translate("MainWindow", "㗊", None))
+        self.attributeButton.setStatusTip(_translate("MainWindow", "开启/关闭属性栏", None))
+        self.attributeButton.setText(_translate("MainWindow", "三", None))
+        self.batchButton.setStatusTip(_translate("MainWindow", "批量操作列表", None))
+        self.batchButton.setText(_translate("MainWindow", "车", None))
         self.pushButton_3.setStatusTip(_translate("MainWindow", "待定设置", None))
         self.pushButton_3.setText(_translate("MainWindow", "other", None))
-        self.pushButton_7.setStatusTip(_translate("MainWindow", "设置", None))
-        self.pushButton_7.setText(_translate("MainWindow", "…", None))
-        self.pushButton_12.setText(_translate("MainWindow", "PushButton", None))
-        self.pushButton_11.setText(_translate("MainWindow", "PushButton", None))
-        self.label_5.setText(_translate("MainWindow", "TextLabel", None))
-        self.label_6.setText(_translate("MainWindow", "TextLabel", None))
-        self.pushButton_10.setText(_translate("MainWindow", "PushButton", None))
+        self.setupButton.setStatusTip(_translate("MainWindow", "设置", None))
+        self.setupButton.setText(_translate("MainWindow", "…", None))
+        self.configSearchButton.setText(_translate("MainWindow", "search", None))
+        self.ruleSearchButton.setText(_translate("MainWindow", "config", None))
+        self.label_5.setText(_translate("MainWindow", "dev", None))
+        self.label_6.setText(_translate("MainWindow", "shotName", None))
+        self.pushButton_10.setText(_translate("MainWindow", "+", None))
         self.label.setText(_translate("MainWindow", "TextLabel", None))
         self.toolBox.setItemText(self.toolBox.indexOf(self.page), _translate("MainWindow", "Page 1", None))
         self.toolBox_2.setItemText(self.toolBox_2.indexOf(self.page_3), _translate("MainWindow", "Page 2", None))
@@ -372,7 +398,7 @@ if __name__ == '__main__':
     import os
     app = qw.QApplication.instance()
     if not app:
-        app = qw.QApplication([])
+        app = qw.QApplication( [])
 
 
 
@@ -381,10 +407,51 @@ if __name__ == '__main__':
 	gg.setupUi()
 	
 	gg.show()
-	gg.resize(500,500)
+	#gg.resize(500,500)
 	gg.move(0,0)
 
     gg.raise_()
     try:
         sys.exit(app.exec_())
     except: pass
+
+'''
+
+import sys
+from PyQt5.QtWidgets import QApplication, QWidget
+ 
+ 
+class Example(QWidget):
+ 
+    def __init__(self):
+        super().__init__()
+ 
+        self.initUI()  # 界面绘制交给InitUi方法
+ 
+    def initUI(self):
+ 
+        self.desktop = QApplication.desktop()
+ 
+        #获取显示器分辨率大小
+        self.screenRect = self.desktop.screenGeometry()
+        self.height = self.screenRect.height()
+        self.width = self.screenRect.width()
+ 
+        print(self.height)
+        print(self.width)
+ 
+        # 显示窗口
+        self.show()
+ 
+ 
+if __name__ == '__main__':
+    # 创建应用程序和对象
+    app = QApplication(sys.argv)
+    ex = Example()
+
+--------------------- 
+作者：pursuit_zhangyu 
+来源：CSDN 
+原文：https://blog.csdn.net/pursuit_zhangyu/article/details/83508025 
+版权声明：本文为博主原创文章，转载请附上博文链接！
+'''
