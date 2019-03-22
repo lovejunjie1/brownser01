@@ -4,107 +4,21 @@ import sys
 import os
 
 
-qssString = ''
-
-class hoverToolButton(qw.QToolButton):
-
-    def enterEvent(self, event):
-        print 'Mouse in!'
-    def leaveEvent(self, event):
-        print 'Mouse out!'
 
 
-class dataButton(qw.QFrame):
-    clicked = QtCore.Signal(dict)
+class spoiler(qw.QFrame):
+    #clicked = QtCore.Signal(dict)
 
-    played = QtCore.Signal(dict)
-
-    addChart = QtCore.Signal(dict)
-
-    defaultPicKey = 'thum.jpg'
-    defaultMovKey = 'thum.gif'
-    
-    infoDict = {
-    'sizeLevel':1,
-    'dep':'',
-    'name':'',
-    'varient':'',
-    'path':'',
-    'showType':''
-    }
 
     def __init__(self,dep,varient,name,path,sizeLevel=3,showType='jpg',parent=''):
-        super(dataButton,self).__init__()
+        super(spoiler,self).__init__()
         sizeDict = {
         1:[120,90],
         2:[240,180],
         3:[480,360]
         }
         self.setupUi()
-        self.setSize(sizeDict[sizeLevel][0],sizeDict[sizeLevel][1])
-        self.setPicture(path)
-        self.setName(name)
-        self.setVarient(varient)
-        self.setDep(dep)
-        self.font.setPointSize(72)
-
-
-    def setPicture(self,basePath):
-        if os.path.exists(basePath):
-            collect = os.listdir(basePath)
-            picVal = ''
-            for col in collect:
-                if self.defaultPicKey in col:
-                    picVal = basePath + '/' + col
-
-
-            thepic = QtGui.QPixmap(picVal)
-            thepic = thepic.scaled(self.width(),self.height())
-            print self.width(),self.height()
-            self.pushButton.setIcon(QtGui.QIcon(thepic))
-            self.pushButton.setIconSize(QtCore.QSize(self.width(),self.height()))
-            thedir = os.path.dirname(picVal)
-            self.infoDict['path'] = thedir
-
-    def setWidth(self,val):
-        print 'setWidth',val
-        self.setFixedWidth(val)
-        self.pushButton.setFixedWidth(val)
-        self.playButton.setFixedWidth(val*0.15)
-        self.addToChartButton.setFixedWidth(val*0.15)
-
-
-    def setHeight(self,val):
-        print 'setHeight',val
-        self.setFixedHeight(val)
-        self.pushButton.setFixedHeight(val)
-        self.playButton.setFixedHeight(val*0.15)
-        self.addToChartButton.setFixedHeight(val*0.15)
-
-        self.devLab.setFixedHeight(val*0.11)
-        self.verLab.setFixedHeight(val*0.11)
-        self.nameLab.setFixedHeight(val*0.13)
-        #self.devLab.setStyleSheet('QLabel {font-size:%s px;}' % str(int(val*0.1)))
-        #self.verLab.setStyleSheet('QLabel {font-size:%s px;}' % str(int(val*0.1)))
-        #self.nameLab.setStyleSheet('QLabel {font-size:%s px;}' % str(int(val*0.1)))
-
-    def setSize(self,wd,ht):
-        self.setWidth(wd)
-        self.setHeight(ht)
         
-        
-
-    def setName(self,val):
-        self.setObjectName(val+"_box")
-        self.nameLab.setText(val)
-
-    def setDep(self,val,_color = '#9C9997'):
-        self.devLab.setText(val)
-        self.devLab.setStyleSheet('QLabel  {font-family:"Arial";color: #FFFFFF;background-color:%s}' % _color)
-
-    def setVarient(self,val):
-        self.verLab.setText(val)
-
 
     def setupUi(self):
 
@@ -178,18 +92,6 @@ class dataButton(qw.QFrame):
         self.Vlay.addLayout(self.Hlay2)
 
 
-    def clickAction(self):
-        print 'click'
-        self.clicked.emit(self.infoDict)
-
-    def playAction(self):
-        print 'play'
-        self.played.emit(self.infoDict)
-
-    def addchartAction(self):
-        print 'addchart'
-        self.addChart.emit(self.infoDict)
-
     def Op_Ui(self):
         '''
         self.setupUi()
@@ -212,9 +114,9 @@ if __name__ == '__main__':
 
 
 
-	gg = dataButton('LookDev','default','001003hello','D:/unit/asset/Main')
-	gg.Op_Ui()
-	
+    gg = spoiler()
+    gg.Op_Ui()
+    
 
     gg.raise_()
     try:
