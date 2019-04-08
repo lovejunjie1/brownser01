@@ -17,6 +17,7 @@ import os
 import dataItem
 import spoilerItem
 import flowLayout
+import gridWidget
 
 if IsPySide:
     from shiboken import wrapInstance
@@ -88,11 +89,11 @@ class Ui_MainWindow(qw.QMainWindow):
         self.setObjectName(u'浏览器界面')
         self.setMinimumSize(QtCore.QSize(uiWidth*0.5, uiHeight*0.5))
         self.resize(uiWidth, uiHeight)
-        self.setWindowOpacity(0.95)
+        self.setWindowOpacity(1)
         self.setStyleSheet(("QPushButton {color:rgb(170, 85, 255);font: 75 9pt \"Arial\";}\n"
-"QPushButton#closeBtn { background-color: red }\n"
-"QsearchLine{ background-color: red }\n"
-"QsearchLine[readOnly=\"true\"]{ background-color: gray }"))
+                    "QPushButton#closeBtn { background-color: red }\n"
+                    "QsearchLine{ background-color: red }\n"
+                    "QsearchLine[readOnly=\"true\"]{ background-color: gray }"))
 
 
         self.centralwidget = qw.QWidget(self)
@@ -148,49 +149,66 @@ class Ui_MainWindow(qw.QMainWindow):
         self.guildButton.setMaximumSize(QtCore.QSize(unitSize, unitSize))
         self.guildButton.setFlat(False)
         self.guildButton.setObjectName(("guildButton"))
+        self.guildButton.setStatusTip(_translate("MainWindow", "开启导航栏", None))
+
+
         self.horizontalLayout_2.addWidget(self.guildButton)
         self.backButton = qw.QPushButton(self.centralwidget)
         self.backButton.setMinimumSize(QtCore.QSize(unitSize,unitSize))
         self.backButton.setMaximumSize(QtCore.QSize(unitSize,unitSize))
         self.backButton.setObjectName(("backButton"))
+        self.backButton.setStatusTip(_translate("MainWindow", "后退到上一次浏览的地址", None))
+
+
         self.horizontalLayout_2.addWidget(self.backButton)
         self.upButton = qw.QPushButton(self.centralwidget)
         self.upButton.setMinimumSize(QtCore.QSize(unitSize,unitSize))
         self.upButton.setMaximumSize(QtCore.QSize(unitSize,unitSize))
         self.upButton.setObjectName(("upButton"))
+        self.upButton.setEnabled(False)
+
         self.horizontalLayout_2.addWidget(self.upButton)
         self.projectButton = qw.QPushButton(self.centralwidget)
         self.projectButton.setMinimumSize(QtCore.QSize(unitSize,unitSize))
         self.projectButton.setMaximumSize(QtCore.QSize(0, unitSize))
         self.projectButton.setObjectName(("projectButton"))
+        self.projectButton.setStatusTip(_translate("MainWindow", "切换项目", None))
         self.horizontalLayout_2.addWidget(self.projectButton)
+
         self.comboBox = qw.QComboBox(self.centralwidget)
         self.comboBox.setMinimumSize(QtCore.QSize(0, unitSize))
         self.comboBox.setMaximumSize(QtCore.QSize(16777215, unitSize))
         self.comboBox.setEditable(True)
         self.comboBox.setSizeAdjustPolicy(qw.QComboBox.AdjustToMinimumContentsLength)
-        self.comboBox.setObjectName(("comboBox"))
+        self.comboBox.setObjectName(("addressBar"))
+        self.comboBox.setStatusTip(_translate("MainWindow", "显示曾经浏览过的地址栏", None))
         self.horizontalLayout_2.addWidget(self.comboBox)
+
         self.moduleButton = qw.QPushButton(self.centralwidget)
         self.moduleButton.setMinimumSize(QtCore.QSize(unitSize,unitSize))
         self.moduleButton.setMaximumSize(QtCore.QSize(unitSize,unitSize))
         self.moduleButton.setObjectName(("moduleButton"))
+        self.moduleButton.setStatusTip(_translate("MainWindow", "列表模式/图标模式/大图标模式", None))
         self.horizontalLayout_2.addWidget(self.moduleButton)
+
         self.attributeButton = qw.QPushButton(self.centralwidget)
         self.attributeButton.setMinimumSize(QtCore.QSize(unitSize,unitSize))
         self.attributeButton.setMaximumSize(QtCore.QSize(unitSize,unitSize))
         self.attributeButton.setObjectName(("attributeButton"))
         self.horizontalLayout_2.addWidget(self.attributeButton)
+
         self.batchButton = qw.QPushButton(self.centralwidget)
         self.batchButton.setMinimumSize(QtCore.QSize(unitSize,unitSize))
         self.batchButton.setMaximumSize(QtCore.QSize(unitSize,unitSize))
         self.batchButton.setObjectName(("batchButton"))
         self.horizontalLayout_2.addWidget(self.batchButton)
+
         self.pushButton_3 = qw.QPushButton(self.centralwidget)
         self.pushButton_3.setMinimumSize(QtCore.QSize(unitSize,unitSize))
         self.pushButton_3.setMaximumSize(QtCore.QSize(unitSize,unitSize))
         self.pushButton_3.setObjectName(("pushButton_3"))
         self.horizontalLayout_2.addWidget(self.pushButton_3)
+
         self.setupButton = qw.QPushButton(self.centralwidget)
         self.setupButton.setMinimumSize(QtCore.QSize(unitSize,unitSize))
         self.setupButton.setMaximumSize(QtCore.QSize(unitSize,unitSize))
@@ -277,9 +295,7 @@ class Ui_MainWindow(qw.QMainWindow):
         self.flowLayout = flowLayout.FlowLayout()
         self.flowLayout.setObjectName(("flowLayout"))
 
-        for i in range(4):
-            self.frame = dataItem.dataButton('LookDev','default','001003hello','D:/unit/asset/Main')
-            self.flowLayout.addWidget(self.frame)
+
 
         self.dataListMainVLayout.addWidget(self.dataScrollArea)
         self.dataScrollArea.setLayout(self.flowLayout)
@@ -373,6 +389,7 @@ class Ui_MainWindow(qw.QMainWindow):
         self.retranslateUi(self)
 
         QtCore.QMetaObject.connectSlotsByName(self)
+        self.guildButton.clicked.connect(self.openGuildWidget)
 
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow", None))
@@ -399,6 +416,51 @@ class Ui_MainWindow(qw.QMainWindow):
 
         self.label.setText(_translate("MainWindow", "TextLabel", None))
 
+    def fillDataDialog(self,inputStr):
+        for i in range(4):
+            self.frame = dataItem.dataButton('LookDev','default','001003hello','D:/unit/asset/Main')
+            self.frame.setStatusTip('Lookdev - <default> - 001003hello')
+            self.flowLayout.addWidget(self.frame)
+
+    def updateAddressBar(self,inputArray,module='shots'):
+        deplist = []
+        substr = ''
+        for i in inputArray:
+            theStr = '//nas/data/pprj/%(module)s/%(sub)s/%(name)s/%(dep)s'  % {'module':module,'dep':i[0],'sub':i[1],'name':'%(name)s'}
+            substr = i[1]
+            deplist.append(i[0])
+            print theStr
+
+        depStr = '&&'.join(deplist)
+        print 'display','//nas/data/pprj/%(module)s/%(sub)s/%(name)s/%(dep)s'  % {'module':module,'dep':depStr,'sub':substr,'name':'%(name)s'}
+
+
+    def openGuildWidget(self):
+
+        gg = gridWidget.gridWidget()
+        gg.setParent(self)
+        gg.setEnableList('CFX')
+        gg.setEnableList('Animation')
+        gg.applyEnableList()
+        gg.setCheckList('CFX')
+
+        gg.setShotSub(['seq001','seq003','seq022','seq005'])
+        gg.setModule('shot')
+        gg.setSubList('seq022')
+        gg.setScaleSize(3)
+        gg.clicked.connect(self.updateAddressBar)
+        gg.emitTheSignal()
+        #gg.setLeftVisable(False)
+        #gg.setLeftVisable(True)
+        gg.Op_Ui()
+        #print self.searchLine.pos()
+        
+
+        GlobalPoint = self.guildButton.mapToGlobal(QtCore.QPoint(-1 * self.pos().x() - (self.guildButton.width()*0.25), -1 * self.pos().y()))
+        gg.move(GlobalPoint)
+
+        gg.setStyleSheet('QWidget {background-color:#666666;}')
+        gg.raise_()
 
 if __name__ == '__main__':
     import os
@@ -411,7 +473,7 @@ if __name__ == '__main__':
 
 	gg = Ui_MainWindow()
 	gg.setupUi()
-	
+	gg.fillDataDialog('')
 	gg.show()
 	#gg.resize(500,500)
 	gg.move(0,0)

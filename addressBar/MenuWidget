@@ -1,0 +1,37 @@
+# -*- coding: utf-8 -*-
+# https://github.com/Longxr/QtAddressBar
+from Qt import QtWidgets as qw, QtGui, QtCore, IsPySide, IsPySide2
+import sys
+import os
+
+
+class MenuWidget;
+}
+
+class MenuWidget : public QWidget
+{
+    Q_OBJECT
+
+public:
+    explicit MenuWidget(bool isRoot, QWidget *parent = 0);
+    ~MenuWidget();
+
+    void updateDirModel(const QString &str);
+
+signals:
+    void SClickPath(const QString &path);
+
+private slots:
+    void on_listView_clicked(const QModelIndex &index);
+
+private:
+    void adjustMenuSize();
+    void setRootModel();
+
+private:
+    Ui::MenuWidget *ui;
+
+    bool                    m_bRoot;
+    QDirModel*              m_pDirModel;
+    QStandardItemModel*     m_pRootModel;
+};
