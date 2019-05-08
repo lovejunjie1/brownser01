@@ -83,7 +83,7 @@ class gridWidget(qw.QWidget):
     def setScaleSize(self,val):
 
         baseHet = 400
-        baseWid = 200
+        baseWid = 250
         self.setFixedSize(baseWid*val,baseHet*val)
 
 

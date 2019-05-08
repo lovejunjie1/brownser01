@@ -42,8 +42,9 @@ class dataButton(qw.QFrame):
     def __init__(self,dep,varient,name,path,dataType,sizeLevel=3,showType='jpg',parent=''):
         super(dataButton,self).__init__()
         sizeDict = {
-        1:[120,90],
-        2:[240,180],
+        0:[120,90],
+        1:[240,180],
+        2:[360,270],
         3:[480,360]
         }
         self._infoDict = {

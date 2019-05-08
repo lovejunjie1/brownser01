@@ -105,7 +105,7 @@ class Ui_MainWindow(qw.QMainWindow):
     _prjName = ''
     _module = ''
     _moduleArray = ['_assets','_shots']
-    scale = 2
+    scale = 1
     dataMatchDirList = [] # 储存data区域的扫描目录，以及过滤信息的列表
 
     def setBrowserModule(self,inputVal):
@@ -160,6 +160,7 @@ class Ui_MainWindow(qw.QMainWindow):
         uiWidth = 1280 * self.scale
         uiHeight = 728 * self.scale
         unitSize = 32 * self.scale
+        iconSize = unitSize - (6 * self.scale)
         fontHeight = 20 * self.scale
 
         self.setObjectName('MainUI')
@@ -186,12 +187,14 @@ class Ui_MainWindow(qw.QMainWindow):
 
         self.logoLab = qw.QLabel(self.centralwidget)
         self.logoLab.setMaximumSize(QtCore.QSize(16777215, fontHeight))
+        logoPixmap = QtGui.QPixmap.fromImage(QtGui.QImage(':/icon/alipay.png'))
+        logoPixmap = logoPixmap.scaled(fontHeight,fontHeight,aspectRatioMode=QtCore.Qt.KeepAspectRatio)
+        self.logoLab.setPixmap(logoPixmap)
         self.logoLab.setObjectName(("logoLab"))
 
         self.horizontalLayout_4.addWidget(self.logoLab)
 
         self.mainWindowName = qw.QLabel(self.centralwidget)
-        self.mainWindowName.setText('mainWindowName')
 
 
 
@@ -211,11 +214,17 @@ class Ui_MainWindow(qw.QMainWindow):
         self.maxResumeUI = qw.QPushButton(self.centralwidget)
         self.maxResumeUI.setMaximumSize(QtCore.QSize(fontHeight, fontHeight))
         self.maxResumeUI.setObjectName(("maxResumeUI"))
+        self.maxResumeUI.setIcon(QtGui.QIcon(':/icon/maxium.png'))
+        #self.maxResumeUI.setIconSize(QtCore.QSize(fontHeight, fontHeight))
         self.horizontalLayout_4.addWidget(self.maxResumeUI)
+
         self.closeBtn = qw.QPushButton(self.centralwidget)
         self.closeBtn.setMaximumSize(QtCore.QSize(fontHeight, fontHeight))
+        self.closeBtn.setIcon(QtGui.QIcon(':/icon/closeWidget.png'))
+        #self.closeBtn.setIconSize(QtCore.QSize(fontHeight, fontHeight))
         self.closeBtn.setObjectName(("closeBtn"))
         self.horizontalLayout_4.addWidget(self.closeBtn)
+
         self.verticalLayout.addLayout(self.horizontalLayout_4)
 
         # ================ titile part over =======================
@@ -230,6 +239,8 @@ class Ui_MainWindow(qw.QMainWindow):
         self.guildButton.setMaximumSize(QtCore.QSize(unitSize, unitSize))
         self.guildButton.setFlat(False)
         self.guildButton.setObjectName(("guildButton"))
+        self.guildButton.setIcon(QtGui.QIcon(':/icon/grouplist.png'))
+        self.guildButton.setIconSize(QtCore.QSize(iconSize, iconSize))
         self.guildButton.setStatusTip(_translate("MainWindow", "开启导航栏", None))
 
 
@@ -238,6 +249,8 @@ class Ui_MainWindow(qw.QMainWindow):
         self.backButton.setMinimumSize(QtCore.QSize(unitSize,unitSize))
         self.backButton.setMaximumSize(QtCore.QSize(unitSize,unitSize))
         self.backButton.setObjectName(("backButton"))
+        self.backButton.setIcon(QtGui.QIcon(':/icon/back.png'))
+        self.backButton.setIconSize(QtCore.QSize(iconSize, iconSize))
         self.backButton.setStatusTip(_translate("MainWindow", "后退到上一次浏览的地址", None))
 
 
@@ -245,7 +258,9 @@ class Ui_MainWindow(qw.QMainWindow):
         self.upButton = qw.QPushButton(self.centralwidget)
         self.upButton.setMinimumSize(QtCore.QSize(unitSize,unitSize))
         self.upButton.setMaximumSize(QtCore.QSize(unitSize,unitSize))
-        self.upButton.setObjectName(("upButton"))
+        self.upButton.setIcon(QtGui.QIcon(':/icon/refresh.png'))
+        self.upButton.setIconSize(QtCore.QSize(iconSize, iconSize))
+        self.upButton.setObjectName(("refreshButton"))
         self.upButton.setEnabled(False)
 
         self.horizontalLayout_2.addWidget(self.upButton)
@@ -254,6 +269,9 @@ class Ui_MainWindow(qw.QMainWindow):
         self.projectButton.setMaximumSize(QtCore.QSize(0, unitSize))
         self.projectButton.setObjectName(("projectButton"))
         self.projectButton.setStatusTip(_translate("MainWindow", "切换项目", None))
+
+        self.projectButton.setIcon(QtGui.QIcon(':/icon/switch.png'))
+        self.projectButton.setIconSize(QtCore.QSize(iconSize, iconSize))
         self.horizontalLayout_2.addWidget(self.projectButton)
 
         self.comboBox = qw.QComboBox(self.centralwidget)
@@ -271,30 +289,40 @@ class Ui_MainWindow(qw.QMainWindow):
         self.moduleButton.setMaximumSize(QtCore.QSize(unitSize,unitSize))
         self.moduleButton.setObjectName(("moduleButton"))
         self.moduleButton.setStatusTip(_translate("MainWindow", "列表模式/图标模式/大图标模式", None))
+        self.moduleButton.setIcon(QtGui.QIcon(':/icon/iconManager.png'))
+        self.moduleButton.setIconSize(QtCore.QSize(iconSize, iconSize))
         self.horizontalLayout_2.addWidget(self.moduleButton)
 
         self.attributeButton = qw.QPushButton(self.centralwidget)
         self.attributeButton.setMinimumSize(QtCore.QSize(unitSize,unitSize))
         self.attributeButton.setMaximumSize(QtCore.QSize(unitSize,unitSize))
         self.attributeButton.setObjectName(("attributeButton"))
+        self.attributeButton.setIcon(QtGui.QIcon(':/icon/pin.png'))
+        self.attributeButton.setIconSize(QtCore.QSize(iconSize, iconSize))
         self.horizontalLayout_2.addWidget(self.attributeButton)
 
         self.batchButton = qw.QPushButton(self.centralwidget)
         self.batchButton.setMinimumSize(QtCore.QSize(unitSize,unitSize))
         self.batchButton.setMaximumSize(QtCore.QSize(unitSize,unitSize))
         self.batchButton.setObjectName(("batchButton"))
+        self.batchButton.setIcon(QtGui.QIcon(':/icon/batch.png'))
+        self.batchButton.setIconSize(QtCore.QSize(iconSize, iconSize))
         self.horizontalLayout_2.addWidget(self.batchButton)
 
         self.pushButton_3 = qw.QPushButton(self.centralwidget)
         self.pushButton_3.setMinimumSize(QtCore.QSize(unitSize,unitSize))
         self.pushButton_3.setMaximumSize(QtCore.QSize(unitSize,unitSize))
         self.pushButton_3.setObjectName(("pushButton_3"))
+        self.pushButton_3.setIcon(QtGui.QIcon(':/icon/more.png'))
+        self.pushButton_3.setIconSize(QtCore.QSize(iconSize, iconSize))
         self.horizontalLayout_2.addWidget(self.pushButton_3)
 
         self.setupButton = qw.QPushButton(self.centralwidget)
         self.setupButton.setMinimumSize(QtCore.QSize(unitSize,unitSize))
         self.setupButton.setMaximumSize(QtCore.QSize(unitSize,unitSize))
         self.setupButton.setObjectName(("setupButton"))
+        self.setupButton.setIcon(QtGui.QIcon(':/icon/setting.png'))
+        self.setupButton.setIconSize(QtCore.QSize(iconSize, iconSize))
         self.horizontalLayout_2.addWidget(self.setupButton)
         self.verticalLayout.addLayout(self.horizontalLayout_2)
 
@@ -523,25 +551,26 @@ class Ui_MainWindow(qw.QMainWindow):
 
 
     def retranslateUi(self, MainWindow):
-        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow", None))
-        self.logoLab.setText(_translate("MainWindow", "logoPic", None))
+        self.mainWindowName.setText(_translate("MainWindow", "大马猴pipeline", None))
+        MainWindow.setWindowTitle(_translate("MainWindow", "模型组提交工具", None))
+        #self.logoLab.setText(_translate("MainWindow", "logoPic", None))
         #self.titleLab.setText(_translate("MainWindow", "TextLabel", None))
-        self.maxResumeUI.setText(_translate("MainWindow", "Max", None))
-        self.closeBtn.setText(_translate("MainWindow", "x", None))
-        self.guildButton.setText(_translate("MainWindow", "Guild", None))
-        self.backButton.setText(_translate("MainWindow", "←", None))
-        self.upButton.setText(_translate("MainWindow", "↑", None))
-        self.projectButton.setText(_translate("MainWindow", "projectName", None))
+        #self.maxResumeUI.setText(_translate("MainWindow", "Max", None))
+        #self.closeBtn.setText(_translate("MainWindow", "x", None))
+        #self.guildButton.setText(_translate("MainWindow", "Guild", None))
+        #self.backButton.setText(_translate("MainWindow", "←", None))
+        #self.upButton.setText(_translate("MainWindow", "↑", None))
+        #self.projectButton.setText(_translate("MainWindow", "projectName", None))
         self.moduleButton.setToolTip(_translate("MainWindow", "切换视图模式", None))
-        self.moduleButton.setText(_translate("MainWindow", "㗊", None))
+        #self.moduleButton.setText(_translate("MainWindow", "㗊", None))
         self.attributeButton.setStatusTip(_translate("MainWindow", "开启/关闭属性栏", None))
-        self.attributeButton.setText(_translate("MainWindow", "三", None))
+        #self.attributeButton.setText(_translate("MainWindow", "三", None))
         self.batchButton.setStatusTip(_translate("MainWindow", "批量操作列表", None))
-        self.batchButton.setText(_translate("MainWindow", "车", None))
+        #self.batchButton.setText(_translate("MainWindow", "车", None))
         self.pushButton_3.setStatusTip(_translate("MainWindow", "待定设置", None))
-        self.pushButton_3.setText(_translate("MainWindow", "other", None))
+        #self.pushButton_3.setText(_translate("MainWindow", "other", None))
         self.setupButton.setStatusTip(_translate("MainWindow", "设置", None))
-        self.setupButton.setText(_translate("MainWindow", "…", None))
+        #self.setupButton.setText(_translate("MainWindow", "…", None))
         self.configSearchButton.setText(_translate("MainWindow", "search", None))
         self.ruleSearchButton.setText(_translate("MainWindow", "config", None))
 
@@ -579,7 +608,7 @@ class Ui_MainWindow(qw.QMainWindow):
                             for va in varArray: # 扫的是变体的那一层目录
                                 varPath = '%s/%s/Main' % (matchPath,va)
                                 #print 'varPath',varPath
-                                _frame = dataItem.dataButton(depName,va,i,varPath,dataType)
+                                _frame = dataItem.dataButton(depName,va,i,varPath,dataType,sizeLevel=self.scale)
                                 _frame.clicked.connect(self.dbClickedEvent_default)
                                 _frame.played.connect(self.dbPlayedEvent_default)
                                 _frame.addChart.connect(self.dbAddChartEvent_default)
@@ -679,7 +708,7 @@ class Ui_MainWindow(qw.QMainWindow):
         gg.addToList(self.guildAddList)
         #gg.addToList(['seq001'])
         gg.setSubListDefaultSelect(self.guildSubListDefaultSelect)
-        gg.setScaleSize(self.guildScale)
+        gg.setScaleSize(self.scale)
         gg.clicked.connect(self.updateAddressBar)
         gg.emitTheSignal()
         #gg.setLeftVisable(False)
@@ -688,7 +717,7 @@ class Ui_MainWindow(qw.QMainWindow):
         #print self.searchLine.pos()
         #boxWidget.show()
 
-        GlobalPoint = self.guildButton.mapToGlobal(QtCore.QPoint(-1 * self.pos().x() - (self.guildButton.width()*0.25), -1 * self.pos().y()))
+        GlobalPoint = self.guildButton.mapToGlobal(QtCore.QPoint(-1 * self.pos().x() - (self.guildButton.width()*0.25), -1 * self.pos().y()-2*self.scale))
         gg.move(GlobalPoint)
 
         #gg.setStyleSheet('QWidget {background-color:#AAAAAA;}')

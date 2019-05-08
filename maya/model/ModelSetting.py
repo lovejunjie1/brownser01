@@ -70,7 +70,7 @@ if 'src.resources' not in sys.modules:
 #reload(src.resources)
 
 class modelBrowser(mainBrowser.Ui_MainWindow):
-
+    scale = 1
     def setupGuild(self):
         
         '''  
@@ -101,7 +101,7 @@ class modelBrowser(mainBrowser.Ui_MainWindow):
         self.setGuildEnableList(['Model','LookDev']) # 可以选中的列表
         self.setGuildCheckList(['Model','LookDev']) # 默认选中的列表
         self.setGuildSubListDefaultSelect(0) # 次级列表默认选中的值
-        self.setGuildScale(3) # UI缩放值
+        self.setGuildScale(1) # UI缩放值
         self.setGuildAddList(None) # 是否需要追加次级列表项目,可以是字符串，地址和列表
         logger.info('finish setupGuild') 
 
@@ -159,10 +159,10 @@ class modelBrowser(mainBrowser.Ui_MainWindow):
         self.setProjectName('ZZZ')
         self.setupActionArea()
 
-        styleSheet = QtCore.QFile(':/qss/AMOLED.qss')        
+        styleSheet = QtCore.QFile('C:/gitLab/brownser01/src/qss/AMOLED.qss')        
         styleSheet.open(QtCore.QFile.ReadOnly)   
         self.setStyleSheet(str(styleSheet.readAll())) 
-        print ':/qss/AMOLED.qss'
+        #print ':/qss/AMOLED.qss'
         #print dir(styleSheet)
         #print str(styleSheet.readAll())
 class makeUploadFiles(object):
@@ -336,7 +336,8 @@ class makeUploadFiles(object):
 if __name__ == '__main__':
     #import src.createIcon as cion
 
-
+    #font-family:Verdana;font-size:25px;font-weight:None;font-style:oblique;
+    #font-family:Verdana;font-style:oblique;
     if True:
         import os
         app = qw.QApplication.instance()
