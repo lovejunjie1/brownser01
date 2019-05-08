@@ -52,7 +52,9 @@ class FlowLayout(qw.QLayout):
         self._doLayout(rect, False)
 
     def sizeHint(self):
+        
         return self.minimumSize()
+
 
     def minimumSize(self):
         size = QtCore.QSize()
@@ -60,7 +62,14 @@ class FlowLayout(qw.QLayout):
         for item in self.itemList:
             size = size.expandedTo(item.minimumSize())
 
-        size += QtCore.QSize(2 * self.margin(), 2 * self.margin())
+        try:
+            marginSize = self.margin()
+        except AttributeError:
+            marginSize = 0
+
+        #marginSize = self.margin()
+
+        size += QtCore.QSize(2 * marginSize, 2 * marginSize)
         return size
 
     def _doLayout(self, rect, testOnly):

@@ -2,12 +2,14 @@
 from Qt import QtWidgets as qw, QtGui, QtCore, IsPySide, IsPySide2
 import sys
 import os
-
+import logging
 import spoilerItem
 
+logger = logging.getLogger('gridWid_Log')  
+logger.setLevel(logging.INFO)  
 
 
-class gridWidget(qw.QFrame):
+class gridWidget(qw.QWidget):
     clicked = QtCore.Signal(list)
     timer  = QtCore.QTimer()
 
@@ -82,11 +84,11 @@ class gridWidget(qw.QFrame):
 
         baseHet = 400
         baseWid = 200
-        self.resize(baseWid*val,baseHet*val)
+        self.setFixedSize(baseWid*val,baseHet*val)
 
 
-    def setModule(self,_type='asset'):
-        if _type == 'asset':
+    def setModule(self,_type='_assets'):
+        if _type == '_assets':
             self.assetPage.toggleCollapsed()
             self.shotPage.setEnabled(False)
             for i in self.assetSub:
@@ -106,15 +108,31 @@ class gridWidget(qw.QFrame):
 
             #self.mainList.setItems()
 
-    def setShotSub(self,inputData):
-        if isinstance(inputData,str):
-            print 'dir',inputData
+    def addToList(self,inputData):
+        if inputData:
+            addList = []
+            if isinstance(inputData,str):
+                #print 'dir',inputData
+                if os.path.exists(inputData):
+                    addList = os.listdir(inputData)
+                else:
+                    addList = [inputData]
 
-        if isinstance(inputData,list):
-            for i in inputData:
-                self.shotSub.append(i)
+            elif isinstance(inputData,list):
+                
+                addList = inputData
 
-            self.shotSub.sort()
+            else:
+                raise ValueError('only accept <list,string,stringPath>')
+
+            addList.sort()
+            for i in addList:
+                theItem = qw.QListWidgetItem()
+                theItem.setText(i)
+                self.mainList.addItem(theItem)
+                #self.shotSub.append(i)
+        else:
+            return False
 
 
     def printEnableList(self):
@@ -132,7 +150,7 @@ class gridWidget(qw.QFrame):
                 if inputStr in self.enableDict.keys():
                     self.enableDict[inputStr] = True
                 else:
-                    print 'key is invalid',key
+                    logger.warning( 'key is invalid' + str(key))
         else:
             for i in self.enableDict.keys():
                 self.enableDict[i] = False
@@ -153,12 +171,19 @@ class gridWidget(qw.QFrame):
                 if (inputStr in self.enableDict.keys()) and self.enableDict[inputStr]:
                     self.depDict[inputStr].setChecked(True)
 
-    def setSubList(self,inputStr):
+    def setSubListDefaultSelect(self,inputStr):
         if inputStr:
-            for i in range(self.mainList.count()):
-                if inputStr.lower() == self.mainList.item(i).text().lower():
-                    self.mainList.setCurrentRow(i)
-                    break
+            if isinstance(inputStr,str):
+                for i in range(self.mainList.count()):
+                    if inputStr.lower() == self.mainList.item(i).text().lower():
+                        self.mainList.setCurrentRow(i)
+                        break
+            elif isinstance(inputStr,int):
+                if inputStr > self.mainList.count():
+                    inputStr = self.mainList.count()
+                if inputStr < 0:
+                    inputStr = 0
+                self.mainList.setCurrentRow(inputStr)
 
 
     def setupUi(self):
@@ -169,8 +194,8 @@ class gridWidget(qw.QFrame):
         
 
         
-        self.setFrameShape(qw.QFrame.StyledPanel)
-        self.setFrameShadow(qw.QFrame.Raised)
+        #self.setFrameShape(qw.QFrame.StyledPanel)
+        #self.setFrameShadow(qw.QFrame.Raised)
         #self.setObjectName(("frame"))
 
 
@@ -186,7 +211,8 @@ class gridWidget(qw.QFrame):
 
         self.depDict = dict(self.baseDict)
 
-        self.assetPage = spoilerItem.FrameLayout(title="Assets")
+        self.assetPage = spoilerItem.FrameDialog()
+        self.assetPage.setupLayout(title="Assets")
         
         leftV.addWidget(self.assetPage)
 
@@ -200,7 +226,8 @@ class gridWidget(qw.QFrame):
             self.depDict[i] = thePushButton
 
 
-        self.shotPage = spoilerItem.FrameLayout(title="Sequences")
+        self.shotPage = spoilerItem.FrameDialog()
+        self.shotPage.setupLayout(title="Sequences")
         
         leftV.addWidget(self.shotPage)
         leftV.addStretch()
@@ -230,6 +257,8 @@ class gridWidget(qw.QFrame):
         self.assetPage.setVisible(state)
 
     def emitTheSignal(self):
+        if not self.mainList.currentItem():
+            return False
         valB = self.mainList.currentItem().text()
         emitArray = []
         for key,val in self.depDict.items():
@@ -243,7 +272,7 @@ class gridWidget(qw.QFrame):
             print 'output invalid'
 
     def enterEvent(self, event):
-        print 'Mouse in!'
+        logger.debug( 'Mouse in!')
         #print dir(self.timer)
         self.timer.stop()
         try:
@@ -253,14 +282,14 @@ class gridWidget(qw.QFrame):
             
             self.setWindowOpacity(1)
     def leaveEvent(self, event):
-        print 'Mouse out!'
+        logger.debug( 'Mouse out!')
         self.timer  = QtCore.QTimer(self)
         self.timer.setSingleShot(True)
         self.timer.start(5)
         self.timer.timeout.connect(self.closeAnimation)
 
     def closeAnimation(self):
-        print 'close ui'
+        logger.debug( 'close ui')
         self.closeAni = QtCore.QPropertyAnimation(self)
         self.closeAni.setTargetObject(self)
         self.closeAni.setPropertyName(b'windowOpacity')
@@ -308,7 +337,7 @@ if __name__ == '__main__':
     gg.applyEnableList()
     gg.setCheckList('CFX')
 
-    gg.setShotSub(['seq001','seq003','seq022','seq005'])
+    #gg.setShotSub(['seq001','seq003','seq022','seq005'])
     gg.setModule('shot')
     gg.setSubList('seq022')
     #gg.setLeftVisable(False)

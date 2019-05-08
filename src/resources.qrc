@@ -1,0 +1,19 @@
+<!DOCTYPE RCC>
+<RCC version="1.0">
+<qresource>
+<file alias="icon/back.png">icon/back.png</file>
+<file alias="icon/down.png">icon/down.png</file>
+<file alias="icon/home.png">icon/home.png</file>
+<file alias="qss/AMOLED.qss">qss/AMOLED.qss</file>
+<file alias="qss/Aqua.qss">qss/Aqua.qss</file>
+<file alias="qss/black1.qss">qss/black1.qss</file>
+<file alias="qss/ConsoleStyle.qss">qss/ConsoleStyle.qss</file>
+<file alias="qss/ElegantDark.qss">qss/ElegantDark.qss</file>
+<file alias="qss/LICENSE">qss/LICENSE</file>
+<file alias="qss/MaterialDark.qss">qss/MaterialDark.qss</file>
+<file alias="qss/README.md">qss/README.md</file>
+<file alias="qss/Ubuntu.qss">qss/Ubuntu.qss</file>
+<file alias="qss/white1.qss">qss/white1.qss</file>
+<file alias="qss/__init__.py">qss/__init__.py</file>
+</qresource>
+</RCC>

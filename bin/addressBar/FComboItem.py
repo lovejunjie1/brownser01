@@ -2,12 +2,13 @@
 from Qt import QtWidgets as qw, QtGui, QtCore, IsPySide, IsPySide2
 import sys
 import os
+import logging
 
 class FComboWidget(qw.QComboBox):
 
     def keyPressEvent(self,event):
         if event.key() == QtCore.Qt.Key_Enter:
-            print 'enter pressed'
+            logging.debug( 'enter pressed')
 
 
 class spoiler(qw.QFrame):
@@ -43,7 +44,7 @@ class spoiler(qw.QFrame):
 
 
         self.Vlay = qw.QVBoxLayout()
-        print dir(self.Vlay)
+        #print dir(self.Vlay)
         self.Vlay.setContentsMargins(3,10,3,3)
         self.Vlay.setSpacing(1)
         self.setLayout(self.Vlay)

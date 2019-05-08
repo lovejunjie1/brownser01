@@ -1,11 +1,15 @@
 __author__ = 'Caroline Beyne'
 
 from Qt import QtWidgets as qw, QtGui, QtCore, IsPySide, IsPySide2
+import logging
 
-class FrameLayout(qw.QWidget):
-    def __init__(self, parent=None, title=None,switch = False):
-        qw.QFrame.__init__(self, parent=parent)
+class FrameDialog(qw.QFrame):
+    def __init__(self,parent = None):
+        #qw.QFrame.__init__(self)
+        super(FrameDialog,self).__init__()
 
+    def setupLayout(self, title=None,switch = False):
+        
         self._is_collasped = True
         self._title_frame = None
         self._content, self._content_layout = (None, None)
@@ -18,9 +22,10 @@ class FrameLayout(qw.QWidget):
 
         if switch:
             self.toggleCollapsed()
-    def initTitleFrame(self, title, collapsed):
-        self._title_frame = self.TitleFrame(title=title, collapsed=collapsed)
 
+    def initTitleFrame(self, title, collapsed):
+        self._title_frame = self.TitleFrame()
+        self._title_frame.setupTitle(title=title, collapsed=collapsed)
         return self._title_frame
 
     def initContent(self, collapsed):
@@ -50,8 +55,8 @@ class FrameLayout(qw.QWidget):
     ############################
     class TitleFrame(qw.QFrame):
         clicked = QtCore.Signal(str)
-        def __init__(self, parent=None, title="", collapsed=False):
-            qw.QFrame.__init__(self, parent=parent)
+        def setupTitle(self, parent=None, title="", collapsed=False):
+            #qw.TitleFrame.__init__(self, parent=parent)
 
             self.setMinimumHeight(24)
             self.move(QtCore.QPoint(24, 0))
@@ -68,7 +73,8 @@ class FrameLayout(qw.QWidget):
             self._hlayout.addWidget(self.initTitle(title))
 
         def initArrow(self, collapsed):
-            self._arrow = FrameLayout.Arrow(collapsed=collapsed)
+            self._arrow = FrameDialog.Arrow()
+            self._arrow.setArrowIcon(collapsed=collapsed)
             self._arrow.setStyleSheet("border:0px")
 
             return self._arrow
@@ -84,15 +90,15 @@ class FrameLayout(qw.QWidget):
         def mousePressEvent(self, event):
             self.clicked.emit('Signal')
 
-            return super(FrameLayout.TitleFrame, self).mousePressEvent(event)
+            return super(FrameDialog.TitleFrame, self).mousePressEvent(event)
 
 
     #############################
     #           ARROW           #
     #############################
     class Arrow(qw.QFrame):
-        def __init__(self, parent=None, collapsed=False):
-            qw.QFrame.__init__(self, parent=parent)
+        def setArrowIcon(self, parent=None, collapsed=False):
+            #qw.QFrame.__init__(self, parent=parent)
 
             self.setMaximumSize(24, 24)
 
@@ -115,5 +121,10 @@ class FrameLayout(qw.QWidget):
             painter.begin(self)
             painter.setBrush(QtGui.QColor(192, 192, 192))
             painter.setPen(QtGui.QColor(64, 64, 64))
-            painter.drawPolygon(*self._arrow)
+
+            if (IsPySide2 or IsPySide):
+                painter.drawPolygon(self._arrow)
+            else:
+                painter.drawPolygon(*self._arrow)
+
             painter.end()
