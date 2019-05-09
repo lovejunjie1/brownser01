@@ -467,22 +467,27 @@ class Ui_MainWindow(qw.QMainWindow):
         self.titleLab_dep = qw.QLabel(self.centralwidget)
         self.titleLab_dep.setObjectName(("titleLab_dep"))
         self.titleLab_dep.setText('titleLab_dep')
+        self.titleLab_dep.setFixedSize(75*self.scale,25*self.scale)
+        self.titleLab_dep.setAlignment(QtCore.Qt.AlignHCenter | QtCore.Qt.AlignVCenter)
         titleBox.addWidget(self.titleLab_dep)
 
         self.titleLab_name = qw.QLabel(self.centralwidget)
         self.titleLab_name.setObjectName(("titleLab_name"))
         self.titleLab_name.setText('titleLab_name')
+        self.titleLab_name.setAlignment(QtCore.Qt.AlignHCenter | QtCore.Qt.AlignVCenter)
         titleBox.addWidget(self.titleLab_name)
 
         self.titleLab_var = qw.QLabel(self.centralwidget)
         self.titleLab_var.setObjectName(("titleLab_var"))
         self.titleLab_var.setText('(titleLab_var)')
+        self.titleLab_var.setAlignment(QtCore.Qt.AlignHCenter | QtCore.Qt.AlignVCenter)
         titleBox.addWidget(self.titleLab_var)
 
 
         self.titleLab_type = qw.QLabel(self.centralwidget)
         self.titleLab_type.setObjectName(("titleLab_type"))
         self.titleLab_type.setText('titleLab_type')
+        self.titleLab_type.setAlignment(QtCore.Qt.AlignHCenter | QtCore.Qt.AlignVCenter)
         titleBox.addWidget(self.titleLab_type)
 
         self.verticalLayout_3.addLayout(titleBox)
@@ -594,6 +599,10 @@ class Ui_MainWindow(qw.QMainWindow):
         self.titleLab_var.setText(dic['varient'])
         self.titleLab_name.setText(dic['name'])
         self.titleLab_dep.setText(dic['dep'])
+        self.titleLab_dep.setProperty("dep", dic['dep'].lower())
+        print 'property',dic['dep'].lower()
+        self.titleLab_dep.style().unpolish(self.titleLab_dep)
+        self.titleLab_dep.style().polish(self.titleLab_dep)
 
         self.dbClickedEvent(dic)
 

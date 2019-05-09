@@ -5,6 +5,7 @@
 <file alias="icon/back.png">icon/back.png</file>
 <file alias="icon/batch.png">icon/batch.png</file>
 <file alias="icon/closeWidget.png">icon/closeWidget.png</file>
+<file alias="icon/dark">icon/dark</file>
 <file alias="icon/dev.png">icon/dev.png</file>
 <file alias="icon/down.png">icon/down.png</file>
 <file alias="icon/downarrow.png">icon/downarrow.png</file>

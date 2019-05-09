@@ -11,10 +11,10 @@ qssString = ''
 class hoverToolButton(qw.QToolButton):
 
     def enterEvent(self, event):
-        self.parent().setStyleSheet('QLabel  {font-family:"Arial";color: #DDDDDD;background-color:transparent;}')
+        self.parent().setStyleSheet('QLabel[userCommon=yes]  {font-family:"Arial";color: #DDDDDD;background-color:transparent;}')
         #print 'Mouse in!'
     def leaveEvent(self, event):
-        self.parent().setStyleSheet('QLabel  {font-family:"Arial";color: #333333;background-color:transparent;}')
+        self.parent().setStyleSheet('QLabel[userCommon=yes]  {font-family:"Arial";color: #333333;background-color:transparent;}')
         #print 'Mouse out!'
 
 
@@ -66,7 +66,7 @@ class dataButton(qw.QFrame):
         self.setDep(dep)
         self.setDataType(dataType)
         self.font.setPointSize(72)
-        self.setStyleSheet('QLabel  {font-family:"Arial";color: #333333;background-color:transparent;}')
+        self.setStyleSheet('QLabel[userCommon=yes]  {font-family:"Arial";color: #333333;background-color:transparent;}')
 
         #print 222,self._infoDict
 
@@ -92,7 +92,9 @@ class dataButton(qw.QFrame):
         self.setFixedWidth(val)
         self.pushButton.setFixedWidth(val)
         self.playButton.setFixedWidth(val*0.15)
+        #self.playButton.setIconSize(self.playButton.size())
         self.addToChartButton.setFixedWidth(val*0.15)
+        #self.addToChartButton.setIconSize(self.addToChartButton.size())
 
 
     def setHeight(self,val):
@@ -100,7 +102,10 @@ class dataButton(qw.QFrame):
         self.setFixedHeight(val)
         self.pushButton.setFixedHeight(val)
         self.playButton.setFixedHeight(val*0.15)
+        self.playButton.setIconSize(QtCore.QSize(val*0.15,val*0.15))
         self.addToChartButton.setFixedHeight(val*0.15)
+        self.addToChartButton.setIconSize(QtCore.QSize(val*0.07,val*0.07))
+        #self.addToChartButton.setIconSize(self.addToChartButton.size())
 
         self.devLab.setFixedHeight(val*0.11)
         self.verLab.setFixedHeight(val*0.11)
@@ -122,7 +127,8 @@ class dataButton(qw.QFrame):
 
     def setDep(self,val,_color = '#9C9997'):
         self.devLab.setText(val)
-        self.devLab.setStyleSheet('QLabel  {font-family:"Arial";color: #FFFFFF;background-color:%s}' % _color)
+        self.devLab.setProperty('dep',val.lower())
+        #self.devLab.setStyleSheet('QLabel  {font-family:"Arial";color: #FFFFFF;background-color:%s}' % _color)
 
         self._infoDict['dep'] = val
 
@@ -148,6 +154,7 @@ class dataButton(qw.QFrame):
         #self.setObjectName(("frame"))
 
         self.pushButton = hoverToolButton(self)
+        self.pushButton.setObjectName('itemPushButton')
         self.pushButton.setMouseTracking(True)
         self.pushButton.clicked.connect(self.clickAction)
         
@@ -169,6 +176,7 @@ class dataButton(qw.QFrame):
         self.devLab.setObjectName(("devLab"))
         #self.devLab.setStyleSheet('QLabel  {font-family:"Arial";color: #FFFFFF;}')
         self.devLab.setFont(self.font)
+        self.devLab.setProperty('userCommon','no')
         self.devLab.setAlignment(QtCore.Qt.AlignCenter)
         self.Hlay1.addWidget(self.devLab)
 
@@ -176,6 +184,8 @@ class dataButton(qw.QFrame):
         self.dataTypeLab.setEnabled(False)
         self.dataTypeLab.setFont(self.font)
         self.dataTypeLab.setObjectName(("dataTypeLab"))
+
+        self.dataTypeLab.setProperty('userCommon','yes')
         #self.dataTypeLab.setStyleSheet('QLabel  {font-family:"Arial";background-color:transparent;color: #FFFFFF;}')
         self.Hlay1.addWidget(self.dataTypeLab)
         self.Vlay.addLayout(self.Hlay1)
@@ -184,6 +194,7 @@ class dataButton(qw.QFrame):
         self.HlayName = qw.QHBoxLayout()
         spaceLab = qw.QLabel(self)
         spaceLab.setText('  ')
+        spaceLab.setProperty('userCommon','yes')
         self.HlayName.addWidget(spaceLab)
         
         self.HlayName.setSpacing(2)
@@ -193,11 +204,13 @@ class dataButton(qw.QFrame):
         self.nameLab.setEnabled(False)
         self.nameLab.setFont(self.font)
         self.nameLab.setObjectName(("nameLab"))
+        self.nameLab.setProperty('userCommon','yes')
         #self.nameLab.setStyleSheet('QLabel  {font-family:"Arial";background-color:transparent;color: #FFFFFF;}')
         self.HlayName.addWidget(self.nameLab)
 
         spaceLab2 = qw.QLabel(self)
         spaceLab2.setText(' - ')
+        spaceLab2.setProperty('userCommon','yes')
         self.HlayName.addWidget(spaceLab2)
 
 
@@ -205,6 +218,7 @@ class dataButton(qw.QFrame):
         self.verLab.setEnabled(False)
         self.verLab.setFont(self.font)
         self.verLab.setObjectName(("verLab"))
+        self.verLab.setProperty('userCommon','yes')
         #self.verLab.setStyleSheet('QLabel  {font-family:"Arial";background-color:transparent;color: #FFFFFF;}')
         self.HlayName.addWidget(self.verLab)
         self.HlayName.addStretch()
@@ -214,8 +228,11 @@ class dataButton(qw.QFrame):
         self.Hlay2 = qw.QHBoxLayout()
         self.addToChartButton = qw.QPushButton(self)
         self.addToChartButton.setObjectName(("addToChartButton"))
-        self.addToChartButton.setText('+')
+        #self.addToChartButton.setText('+')
+        self.addToChartButton.setIcon(QtGui.QIcon(':/icon/plus.png'))
+        self.addToChartButton.setIconSize(self.addToChartButton.size())
         self.addToChartButton.clicked.connect(self.addchartAction)
+        self.addToChartButton.setStyleSheet('QPushButton {background-color:transparent;}')
 
         self.Hlay2.addWidget(self.addToChartButton)
         self.Hlay2.addStretch()
@@ -224,8 +241,11 @@ class dataButton(qw.QFrame):
 
         self.playButton = qw.QPushButton(self)
         self.playButton.setObjectName(("playButton"))
-        self.playButton.setText('>')
+        #self.playButton.setText('>')
+        self.playButton.setIcon(QtGui.QIcon(':/icon/play.png'))
+        self.playButton.setIconSize(self.playButton.size())
         self.playButton.clicked.connect(self.playAction)
+        self.playButton.setStyleSheet('QPushButton {background-color:transparent;}')
 
         self.Hlay2.addWidget(self.playButton)
         self.Vlay.addLayout(self.Hlay2)
