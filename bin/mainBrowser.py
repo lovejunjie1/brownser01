@@ -378,7 +378,7 @@ class Ui_MainWindow(qw.QMainWindow):
         self.dataListSearchBarHLayout.setObjectName(("dataListSearchBarHLayout"))
         self.searchLine = qw.QLineEdit(self.dataListWidget)
         self.searchLine.setMinimumSize(QtCore.QSize(0, 0))
-        self.searchLine.setReadOnly(True)
+        #self.searchLine.setReadOnly(True)
         self.searchLine.setObjectName(("searchLine"))
         self.dataListSearchBarHLayout.addWidget(self.searchLine)
         self.configSearchButton = qw.QPushButton(self.dataListWidget)
@@ -466,7 +466,7 @@ class Ui_MainWindow(qw.QMainWindow):
 
         self.titleLab_dep = qw.QLabel(self.centralwidget)
         self.titleLab_dep.setObjectName(("titleLab_dep"))
-        self.titleLab_dep.setText('titleLab_dep :')
+        self.titleLab_dep.setText('titleLab_dep')
         titleBox.addWidget(self.titleLab_dep)
 
         self.titleLab_name = qw.QLabel(self.centralwidget)
@@ -549,32 +549,6 @@ class Ui_MainWindow(qw.QMainWindow):
             self.dataListMainVLayout.setMargin(0)
 
 
-
-    def retranslateUi(self, MainWindow):
-        self.mainWindowName.setText(_translate("MainWindow", "大马猴pipeline", None))
-        MainWindow.setWindowTitle(_translate("MainWindow", "模型组提交工具", None))
-        #self.logoLab.setText(_translate("MainWindow", "logoPic", None))
-        #self.titleLab.setText(_translate("MainWindow", "TextLabel", None))
-        #self.maxResumeUI.setText(_translate("MainWindow", "Max", None))
-        #self.closeBtn.setText(_translate("MainWindow", "x", None))
-        #self.guildButton.setText(_translate("MainWindow", "Guild", None))
-        #self.backButton.setText(_translate("MainWindow", "←", None))
-        #self.upButton.setText(_translate("MainWindow", "↑", None))
-        #self.projectButton.setText(_translate("MainWindow", "projectName", None))
-        self.moduleButton.setToolTip(_translate("MainWindow", "切换视图模式", None))
-        #self.moduleButton.setText(_translate("MainWindow", "㗊", None))
-        self.attributeButton.setStatusTip(_translate("MainWindow", "开启/关闭属性栏", None))
-        #self.attributeButton.setText(_translate("MainWindow", "三", None))
-        self.batchButton.setStatusTip(_translate("MainWindow", "批量操作列表", None))
-        #self.batchButton.setText(_translate("MainWindow", "车", None))
-        self.pushButton_3.setStatusTip(_translate("MainWindow", "待定设置", None))
-        #self.pushButton_3.setText(_translate("MainWindow", "other", None))
-        self.setupButton.setStatusTip(_translate("MainWindow", "设置", None))
-        #self.setupButton.setText(_translate("MainWindow", "…", None))
-        self.configSearchButton.setText(_translate("MainWindow", "search", None))
-        self.ruleSearchButton.setText(_translate("MainWindow", "config", None))
-
-        #self.label.setText(_translate("MainWindow", "TextLabel", None))
 
     def clearDataDialog(self):
 
@@ -728,6 +702,35 @@ class Ui_MainWindow(qw.QMainWindow):
             self.actionColPage.addWidget(inputFrame)
         else:
             raise TypeError ('need QtGui.QFrame,incomming ' + type(inputFrame))
+
+
+    def retranslateUi(self, MainWindow):
+        self.mainWindowName.setText(_translate("MainWindow", "大马猴pipeline", None))
+        MainWindow.setWindowTitle(_translate("MainWindow", "模型组提交工具", None))
+        #self.logoLab.setText(_translate("MainWindow", "logoPic", None))
+        #self.titleLab.setText(_translate("MainWindow", "TextLabel", None))
+        #self.maxResumeUI.setText(_translate("MainWindow", "Max", None))
+        #self.closeBtn.setText(_translate("MainWindow", "x", None))
+        #self.guildButton.setText(_translate("MainWindow", "Guild", None))
+        #self.backButton.setText(_translate("MainWindow", "←", None))
+        #self.upButton.setText(_translate("MainWindow", "↑", None))
+        #self.projectButton.setText(_translate("MainWindow", "projectName", None))
+        self.moduleButton.setToolTip(_translate("MainWindow", "切换视图模式", None))
+        #self.moduleButton.setText(_translate("MainWindow", "㗊", None))
+        self.attributeButton.setStatusTip(_translate("MainWindow", "开启/关闭属性栏", None))
+        #self.attributeButton.setText(_translate("MainWindow", "三", None))
+        self.batchButton.setStatusTip(_translate("MainWindow", "批量操作列表", None))
+        #self.batchButton.setText(_translate("MainWindow", "车", None))
+        self.pushButton_3.setStatusTip(_translate("MainWindow", "待定设置", None))
+        #self.pushButton_3.setText(_translate("MainWindow", "other", None))
+        self.setupButton.setStatusTip(_translate("MainWindow", "设置", None))
+        #self.setupButton.setText(_translate("MainWindow", "…", None))
+        self.configSearchButton.setText(_translate("MainWindow", "search", None))
+        self.ruleSearchButton.setText(_translate("MainWindow", "config", None))
+
+        #self.label.setText(_translate("MainWindow", "TextLabel", None))
+
+
 if __name__ == '__main__':
     import os
     app = qw.QApplication.instance()

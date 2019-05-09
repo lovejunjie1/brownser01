@@ -610,4 +610,11 @@ QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
   	background: none;
 }
 
+/*
+custom settings for single item
+*/
 
+QLabel# {
+	font-family:Verdana;font-style:oblique;
+	color: #a9b7c6;
+}
