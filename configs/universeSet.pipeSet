@@ -1,0 +1,1 @@
+{"color": {"color_lookdev": "rgb ( 100,50,200 )", "color_model": "rgb ( 200,100,50 )"}, "general": {"localProfilePath": "%userprofile%/.pipelineConf", "mainScriptPath": "C:/gitLab", "localCachePath": "D:/localCache", "pipeMainPath": "D:/testDir/pipePrj", "pipeBakPath": "D:/testDir/pipePrjBak", "pipeWorkPath": "D:/testDir/pipePrjWork"}}
