@@ -1,0 +1,2067 @@
+//-----------------------------------------------------------------//
+//-----------------------------------------------------------------//
+//	1:set("ChangeColor normal mainPalette")
+//	2:set("Direction""Size")
+//	3:set("control_tool")		
+//	4:set("lockAttributes""HideAttributes")		
+//	5:set("skinPassSel")
+//	6:set("rivet")
+//	
+//
+//
+//	
+//			
+//			make :Winson	time:2015/12/22
+//
+//-----------------------------------------------------------------//
+//-----------------------------------------------------------------//
+if(`window -ex rig_toolWindow`){deleteUI rig_toolWindow;}
+    string $Window = `window -t "Winson(rig_tool 2.0)" -wh 350 650 -sizeable 1 -maximizeButton 1 -minimizeButton 1 -le 50 -te 200 rig_toolWindow`;
+        if(`windowPref -ex rig_toolWindow`)
+             windowPref -r rig_toolWindow;
+        
+            string $scrollLayout=`scrollLayout -w 350 -h 650 asUtilitiesScrollLayout`;
+            string $columnLayout=`columnLayout -adj 1`;
+        int $en=0;
+        if (`objExists "Group"`)
+            $en=1;
+//-----------------------------------------------------------------
+//-----------------------------------------------------------------
+string $Control_color= `frameLayout  -cll 1 -cl 1 -l "Control_color" -borderStyle "etchedIn"  -w 320 `;
+    columnLayout ;
+        int $cellWidth = 40, $cellHeight = 30; 
+        palettePort -dimensions 11 3 -width ($cellWidth * 11) -height 80 -dragCallback "beCCC_dragColor" -ced 0 -td 1 -at 32 -setCurCell 0 colorPaletteControl; 
+        initPalette colorPaletteControl;
+        palettePort -edit -t 23 colorPaletteControl ;
+        string $buttonColors= `button -l "RepaleColors" -w 316 -h 29 -c "ChangeColor normal mainPalette" `;
+setParent..;
+setParent..;
+//-----------------------------------------------------------------
+//-----------------------------------------------------------------
+string $Control_Rot_Siz= `frameLayout  -cll 1 -cl 1 -l "Control_Directionsize" -borderStyle "etchedIn"  -w 320 `;
+    string $formctr_Rot_Siz = `formLayout -h 135`;
+        string $button_Rot= `button -l "Direction" -w 60 -h 60 -c "" `;
+        string $button_Siz= `button -l "size" -w 60 -h 60 -c "" `;
+        string $RotxBttn_a= `button -l "15" -w 40 -h 30 -bgc 0.4 0.7 0.2 -c "Direction(\"rot_01\")" `;
+        string $RotxBttn_b= `button -l "30" -w 40 -h 30 -bgc 0.4 0.7 0.2 -c "Direction(\"rot_02\")" `;
+        string $RotxBttn_c= `button -l "45" -w 40 -h 30 -bgc 0.4 0.7 0.2 -c "Direction(\"rot_03\")" `;
+        string $RotxBttn_d= `button -l "60" -w 40 -h 30 -bgc 0.4 0.7 0.2 -c "Direction(\"rot_04\")" `;
+        string $RotxBttn_e= `button -l "75" -w 40 -h 30 -bgc 0.4 0.7 0.2 -c "Direction(\"rot_05\")" `;
+        string $RotxBttn_f= `button -l "90" -w 40 -h 30 -bgc 0.0 0.7 0.7 -c "Direction(\"rot_06\")" `;
+        radioCollection Rot;
+        string $RotxBttn = `radioButton -label "X"   -align "left" -select  outRotx`;
+        string $RotyBttn = `radioButton -label "Y"   -align "left"   outRoty`;
+        string $RotzBttn = `radioButton -label "Z"   -align "left"   outRotz`;
+        string $SizBttn_a= `button -l "0.1" -w 40 -h 30 -bgc 0.4 0.7 0.2 -c "Size(\"Size_01\")" `;
+        string $SizBttn_b= `button -l "0.2" -w 40 -h 30 -bgc 0.4 0.7 0.2 -c "Size(\"Size_02\")" `;
+        string $SizBttn_c= `button -l "0.3" -w 40 -h 30 -bgc 0.4 0.7 0.2 -c "Size(\"Size_03\")" `;
+        string $SizBttn_d= `button -l "0.4" -w 40 -h 30 -bgc 0.4 0.7 0.2 -c "Size(\"Size_04\")" `;
+        string $SizBttn_e= `button -l "0.5" -w 40 -h 30 -bgc 0.4 0.7 0.2 -c "Size(\"Size_05\")" `;
+        string $SizBttn_f= `button -l "0.6" -w 40 -h 30 -bgc 0.4 0.7 0.2 -c "Size(\"Size_06\")" `;
+        string $SizBttn_g= `button -l "0.7" -w 40 -h 30 -bgc 0.4 0.7 0.2 -c "Size(\"Size_07\")" `;
+        string $SizBttn_h= `button -l "0.8" -w 40 -h 30 -bgc 0.4 0.7 0.2 -c "Size(\"Size_08\")" `;
+        string $SizBttn_i= `button -l "0.9" -w 40 -h 30 -bgc 0.4 0.7 0.2 -c "Size(\"Size_09\")" `;
+        string $SizBttn_j= `button -l "1.0" -w 40 -h 30 -bgc 0.4 0.7 0.2 -c "Size(\"Size_010\")" `;
+        string $SizBttn_k= `button -l "x2" -w 40 -h 30 -bgc 0.0 0.7 0.7 -c "Size(\"Size_011\")" `;
+        string $SizBttn_l= `button -l "%2" -w 40 -h 30 -bgc 0.0 0.7 0.7 -c "Size(\"Size_012\")" `;
+        
+setParent..;
+setParent..;
+    formLayout -edit
+
+        -attachForm $button_Rot  "top"   5
+        -attachForm $button_Rot  "left" 5
+        -attachForm $RotxBttn  "top"   5
+        -attachForm $RotxBttn  "left" 90
+        -attachForm $RotyBttn  "top"   5
+        -attachForm $RotyBttn  "left" 175
+        -attachForm $RotzBttn  "top"   5
+        -attachForm $RotzBttn  "left" 260           
+        -attachForm $button_Siz "top"   70
+        -attachForm $button_Siz "left" 5
+        
+        -attachForm $RotxBttn_a "top"   30
+        -attachForm $RotxBttn_a "left" 70
+        -attachForm $RotxBttn_b "top"   30
+        -attachForm $RotxBttn_b "left" 110
+        -attachForm $RotxBttn_c "top"   30
+        -attachForm $RotxBttn_c "left" 150
+        -attachForm $RotxBttn_d "top"   30
+        -attachForm $RotxBttn_d "left" 190
+        -attachForm $RotxBttn_e "top"   30
+        -attachForm $RotxBttn_e "left" 230
+        -attachForm $RotxBttn_f "top"   30
+        -attachForm $RotxBttn_f "left" 270
+
+        -attachForm $SizBttn_a "top"   70
+        -attachForm $SizBttn_a "left" 70
+        -attachForm $SizBttn_b "top"   70
+        -attachForm $SizBttn_b "left" 110
+        -attachForm $SizBttn_c "top"   70
+        -attachForm $SizBttn_c "left" 150
+        -attachForm $SizBttn_d "top"   70
+        -attachForm $SizBttn_d "left" 190
+        -attachForm $SizBttn_e "top"   70
+        -attachForm $SizBttn_e "left" 230
+        -attachForm $SizBttn_f "top"   70
+        -attachForm $SizBttn_f "left" 270
+        
+        -attachForm $SizBttn_g "top"   100
+        -attachForm $SizBttn_g "left" 70
+        -attachForm $SizBttn_h "top"   100
+        -attachForm $SizBttn_h "left" 110
+        -attachForm $SizBttn_i "top"   100
+        -attachForm $SizBttn_i "left" 150
+        -attachForm $SizBttn_j "top"   100
+        -attachForm $SizBttn_j "left" 190
+        -attachForm $SizBttn_k "top"   100
+        -attachForm $SizBttn_k "left" 230
+        -attachForm $SizBttn_l "top"   100
+        -attachForm $SizBttn_l "left" 270
+        
+        $formctr_Rot_Siz;
+//-----------------------------------------------------------------
+//-----------------------------------------------------------------
+string $Crtate_control= `frameLayout  -cll 1 -cl 1 -l "Control_Crtate" -borderStyle "etchedIn"  -w 320 `;
+    string $formctr_Crtate_control = `formLayout -h 130`;
+        radioCollection Crtate_control;
+        string $WorldBttn = `radioButton -label "World"   -align "left"  outWorld`;
+        string $ObjBttn = `radioButton -label "Obj"   -align "left"   -select outObj`;
+        string $RepaleBttn = `radioButton -label "Repale"   -align "left"   outRepale`;
+        string $Parent = `radioButton -label "Parent"   -align "left"   outParent`;
+        
+        string $control_a= `button -l "■" -w 50 -h 40 -bgc 0.4 0.7 0.2 -c "control_tool(\"Box\")" `;
+        string $control_b= `button -l "●" -w 50 -h 40 -bgc 0.4 0.7 0.2  -c "control_tool(\"Sphere\")" `;
+        string $control_c= `button -l "⊙" -w 50 -h 40 -bgc 0.4 0.7 0.2  -c "control_tool(\"Cross_01\")" `;
+        string $control_d= `button -l "◎" -w 50 -h 40 -bgc 0.4 0.7 0.2  -c "control_tool(\"Cross\")" `;
+        string $control_e= `button -l "□" -w 50 -h 40 -bgc 0.4 0.7 0.2  -c "control_tool(\"Square\")" `;
+        string $control_f= `button -l "〇" -w 50 -h 40 -bgc 0.4 0.7 0.2  -c "control_tool(\"Circle\")" `;
+        string $control_g= `button -l "≯" -w 50 -h 40 -bgc 0.4 0.7 0.2  -c "control_tool(\"Arrow\")" `;
+        string $control_h= `button -l "♀" -w 50 -h 40 -bgc 0.4 0.7 0.2 -c "control_tool(\"Kou\")"  `;
+        string $control_i= `button -l "9" -w 50 -h 40 -bgc 0.4 0.7 0.2 -c "" `;
+        string $control_j= `button -l "10" -w 50 -h 40 -bgc 0.4 0.7 0.2 -c "" `;
+        string $control_k= `button -l "11" -w 50 -h 40 -bgc 0.0 0.7 0.7 -c "" `;
+        string $control_l= `button -l "12" -w 50 -h 40 -bgc 0.0 0.7 0.7 -c "" `;
+        
+setParent..;
+setParent..;
+    formLayout -edit
+
+        -attachForm $ObjBttn  "top"   10
+        -attachForm $ObjBttn  "left" 5
+        -attachForm $WorldBttn  "top"   35
+        -attachForm $WorldBttn  "left" 5
+        -attachForm $RepaleBttn  "top"   60
+        -attachForm $RepaleBttn  "left" 5
+        -attachForm $Parent  "top"   85
+        -attachForm $Parent  "left" 5
+        
+        -attachForm $control_a  "top"   5
+        -attachForm $control_a  "left" 80           
+        -attachForm $control_b "top"   5
+        -attachForm $control_b "left" 135
+        -attachForm $control_c "top"   5
+        -attachForm $control_c "left" 190       
+        -attachForm $control_d "top"   5
+        -attachForm $control_d "left" 245
+        
+        -attachForm $control_e "top"   45
+        -attachForm $control_e "left" 80
+        -attachForm $control_f "top"   45
+        -attachForm $control_f "left" 135       
+        -attachForm $control_g "top"   45
+        -attachForm $control_g "left" 190        
+        -attachForm $control_h "top"   45
+        -attachForm $control_h "left" 245
+         
+        -attachForm $control_i "top"   85
+        -attachForm $control_i "left" 80
+        -attachForm $control_j "top"   85
+        -attachForm $control_j "left" 135        
+        -attachForm $control_k "top"   85
+        -attachForm $control_k "left" 190 
+        -attachForm $control_l "top"   85
+        -attachForm $control_l "left" 245                
+                
+        $formctr_Crtate_control;
+//-----------------------------------------------------------------
+//-----------------------------------------------------------------
+string $control_LH= `frameLayout  -cll 1 -cl 1 -l "Control_Lock_Hide" -borderStyle "etchedIn"  -w 320 `;
+    string $formctr_control_LH = `formLayout -h 130`;
+        string $TraX = `checkBox -label "TraX" -cc "unCheck(\"trans\")" transX`;
+        string $TraY = `checkBox -label "TraY" -cc "unCheck(\"trans\")" transY`;
+        string $TraZ = `checkBox -label "TraZ" -cc "unCheck(\"trans\")" transZ`;
+        string $TraALL = `checkBox -label "All Tra" -cc "SelectAllTrans()" allTrans`;
+        string $RotX = `checkBox -label "RotX" -cc "unCheck(\"rot\")" rotX`;
+        string $RotY = `checkBox -label "RotY" -cc "unCheck(\"rot\")" rotY`;
+        string $RotZ = `checkBox -label "RotZ" -cc "unCheck(\"rot\")" rotZ`;
+        string $RotALL = `checkBox -label "All Rot" -cc "SelectAllRots()" allRots`;
+        string $ScaX = `checkBox -label "ScaX" -cc "unCheck(\"sc\")" scX`;
+        string $ScaY = `checkBox -label "ScaY" -cc "unCheck(\"sc\")" scY`;
+        string $ScaZ = `checkBox -label "ScaZ" -cc "unCheck(\"sc\")" scZ`;
+        string $ScaALL = `checkBox -label "All Sca" -cc "SelectAllScs()" allScs`;
+        string $vis = `checkBox -label "Visibility" -cc "unCheck(\"vis\")" vis`;
+        string $Sel_DSelAll = `checkBox -label "Sel/DselAll" -cc "SelectDeselectAll()" SelectDeselect`;
+        
+        string $LH_B = `button -label "LockHide" -w 135 -h 25 -bgc 0.4 0.7 0.2 -c "lockAttributes(0, 1, 1, 0)"`;
+        string $L_B = `button -label "Lock" -w 45 -h 30 -bgc 0.0 0.7 0.7 -c "lockAttributes(0, 1, 0, 0)"`;
+        string $UL_B = `button -label "Unlock" -w 45 -h 30 -bgc 0.0 0.7 0.7 -c "lockAttributes(0, 0, 0, 1)"`;
+        string $ULA_B = `button -label "UnlkAll" -w 45 -h 30 -bgc 0.4 0.7 0.2 -c "lockAttributes(1, 0, 0, 1)"`;
+        string $H_B = `button -label "Hide" -w 45 -h 30 -bgc 0.0 0.7 0.7 -c "HideAttributes(0, 0)"`;
+        string $UH_B = `button -label "UnHide" -w 45 -h 30 -bgc 0.0 0.7 0.7 -c "HideAttributes(0, 1)"`;
+        string $UHA_B = `button -label "UnHiAll" -w 45 -h 30 -bgc 0.4 0.7 0.2 -c "HideAttributes(1, 1)"`;
+        
+setParent..;
+setParent..;
+    formLayout -edit
+
+        -attachForm $TraX  "top"   10
+        -attachForm $TraX  "left" 5
+        -attachForm $TraY  "top"   40
+        -attachForm $TraY  "left" 5
+        -attachForm $TraZ  "top"   70
+        -attachForm $TraZ  "left" 5
+        -attachForm $TraALL "top"   100
+        -attachForm $TraALL  "left" 5
+        
+        -attachForm $RotX  "top"   10
+        -attachForm $RotX  "left" 60
+        -attachForm $RotY  "top"   40
+        -attachForm $RotY  "left" 60
+        -attachForm $RotZ  "top"   70
+        -attachForm $RotZ  "left" 60
+        -attachForm $RotALL "top"   100
+        -attachForm $RotALL  "left" 60
+        
+        -attachForm $ScaX  "top"   10
+        -attachForm $ScaX  "left" 120
+        -attachForm $ScaY  "top"   40
+        -attachForm $ScaY  "left" 120
+        -attachForm $ScaZ  "top"   70
+        -attachForm $ScaZ  "left" 120
+        -attachForm $ScaALL "top"   100
+        -attachForm $ScaALL  "left" 120
+
+        -attachForm $vis "top"   10
+        -attachForm $vis  "left" 180
+        -attachForm $Sel_DSelAll "top"   10
+        -attachForm $Sel_DSelAll  "left" 240
+        
+        -attachForm $LH_B "top"   30
+        -attachForm $LH_B  "left" 180
+        -attachForm $L_B "top"   60
+        -attachForm $L_B  "left" 180
+        -attachForm $UL_B "top"   60
+        -attachForm $UL_B  "left"225
+        -attachForm $ULA_B "top"   60
+        -attachForm $ULA_B  "left" 270
+        
+        -attachForm $H_B "top"   90
+        -attachForm $H_B  "left" 180
+        -attachForm $UH_B "top"   90
+        -attachForm $UH_B  "left"225
+        -attachForm $UHA_B "top"   90
+        -attachForm $UHA_B  "left" 270
+        
+        $formctr_control_LH;
+//-----------------------------------------------------------------
+//-----------------------------------------------------------------
+string $control_Other= `frameLayout  -cll 1 -cl 1 -l "Control_Other" -borderStyle "etchedIn"  -w 320 `;
+    string $formctr_control_Other = `formLayout -h 50`;
+        string $Copy_skin_B = `button -label "Copy_skin" -w 135 -h 25  -c "skinPassSel"`;
+        string $Rivet_B = `button -label "Rivet" -w 135 -h 25  -c "rivet"`;
+
+setParent..;
+setParent..;
+        formLayout -edit
+        
+        -attachForm $Copy_skin_B  "top"   10
+        -attachForm $Copy_skin_B  "left" 5
+        
+        -attachForm $Rivet_B  "top"   10
+        -attachForm $Rivet_B  "left" 160
+        
+        $formctr_control_Other;
+//-----------------------------------------------------------------
+//-----------------------------------------------------------------
+string $BS= `frameLayout  -cll 1 -cl 1 -l "BSpiritCorrectiveShape" -borderStyle "etchedIn"  -w 320 `;
+    string $formctrBS = `formLayout -h 130`;
+        string $textField_Main = `textField    -tx "选择被修型物体" -enable 0 -w 150 -h 25  -bgc  0.6 0.6 0.6 txMain  `;
+        string $button_Main = `button -l "Main" -w 40 -h 25 -bgc  0.231 0.231 0.231 -c ("Mainname")`;
+        string $textField_objctr = `textField  -tx "修型物体名字" -enable 0 -w 150 -h 25  -bgc 0.2 0.2 0.2 txobjctr `;
+        string $button_objctr = `button -l "obj" -w 40 -h 25 -en 1 -bgc 0.231 0.231 0.231 -c ("objctrname")`;
+        string $button_Connection = `button -l "Create_BS(obj)" -en 0 -w 195 -h 25  -c ("CreateBS")`;
+        string $button_Constraint = `button -l "生成变形体" -w 195 -h 25 -bgc 0.5 0.4 0.2 -c ("BSShape")`;
+setParent..;
+setParent..;
+    formLayout -edit
+        -attachForm $textField_Main  "top"   10
+        -attachForm $textField_Main  "left" 15
+        -attachForm $button_Main "top"   10
+        -attachForm $button_Main "left" 170
+        -attachForm $textField_objctr  "top"   40
+        -attachForm $textField_objctr  "left" 15
+        -attachForm $button_objctr "top"   40
+        -attachForm $button_objctr "left" 170
+        -attachForm $button_Connection  "top"  70
+        -attachForm $button_Connection  "left" 15
+        -attachForm $button_Constraint  "top"  100
+        -attachForm $button_Constraint  "left" 15
+    $formctrBS;
+//-----------------------------------------------------------------
+//-----------------------------------------------------------------
+string $BS= `frameLayout  -cll 1 -cl 1 -l "MirrorBlendShape" -borderStyle "etchedIn"  -w 320 `;
+        columnLayout -cat both 5 -adj true cLayout;
+            textFieldButtonGrp 	-l "Base geometry:" 
+            -bl "sel" 
+            -bc "PickBase" 
+            -adj 2 
+            TFBG1;
+        textFieldButtonGrp 	-l "Geometry to mirror:" 
+            -bl "sel" 
+            -bc "PickMirrorFrom" 
+            -adj 2 
+            TFBG2;
+        button -w 60 -l "MirrorBlendShape" -c "MirrorBlendShape" buttonMBS;
+setParent..;
+setParent..;
+
+//-----------------------------------------------------------------
+//-----------------------------------------------------------------
+string $BS= `frameLayout  -cll 1 -cl 1 -l "wp_jointsOnCurves" -borderStyle "etchedIn"  -w 320 `;
+        columnLayout;
+        text -label "" -h 6;
+        rowColumnLayout -numberOfColumns 2 -cw 1 5 -cw 2 150;
+        text -label "";
+        text -label "Joint Chain On Curves" -font "boldLabelFont";
+        setParent ..;
+        text -label "" -h 6;	
+        // text infield "Number Of Joints"
+        rowColumnLayout -numberOfColumns 3 -cw 1 85 -cw 2 35 -cw 3 60 -cs 1 15 -cs 2 5 -cs 3 5;
+        text -label "Number Of Bones";
+        intField -minValue 2 -v 10 wp_jointOnCurves_window_numOfJoint_first;
+        button -label "Create"   -c "wp_jointsOnCurves_doIt(\"jointChain\")";
+        //int $intFieldNumber = `intField -q -v Number`;
+        setParent ..;
+        // text "Select curves and..."
+        text -label "" -h 6;
+        rowColumnLayout -numberOfColumns 2 -cw 1 5 -cw 2 150;
+        text -label "";
+        text -label "Joints On Curves" -font "boldLabelFont";
+        setParent ..;
+        text -label "" -h 6;	
+        // text infield "Number Of Joints"
+        rowColumnLayout -numberOfColumns 3 -cw 1 85 -cw 2 35 -cw 3 60 -cs 1 15 -cs 2 5 -cs 3 5;
+        text -label "Number Of Joints";
+        intField -minValue 2 -v 10 wp_jointOnCurves_window_numOfJoint_second;
+        button -label "Create"  -c "wp_jointsOnCurves_doIt(\"joint\")";
+        //int $intFieldNumber = `intField -q -v Number`;
+        setParent ..;
+        text -label "" -h 6;
+        // text "Select curves and..."
+        rowColumnLayout -numberOfColumns 2 -cw 1 5 -cw 2 150;
+        text -label "";
+        text -label "Joints On" -font "boldLabelFont";
+        setParent ..;
+        text -label "" -h 6;	
+        // text infield "Number Of Joints"
+        rowColumnLayout -numberOfColumns 2 -cw 1 94 -cw 2 94 -cs 1 15 -cs 2 2;
+        button -label "CV"  -c "wp_jointOnCV;";
+        button -label "EP"  -c "wp_jointOnEP;";
+        setParent ..;
+        text -label "" -h 13;	
+	
+setParent..;
+setParent..;
+//-----------------------------------------------------------------
+//-----------------------------------------------------------------
+string $Aces= `frameLayout  -cll 1 -cl 1 -l "Create_Accessories" -borderStyle "etchedIn"  -w 320 `;
+    string $formctrAces = `formLayout -h 110`;
+        string $textField_msh = `textField    -tx "suface" -enable 1 -w 150 -h 25   txmsh  `;
+        string $button_msh = `button -l "sel" -w 40 -h 25 -bgc  0.231 0.231 0.231 -c ("Aces")`;
+        string $textField_Mainctr = `textField  -tx "Main_Ctr" -enable 1 -w 150 -h 25  -bgc 0.2 0.2 0.2 Mainctr `;
+        string $button_Ctr = `button -l "sel" -w 40 -h 25 -en 1 -bgc 0.231 0.231 0.231 -c ("Mainctrname")`;
+        string $Jntnumber = `intField -minValue 0 -maxValue 1000 -value 0 -w 70 -h 25 nbJnt`;
+        string $Create = `button -l "Create" -en 1 -w 110 -h 25  -c ("CAcc")`;
+        
+setParent..;
+setParent..;
+        formLayout -edit
+        -attachForm $textField_msh  "top"   10
+        -attachForm $textField_msh  "left" 15
+        -attachForm $button_msh "top"   10
+        -attachForm $button_msh "left" 170
+        -attachForm $textField_Mainctr  "top"   40
+        -attachForm $textField_Mainctr  "left" 15
+        -attachForm $button_Ctr "top"   40
+        -attachForm $button_Ctr "left" 170
+        -attachForm $Jntnumber  "top"  75
+        -attachForm $Jntnumber  "left" 15
+        -attachForm $Create  "top"  75
+        -attachForm $Create  "left" 100 
+        
+    $formctrAces;
+//-----------------------------------------------------------------
+//-----------------------------------------------------------------
+string $Attribute= `frameLayout  -cll 1 -cl 1 -l "overrideEnabled" -borderStyle "etchedIn"  -w 320 `;
+    string $formctrAtt = `formLayout -h 50`;
+        string $CtrStyle =`optionMenuGrp -l "Enable Overrides:"   -changeCommand ("Att") Control_Style`;
+        menuItem -label " 　　　　　　　　"  ;
+        menuItem -label "Normal" ;
+        menuItem  -label "Template" ;
+        menuItem -label "Reference" ;
+        menuItem -label "Jnt_Hide" ;
+        menuItem -label "Jnt_Show" ;
+        menuItem -label " 　　　　　　　　"  ;
+        menuItem -label "Red";
+        menuItem -label "R1";
+        menuItem -label "Green";
+        menuItem -label "G1";
+        menuItem -label "Blue";
+        menuItem -label "B1";
+        menuItem -label "B2";
+        menuItem -label "Yellow";
+        menuItem -label "Y1";
+        menuItem -label "Brown";
+        menuItem -label "Br1";
+        menuItem -label "Pink";
+        menuItem -label "P1";
+        menuItem -label "White";
+        //string $CreateBn = `button -l "Create" -en 1 -w 200 -h 25  -c ("Att")`;
+        
+setParent..;
+setParent..;
+        formLayout -edit
+        -attachForm $CtrStyle  "top"   10
+        -attachForm $CtrStyle  "left" -45
+
+    $formctrAtt;
+//-----------------------------------------------------------------
+//-----------------------------------------------------------------
+showWindow $Window;
+//-----------------------------------------------------------------
+//-----------------------------------------------------------------
+global proc initPalette( string $palette )
+{
+    if (`palettePort -exists $palette`) {
+		for ($i=1; $i<=31; $i++ ) {
+			float $tmp[] = `colorIndex -q $i`;
+			if ($i<=23)
+                        palettePort -e -r -rgb ($i-1) $tmp[0] $tmp[1] $tmp[2] $palette;
+                        else
+                        palettePort -e -r -rgb ($i) $tmp[0] $tmp[1] $tmp[2] $palette;
+		}
+	}
+}
+
+global proc ChangeColor (string $type, string $palette){
+        string $list[];
+        int $color;
+        if ($type == "normal")
+                $list = `ls -sl`;
+        if ($type == "advance")
+                $list =  `textScrollList -q -si  nodeList`;
+        if ($color == 24){
+                warning "Color chosen is not available";
+                return;
+        }
+        if ($palette == "mainPalette"){
+                $color = `palettePort -q -scc  colorPaletteControl`+ 1;
+                if ($color > 24)$color = $color - 1; 
+        }
+        if ($palette == "leftPalette")
+                $color = `intField -q -v  lfColorValue`;
+        if ($palette == "centerPalette")
+                $color = `intField -q -v  cnColorValue`;
+        if ($palette == "rightPalette")
+                $color = `intField -q -v  rtColorValue`;
+        colorOverride ($list, $color);
+}
+global proc colorOverride (string $list[], int $color){
+        string $shape[], $colorNode;
+        
+
+        string $shape[] = `listRelatives -s -path $list`;
+        print $shape;
+        string $i;
+        int $curveCount = 0;
+        for ($colorNode in $shape)
+        {
+        setAttr ($colorNode + ".overrideEnabled") 1;
+        setAttr ($colorNode + ".overrideColor") $color;
+        }
+}
+//-----------------------------------------------------------------
+//-----------------------------------------------------------------
+global proc Direction(string $type){
+
+    string $Rxyz =`radioCollection   -q -sl  Rot`;
+    
+    switch ($Rxyz) {
+    case "outRotx":
+    selectCurveCV("all");
+    if ($type == "rot_01")
+    {
+    rotate -r  -os 15 0 0 ;
+    }
+    else if ($type == "rot_02")
+    {
+    rotate -r  -os 30 0 0 ;
+    }
+    else if ($type == "rot_03")
+    {
+    rotate -r  -os 45 0 0 ;
+    }
+    else if ($type == "rot_04")
+    {
+    rotate -r  -os 60 0 0 ;
+    }
+    else if ($type == "rot_05")
+    {
+    rotate -r  -os 75 0 0 ;
+    }
+    else if ($type == "rot_06")
+    {
+    rotate -r  -os 90 0 0 ;
+    }
+    //select -cl;
+    break;
+    
+    case "outRoty":
+    selectCurveCV("all");
+    if ($type == "rot_01")
+    {
+    rotate -r  -os 0 15 0 ;
+    }
+    else if ($type == "rot_02")
+    {
+    rotate -r  -os 0 30 0 ;
+    }
+    else if ($type == "rot_03")
+    {
+    rotate -r  -os 0 45 0 ;
+    }
+    else if ($type == "rot_04")
+    {
+    rotate -r  -os 0 60 0 ;
+    }
+    else if ($type == "rot_05")
+    {
+    rotate -r  -os 0 75 0 ;
+    }
+    else if ($type == "rot_06")
+    {
+    rotate -r  -os 0 90 0 ;
+    }
+    //select -cl; 
+    break;
+    
+    case "outRotz":
+    selectCurveCV("all");
+    if ($type == "rot_01")
+    {
+    rotate -r  -os 0 0 15 ;
+    }
+    else if ($type == "rot_02")
+    {
+    rotate -r  -os 0 0 30 ;
+    }
+    else if ($type == "rot_03")
+    {
+    rotate -r  -os 0 0 45 ;
+    }
+    else if ($type == "rot_04")
+    {
+    rotate -r  -os 0 0 60 ;
+    }
+    else if ($type == "rot_05")
+    {
+    rotate -r  -os 0 0 75 ;
+    }
+    else if ($type == "rot_06")
+    {
+    rotate -r  -os 0 0 90 ;
+    }
+    //select -cl;  
+    break;
+    }
+}    
+//-----------------------------------------------------------------
+//-----------------------------------------------------------------
+global proc Size(string $type){
+
+
+    string$Cv=`selectCurveCV("all")`;
+    
+    if ($type == "Size_01")
+    {
+    scale -r -ocp 1.1 1.1 1.1 ;
+    }
+    else if ($type == "Size_02")
+    {
+    scale -r  -ocp 1.2 1.2 1.2 ;
+    }
+    else if ($type == "Size_03")
+    {
+    scale -r  -ocp 1.3 1.3 1.3 ;
+    }
+    else if ($type == "Size_04")
+    {
+    scale -r  -ocp 1.4 1.4 1.4 ;
+    }
+    else if ($type == "Size_05")
+    {
+    scale -r  -ocp 1.5 1.5 1.5 ;
+    }
+    else if ($type == "Size_06")
+    {
+    scale -r  -ocp 1.6 1.6 1.6 ;
+    }
+    else if ($type == "Size_07")
+    {
+    scale -r  -ocp 1.7 1.7 1.7 ;
+    }
+    else if ($type == "Size_08")
+    {
+    scale -r  -ocp 1.8 1.8 1.8 ;
+    }
+    else if ($type == "Size_09")
+    {
+    scale -r  -ocp 1.9 1.9 1.9 ;
+    }
+    else if ($type == "Size_010")
+    {
+    scale -r  -ocp 2.0 2.0 2.0 ;
+    }
+    else if ($type == "Size_011")
+    {
+    scale -r  -ocp 2.0 2.0 2.0 ;
+    }
+    else if ($type == "Size_012")
+    {
+    scale -r  -ocp 0.5 0.5 0.5 ;
+    }
+    //select -cl;
+
+    }
+//-----------------------------------------------------------------
+//-----------------------------------------------------------------
+global proc control_tool(string $type){
+    string $OBJ[] = `ls -sl`;//所选择物体Name
+    $objN=$OBJ[0];
+    int $NumberOfOBJ = `size($OBJ)`;//所选择物体数量
+    int $NumberOfJoints;
+    string $Option =`radioCollection   -q -sl  Crtate_control`;
+    string $i;
+    int $curveCount = 0;
+    
+    for ($i in $OBJ)
+    {    
+        
+        switch ($Option) 
+        {
+        case "outObj":
+        if      ($type == "Box")
+        $Ctrl=`curve -name ($i + "_Ctrl") -d 1 -p -1 1 1 -p -1 1 -1 -p 1 1 -1 -p 1 1 1 -p -1 1 1 -p -1 -1 1 -p -1 -1 -1 -p -1 1 -1 -p -1 1 1 -p -1 -1 1 -p 1 -1 1 -p 1 1 1 -p 1 1 -1 -p 1 -1 -1 -p 1 -1 1 -p 1 -1 -1 -p -1 -1 -1 -k 0 -k 1 -k 2 -k 3 -k 4 -k 5 -k 6 -k 7 -k 8 -k 9 -k 10 -k 11 -k 12 -k 13 -k 14 -k 15 -k 16 `;
+        else if ($type == "Sphere")
+        $Ctrl=`curve -name ($i + "_Ctrl") -d 1 -p 0 2.090694 0 -p 0 2.058931 0.363045 -p 0 1.964608 0.715059 -p 0 1.810592 1.04535 -p 0 1.601568 1.343872 -p 0 1.343872 1.601568 -p 0 1.04535 1.810592 -p 0 0.715059 1.964608 -p 0 0.363045 2.058931 -p 0 0 2.090694 -p 0 -0.363045 2.058931 -p 0 -0.715059 1.964608 -p 0 -1.04535 1.810592 -p 0 -1.343872 1.601568 -p 0 -1.601568 1.343872 -p 0 -1.810592 1.04535 -p 0 -1.964608 0.715059 -p 0 -2.058931 0.363045 -p 0 -2.090694 0 -p 0 -2.058931 -0.363045 -p 0 -1.964608 -0.715059 -p 0 -1.810592 -1.04535 -p 0 -1.601568 -1.343872 -p 0 -1.343872 -1.601568 -p 0 -1.04535 -1.810592 -p 0 -0.715059 -1.964608 -p 0 -0.363045 -2.058931 -p 0 0 -2.090694 -p 0 0.363045 -2.058931 -p 0 0.715059 -1.964608 -p 0 1.04535 -1.810592 -p 0 1.343872 -1.601568 -p 0 1.601568 -1.343872 -p 0 1.810592 -1.04535 -p 0 1.964608 -0.715059 -p 0 2.058931 -0.363045 -p 0 2.090694 0 -p -0.363045 2.058931 0 -p -0.715059 1.964608 0 -p -1.04535 1.810592 0 -p -1.343872 1.601568 0 -p -1.601568 1.343872 0 -p -1.810592 1.04535 0 -p -1.964608 0.715059 0 -p -2.058931 0.363045 0 -p -2.090694 0 0 -p -2.058931 -0.363045 0 -p -1.964608 -0.715059 0 -p -1.810592 -1.04535 0 -p -1.601568 -1.343872 0 -p -1.343872 -1.601568 0 -p -1.04535 -1.810592 0 -p -0.715059 -1.964608 0 -p -0.363045 -2.058931 0 -p 0 -2.090694 0 -p 0.363045 -2.058931 0 -p 0.715059 -1.964608 0 -p 1.04535 -1.810592 0 -p 1.343872 -1.601568 0 -p 1.601568 -1.343872 0 -p 1.810592 -1.04535 0 -p 1.964608 -0.715059 0 -p 2.058931 -0.363045 0 -p 2.090694 0 0 -p 2.058931 0.363045 0 -p 1.964608 0.715059 0 -p 1.810592 1.04535 0 -p 1.601568 1.343872 0 -p 1.343872 1.601568 0 -p 1.04535 1.810592 0 -p 0.715059 1.964608 0 -p 0.363045 2.058931 0 -p 0 2.090694 0 -p -0.363045 2.058931 0 -p -0.715059 1.964608 0 -p -1.04535 1.810592 0 -p -1.343872 1.601568 0 -p -1.601568 1.343872 0 -p -1.810592 1.04535 0 -p -1.964608 0.715059 0 -p -2.058931 0.363045 0 -p -2.090694 0 0 -p -2.058931 0 -0.363045 -p -1.964608 0 -0.715059 -p -1.810592 0 -1.04535 -p -1.601568 0 -1.343872 -p -1.343872 0 -1.601568 -p -1.04535 0 -1.810592 -p -0.715059 0 -1.964608 -p -0.363045 0 -2.058931 -p 0 0 -2.090694 -p 0.363045 0 -2.058931 -p 0.715059 0 -1.964608 -p 1.04535 0 -1.810592 -p 1.343872 0 -1.601568 -p 1.601568 0 -1.343872 -p 1.810592 0 -1.04535 -p 1.964608 0 -0.715059 -p 2.058931 0 -0.363045 -p 2.090694 0 0 -p 2.058931 0 0.363045 -p 1.964608 0 0.715059 -p 1.810592 0 1.04535 -p 1.601568 0 1.343872 -p 1.343872 0 1.601568 -p 1.04535 0 1.810592 -p 0.715059 0 1.964608 -p 0.363045 0 2.058931 -p 0 0 2.090694 -p -0.363045 0 2.058931 -p -0.715059 0 1.964608 -p -1.04535 0 1.810592 -p -1.343872 0 1.601568 -p -1.601568 0 1.343872 -p -1.810592 0 1.04535 -p -1.964608 0 0.715059 -p -2.058931 0 0.363045 -p -2.090694 0 0 -k 0 -k 1 -k 2 -k 3 -k 4 -k 5 -k 6 -k 7 -k 8 -k 9 -k 10 -k 11 -k 12 -k 13 -k 14 -k 15 -k 16 -k 17 -k 18 -k 19 -k 20 -k 21 -k 22 -k 23 -k 24 -k 25 -k 26 -k 27 -k 28 -k 29 -k 30 -k 31 -k 32 -k 33 -k 34 -k 35 -k 36 -k 37 -k 38 -k 39 -k 40 -k 41 -k 42 -k 43 -k 44 -k 45 -k 46 -k 47 -k 48 -k 49 -k 50 -k 51 -k 52 -k 53 -k 54 -k 55 -k 56 -k 57 -k 58 -k 59 -k 60 -k 61 -k 62 -k 63 -k 64 -k 65 -k 66 -k 67 -k 68 -k 69 -k 70 -k 71 -k 72 -k 73 -k 74 -k 75 -k 76 -k 77 -k 78 -k 79 -k 80 -k 81 -k 82 -k 83 -k 84 -k 85 -k 86 -k 87 -k 88 -k 89 -k 90 -k 91 -k 92 -k 93 -k 94 -k 95 -k 96 -k 97 -k 98 -k 99 -k 100 -k 101 -k 102 -k 103 -k 104 -k 105 -k 106 -k 107 -k 108 -k 109 -k 110 -k 111 -k 112 -k 113 -k 114 -k 115 -k 116 -k 117 `;
+        else if ($type == "Cross_01")
+        $Ctrl=`curve -name ($i + "_Ctrl") -d 1 -p -2.090694 0 0 -p -2.058931 0.363045 0 -p -1.964608 0.715059 0 -p -1.810592 1.04535 0 -p -1.601568 1.343872 0 -p -1.343872 1.601568 0 -p -1.04535 1.810592 0 -p -0.715059 1.964608 0 -p -0.363045 2.058931 0 -p 0 2.090694 0 -p 0.363045 2.058931 0 -p 0.715059 1.964608 0 -p 1.04535 1.810592 0 -p 1.343872 1.601568 0 -p 1.601568 1.343872 0 -p 1.810592 1.04535 0 -p 1.964608 0.715059 0 -p 2.058931 0.363045 0 -p 2.090694 0 0 -p 2.058931 -0.363045 0 -p 1.964608 -0.715059 0 -p 1.810592 -1.04535 0 -p 1.601568 -1.343872 0 -p 1.343872 -1.601568 0 -p 1.04535 -1.810592 0 -p 0.715059 -1.964608 0 -p 0.363045 -2.058931 0 -p 0 -2.090694 0 -p -0.363045 -2.058931 0 -p -0.715059 -1.964608 0 -p -1.04535 -1.810592 0 -p -1.343872 -1.601568 0 -p -1.601568 -1.343872 0 -p -1.810592 -1.04535 0 -p -1.964608 -0.715059 0 -p -2.058931 -0.363045 0 -p -2.090694 0 0 -p 2.090694 0 0 -k 0 -k 1 -k 2 -k 3 -k 4 -k 5 -k 6 -k 7 -k 8 -k 9 -k 10 -k 11 -k 12 -k 13 -k 14 -k 15 -k 16 -k 17 -k 18 -k 19 -k 20 -k 21 -k 22 -k 23 -k 24 -k 25 -k 26 -k 27 -k 28 -k 29 -k 30 -k 31 -k 32 -k 33 -k 34 -k 35 -k 36 -k 37 `;
+        else if ($type == "Cross")
+        $Ctrl=`curve -name ($i + "_Ctrl") -d 1 -p 0 2.090694 0 -p 0.363045 2.058931 0 -p 0.715059 1.964608 0 -p 1.04535 1.810592 0 -p 1.343872 1.601568 0 -p 1.601568 1.343872 0 -p 1.810592 1.04535 0 -p 1.964608 0.715059 0 -p 2.058931 0.363045 0 -p 2.090694 0 0 -p 2.058931 -0.363045 0 -p 1.964608 -0.715059 0 -p 1.810592 -1.04535 0 -p 1.601568 -1.343872 0 -p 1.343872 -1.601568 0 -p 1.04535 -1.810592 0 -p 0.715059 -1.964608 0 -p 0.363045 -2.058931 0 -p 0 -2.090694 0 -p -0.363045 -2.058931 0 -p -0.715059 -1.964608 0 -p -1.04535 -1.810592 0 -p -1.343872 -1.601568 0 -p -1.601568 -1.343872 0 -p -1.810592 -1.04535 0 -p -1.964608 -0.715059 0 -p -2.058931 -0.363045 0 -p -2.090694 0 0 -p -2.058931 0.363045 0 -p -1.964608 0.715059 0 -p -1.810592 1.04535 0 -p -1.601568 1.343872 0 -p -1.343872 1.601568 0 -p -1.04535 1.810592 0 -p -0.715059 1.964608 0 -p -0.363045 2.058931 0 -p 0 2.090694 0 -p 0 -2.090694 0 -p 0.363045 -2.058931 0 -p 0.715059 -1.964608 0 -p 1.04535 -1.810592 0 -p 1.343872 -1.601568 0 -p 1.601568 -1.343872 0 -p 1.810592 -1.04535 0 -p 1.964608 -0.715059 0 -p 2.058931 -0.363045 0 -p 2.090694 0 0 -p -2.090694 0 0 -k 0 -k 1 -k 2 -k 3 -k 4 -k 5 -k 6 -k 7 -k 8 -k 9 -k 10 -k 11 -k 12 -k 13 -k 14 -k 15 -k 16 -k 17 -k 18 -k 19 -k 20 -k 21 -k 22 -k 23 -k 24 -k 25 -k 26 -k 27 -k 28 -k 29 -k 30 -k 31 -k 32 -k 33 -k 34 -k 35 -k 36 -k 37 -k 38 -k 39 -k 40 -k 41 -k 42 -k 43 -k 44 -k 45 -k 46 -k 47 `;
+        else if ($type == "Square")
+        $Ctrl=`curve -name ($i + "_Ctrl") -d 1 -p -1.329118 0 -1.405774 -p -1.274914 0 -1.416555 -p 1.274914 0 -1.416555 -p 1.329118 0 -1.405774 -p 1.37507 0 -1.37507 -p 1.405774 0 -1.329118 -p 1.416555 0 -1.274914 -p 1.416555 0 1.274914 -p 1.405774 0 1.329118 -p 1.37507 0 1.37507 -p 1.329118 0 1.405774 -p 1.274914 0 1.416555 -p -1.274914 0 1.416555 -p -1.329118 0 1.405774 -p -1.37507 0 1.37507 -p -1.405774 0 1.329118 -p -1.416555 0 1.274914 -p -1.416555 0 -1.274914 -p -1.405774 0 -1.329118 -p -1.37507 0 -1.37507 -p -1.329118 0 -1.405774 -k 0 -k 1 -k 2 -k 3 -k 4 -k 5 -k 6 -k 7 -k 8 -k 9 -k 10 -k 11 -k 12 -k 13 -k 14 -k 15 -k 16 -k 17 -k 18 -k 19 -k 20 `;
+        else if ($type == "Circle")
+        $Ctrl=`curve -name ($i + "_Ctrl") -d 1 -p 0 0 -2.090694 -p 0.363045 0 -2.058931 -p 0.715059 0 -1.964608 -p 1.04535 0 -1.810592 -p 1.343872 0 -1.601568 -p 1.601568 0 -1.343872 -p 1.810592 0 -1.04535 -p 1.964608 0 -0.715059 -p 2.058931 0 -0.363045 -p 2.090694 0 0 -p 2.058931 0 0.363045 -p 1.964608 0 0.715059 -p 1.810592 0 1.04535 -p 1.601568 0 1.343872 -p 1.343872 0 1.601568 -p 1.04535 0 1.810592 -p 0.715059 0 1.964608 -p 0.363045 0 2.058931 -p 0 0 2.090694 -p -0.363045 0 2.058931 -p -0.715059 0 1.964608 -p -1.04535 0 1.810592 -p -1.343872 0 1.601568 -p -1.601568 0 1.343872 -p -1.810592 0 1.04535 -p -1.964608 0 0.715059 -p -2.058931 0 0.363045 -p -2.090694 0 0 -p -2.058931 0 -0.363045 -p -1.964608 0 -0.715059 -p -1.810592 0 -1.04535 -p -1.601568 0 -1.343872 -p -1.343872 0 -1.601568 -p -1.04535 0 -1.810592 -p -0.715059 0 -1.964608 -p -0.363045 0 -2.058931 -p 0 0 -2.090694 -k 0 -k 1 -k 2 -k 3 -k 4 -k 5 -k 6 -k 7 -k 8 -k 9 -k 10 -k 11 -k 12 -k 13 -k 14 -k 15 -k 16 -k 17 -k 18 -k 19 -k 20 -k 21 -k 22 -k 23 -k 24 -k 25 -k 26 -k 27 -k 28 -k 29 -k 30 -k 31 -k 32 -k 33 -k 34 -k 35 -k 36 `;
+        else if ($type =="Arrow")
+        $Ctrl=`curve -name ($i + "_Ctrl") -d 1 -p -3.994602 0 -1.274914 -p -3.98382 0 -1.329118 -p -3.953116 0 -1.37507 -p -3.907165 0 -1.405773 -p -3.852961 0 -1.416555 -p 0.859361 0 -1.416555 -p 0.859361 0 -3.108438 -p 0.937233 0 -3.108438 -p 3.994602 0 0 -p 0.937233 0 3.108438 -p 0.859361 0 3.108438 -p 0.859361 0 1.416555 -p -3.852961 0 1.416555 -p -3.907165 0 1.405773 -p -3.953116 0 1.37507 -p -3.98382 0 1.329118 -p -3.994602 0 1.274914 -p -3.994602 0 -1.274914 -k 0 -k 1 -k 2 -k 3 -k 4 -k 5 -k 6 -k 7 -k 8 -k 9 -k 10 -k 11 -k 12 -k 13 -k 14 -k 15 -k 16 -k 17` ;
+        else if ($type =="Kou")
+        $Ctrl=`curve -name ($i + "_Ctrl") -d 1 -p 0 11 2.090694 -p -0.363045 11 2.058931 -p -0.715059 11 1.964608 -p -1.04535 11 1.810592 -p -1.343872 11 1.601568 -p -1.601568 11 1.343872 -p -1.810592 11 1.04535 -p -1.964608 11 0.715059 -p -2.058931 11 0.363045 -p -2.090694 11 0 -p -2.058931 11 -0.363045 -p -1.964608 11 -0.715059 -p -1.810592 11 -1.04535 -p -1.601568 11 -1.343872 -p -1.343872 11 -1.601568 -p -1.04535 11 -1.810592 -p -0.715059 11 -1.964608 -p -0.363045 11 -2.058931 -p 0 11 -2.090694 -p 0.363045 11 -2.058931 -p 0.715059 11 -1.964608 -p 1.04535 11 -1.810592 -p 1.343872 11 -1.601568 -p 1.601568 11 -1.343872 -p 1.810592 11 -1.04535 -p 1.964608 11 -0.715059 -p 2.058931 11 -0.363045 -p 2.090694 11 0 -p 2.058931 11 0.363045 -p 1.964608 11 0.715059 -p 1.810592 11 1.04535 -p 1.601568 11 1.343872 -p 1.343872 11 1.601568 -p 1.04535 11 1.810592 -p 0.715059 11 1.964608 -p 0.363045 11 2.058931 -p 0 11 2.090694 -p 0 11.363045 2.058931 -p 0 11.715059 1.964608 -p 0 12.04535 1.810592 -p 0 12.343872 1.601568 -p 0 12.601568 1.343872 -p 0 12.810592 1.04535 -p 0 12.964608 0.715059 -p 0 13.058931 0.363045 -p 0 13.090694 0 -p 0 13.058931 -0.363045 -p 0 12.964608 -0.715059 -p 0 12.810592 -1.04535 -p 0 12.601568 -1.343872 -p 0 12.343872 -1.601568 -p 0 12.04535 -1.810592 -p 0 11.715059 -1.964608 -p 0 11.363045 -2.058931 -p 0 11 -2.090694 -p 0 10.636955 -2.058931 -p 0 10.284941 -1.964608 -p 0 9.95465 -1.810592 -p 0 9.656128 -1.601568 -p 0 9.398432 -1.343872 -p 0 9.189408 -1.04535 -p 0 9.035392 -0.715059 -p 0 8.941069 -0.363045 -p 0 8.909306 0 -p 0.363045 8.941069 0 -p 0.715059 9.035392 0 -p 1.04535 9.189408 0 -p 1.343872 9.398432 0 -p 1.601568 9.656128 0 -p 1.810592 9.95465 0 -p 1.964608 10.284941 0 -p 2.058931 10.636955 0 -p 2.090694 11 0 -p 2.058931 11.363045 0 -p 1.964608 11.715059 0 -p 1.810592 12.04535 0 -p 1.601568 12.343872 0 -p 1.343872 12.601568 0 -p 1.04535 12.810592 0 -p 0.715059 12.964608 0 -p 0.363045 13.058931 0 -p 0 13.090694 0 -p -0.363045 13.058931 0 -p -0.715059 12.964608 0 -p -1.04535 12.810592 0 -p -1.343872 12.601568 0 -p -1.601568 12.343872 0 -p -1.810592 12.04535 0 -p -1.964608 11.715059 0 -p -2.058931 11.363045 0 -p -2.090694 11 0 -p -2.058931 10.636955 0 -p -1.964608 10.284941 0 -p -1.810592 9.95465 0 -p -1.601568 9.656128 0 -p -1.343872 9.398432 0 -p -1.04535 9.189408 0 -p -0.715059 9.035392 0 -p -0.363045 8.941069 0 -p -0.0043859 8.909306 0 -p -0.0712512 8.882961 0 -p -0.0594249 0.374864 0 -p -0.0237258 0.283558 0 -p 0.0237258 0.283558 0 -p 0.0594249 0.374864 0 -p 0.0712512 8.882961 0 -p -0.00219274 8.909306 0 -p 0 8.941069 0.363045 -p 0 9.035392 0.715059 -p 0 9.189408 1.04535 -p 0 9.398432 1.343872 -p 0 9.656128 1.601568 -p 0 9.95465 1.810592 -p 0 10.284941 1.964608 -p 0 10.636955 2.058931 -p 0 11 2.090694 -k 0 -k 1 -k 2 -k 3 -k 4 -k 5 -k 6 -k 7 -k 8 -k 9 -k 10 -k 11 -k 12 -k 13 -k 14 -k 15 -k 16 -k 17 -k 18 -k 19 -k 20 -k 21 -k 22 -k 23 -k 24 -k 25 -k 26 -k 27 -k 28 -k 29 -k 30 -k 31 -k 32 -k 33 -k 34 -k 35 -k 36 -k 37 -k 38 -k 39 -k 40 -k 41 -k 42 -k 43 -k 44 -k 45 -k 46 -k 47 -k 48 -k 49 -k 50 -k 51 -k 52 -k 53 -k 54 -k 55 -k 56 -k 57 -k 58 -k 59 -k 60 -k 61 -k 62 -k 63 -k 64 -k 65 -k 66 -k 67 -k 68 -k 69 -k 70 -k 71 -k 72 -k 73 -k 74 -k 75 -k 76 -k 77 -k 78 -k 79 -k 80 -k 81 -k 82 -k 83 -k 84 -k 85 -k 86 -k 87 -k 88 -k 89 -k 90 -k 91 -k 92 -k 93 -k 94 -k 95 -k 96 -k 97 -k 98 -k 99 -k 100 -k 101 -k 102 -k 103 -k 104 -k 105 -k 106 -k 107 -k 108 -k 109 -k 110 -k 111 -k 112 -k 113 -k 114 -k 115 `;
+
+         break;
+        }
+         switch ($Option) 
+        {
+        case "outObj":
+        string $CtrShape[] = `listRelatives -s -path $Ctrl`;
+        print $CtrShape[0];
+        $SelCtrShap = $CtrShape[0];
+        string $RameShape = `rename $SelCtrShap ($Ctrl + "_shape")`;
+        //string $skin_jnt =`joint -n ($i +"_Jnt") -p 0 0 0`;
+        string $Ctrl_G = `group -n ($i + "_Ctrl_G") $Ctrl`;
+        string $Ctrl_Gro = `group -n ($i + "_Ctrl_Gro") $Ctrl_G`;
+        string $Ctrl_Gp = `group -n ($i + "_Ctrl_Gp") $Ctrl_Gro`;
+        select -r $i ;
+        select -add $Ctrl_Gp ;
+        doCreateParentConstraintArgList 1 { "0","0","0","0","0","0","0","1","","1" };
+        parentConstraint -weight 1;
+        delete ($Ctrl_Gp+ "_parentConstraint1") ;
+        select -r $Ctrl ;
+        select -tgl $i;
+        doCreateParentConstraintArgList 1 { "1","0","0","0","0","0","0","1","","1" };
+        parentConstraint -mo -weight 1;
+        select -cl; 
+         }
+         
+        switch ($Option) 
+        {
+        case "outWorld":
+        if      ($type == "Box")
+        $Ctrl=`curve -name ($i + "_Ctrl") -d 1 -p -1 1 1 -p -1 1 -1 -p 1 1 -1 -p 1 1 1 -p -1 1 1 -p -1 -1 1 -p -1 -1 -1 -p -1 1 -1 -p -1 1 1 -p -1 -1 1 -p 1 -1 1 -p 1 1 1 -p 1 1 -1 -p 1 -1 -1 -p 1 -1 1 -p 1 -1 -1 -p -1 -1 -1 -k 0 -k 1 -k 2 -k 3 -k 4 -k 5 -k 6 -k 7 -k 8 -k 9 -k 10 -k 11 -k 12 -k 13 -k 14 -k 15 -k 16 `;
+        else if ($type == "Sphere")
+        $Ctrl=`curve -name ($i + "_Ctrl") -d 1 -p 0 2.090694 0 -p 0 2.058931 0.363045 -p 0 1.964608 0.715059 -p 0 1.810592 1.04535 -p 0 1.601568 1.343872 -p 0 1.343872 1.601568 -p 0 1.04535 1.810592 -p 0 0.715059 1.964608 -p 0 0.363045 2.058931 -p 0 0 2.090694 -p 0 -0.363045 2.058931 -p 0 -0.715059 1.964608 -p 0 -1.04535 1.810592 -p 0 -1.343872 1.601568 -p 0 -1.601568 1.343872 -p 0 -1.810592 1.04535 -p 0 -1.964608 0.715059 -p 0 -2.058931 0.363045 -p 0 -2.090694 0 -p 0 -2.058931 -0.363045 -p 0 -1.964608 -0.715059 -p 0 -1.810592 -1.04535 -p 0 -1.601568 -1.343872 -p 0 -1.343872 -1.601568 -p 0 -1.04535 -1.810592 -p 0 -0.715059 -1.964608 -p 0 -0.363045 -2.058931 -p 0 0 -2.090694 -p 0 0.363045 -2.058931 -p 0 0.715059 -1.964608 -p 0 1.04535 -1.810592 -p 0 1.343872 -1.601568 -p 0 1.601568 -1.343872 -p 0 1.810592 -1.04535 -p 0 1.964608 -0.715059 -p 0 2.058931 -0.363045 -p 0 2.090694 0 -p -0.363045 2.058931 0 -p -0.715059 1.964608 0 -p -1.04535 1.810592 0 -p -1.343872 1.601568 0 -p -1.601568 1.343872 0 -p -1.810592 1.04535 0 -p -1.964608 0.715059 0 -p -2.058931 0.363045 0 -p -2.090694 0 0 -p -2.058931 -0.363045 0 -p -1.964608 -0.715059 0 -p -1.810592 -1.04535 0 -p -1.601568 -1.343872 0 -p -1.343872 -1.601568 0 -p -1.04535 -1.810592 0 -p -0.715059 -1.964608 0 -p -0.363045 -2.058931 0 -p 0 -2.090694 0 -p 0.363045 -2.058931 0 -p 0.715059 -1.964608 0 -p 1.04535 -1.810592 0 -p 1.343872 -1.601568 0 -p 1.601568 -1.343872 0 -p 1.810592 -1.04535 0 -p 1.964608 -0.715059 0 -p 2.058931 -0.363045 0 -p 2.090694 0 0 -p 2.058931 0.363045 0 -p 1.964608 0.715059 0 -p 1.810592 1.04535 0 -p 1.601568 1.343872 0 -p 1.343872 1.601568 0 -p 1.04535 1.810592 0 -p 0.715059 1.964608 0 -p 0.363045 2.058931 0 -p 0 2.090694 0 -p -0.363045 2.058931 0 -p -0.715059 1.964608 0 -p -1.04535 1.810592 0 -p -1.343872 1.601568 0 -p -1.601568 1.343872 0 -p -1.810592 1.04535 0 -p -1.964608 0.715059 0 -p -2.058931 0.363045 0 -p -2.090694 0 0 -p -2.058931 0 -0.363045 -p -1.964608 0 -0.715059 -p -1.810592 0 -1.04535 -p -1.601568 0 -1.343872 -p -1.343872 0 -1.601568 -p -1.04535 0 -1.810592 -p -0.715059 0 -1.964608 -p -0.363045 0 -2.058931 -p 0 0 -2.090694 -p 0.363045 0 -2.058931 -p 0.715059 0 -1.964608 -p 1.04535 0 -1.810592 -p 1.343872 0 -1.601568 -p 1.601568 0 -1.343872 -p 1.810592 0 -1.04535 -p 1.964608 0 -0.715059 -p 2.058931 0 -0.363045 -p 2.090694 0 0 -p 2.058931 0 0.363045 -p 1.964608 0 0.715059 -p 1.810592 0 1.04535 -p 1.601568 0 1.343872 -p 1.343872 0 1.601568 -p 1.04535 0 1.810592 -p 0.715059 0 1.964608 -p 0.363045 0 2.058931 -p 0 0 2.090694 -p -0.363045 0 2.058931 -p -0.715059 0 1.964608 -p -1.04535 0 1.810592 -p -1.343872 0 1.601568 -p -1.601568 0 1.343872 -p -1.810592 0 1.04535 -p -1.964608 0 0.715059 -p -2.058931 0 0.363045 -p -2.090694 0 0 -k 0 -k 1 -k 2 -k 3 -k 4 -k 5 -k 6 -k 7 -k 8 -k 9 -k 10 -k 11 -k 12 -k 13 -k 14 -k 15 -k 16 -k 17 -k 18 -k 19 -k 20 -k 21 -k 22 -k 23 -k 24 -k 25 -k 26 -k 27 -k 28 -k 29 -k 30 -k 31 -k 32 -k 33 -k 34 -k 35 -k 36 -k 37 -k 38 -k 39 -k 40 -k 41 -k 42 -k 43 -k 44 -k 45 -k 46 -k 47 -k 48 -k 49 -k 50 -k 51 -k 52 -k 53 -k 54 -k 55 -k 56 -k 57 -k 58 -k 59 -k 60 -k 61 -k 62 -k 63 -k 64 -k 65 -k 66 -k 67 -k 68 -k 69 -k 70 -k 71 -k 72 -k 73 -k 74 -k 75 -k 76 -k 77 -k 78 -k 79 -k 80 -k 81 -k 82 -k 83 -k 84 -k 85 -k 86 -k 87 -k 88 -k 89 -k 90 -k 91 -k 92 -k 93 -k 94 -k 95 -k 96 -k 97 -k 98 -k 99 -k 100 -k 101 -k 102 -k 103 -k 104 -k 105 -k 106 -k 107 -k 108 -k 109 -k 110 -k 111 -k 112 -k 113 -k 114 -k 115 -k 116 -k 117 `;
+        else if ($type == "Cross_01")
+        $Ctrl=`curve -name ($i + "_Ctrl") -d 1 -p -2.090694 0 0 -p -2.058931 0.363045 0 -p -1.964608 0.715059 0 -p -1.810592 1.04535 0 -p -1.601568 1.343872 0 -p -1.343872 1.601568 0 -p -1.04535 1.810592 0 -p -0.715059 1.964608 0 -p -0.363045 2.058931 0 -p 0 2.090694 0 -p 0.363045 2.058931 0 -p 0.715059 1.964608 0 -p 1.04535 1.810592 0 -p 1.343872 1.601568 0 -p 1.601568 1.343872 0 -p 1.810592 1.04535 0 -p 1.964608 0.715059 0 -p 2.058931 0.363045 0 -p 2.090694 0 0 -p 2.058931 -0.363045 0 -p 1.964608 -0.715059 0 -p 1.810592 -1.04535 0 -p 1.601568 -1.343872 0 -p 1.343872 -1.601568 0 -p 1.04535 -1.810592 0 -p 0.715059 -1.964608 0 -p 0.363045 -2.058931 0 -p 0 -2.090694 0 -p -0.363045 -2.058931 0 -p -0.715059 -1.964608 0 -p -1.04535 -1.810592 0 -p -1.343872 -1.601568 0 -p -1.601568 -1.343872 0 -p -1.810592 -1.04535 0 -p -1.964608 -0.715059 0 -p -2.058931 -0.363045 0 -p -2.090694 0 0 -p 2.090694 0 0 -k 0 -k 1 -k 2 -k 3 -k 4 -k 5 -k 6 -k 7 -k 8 -k 9 -k 10 -k 11 -k 12 -k 13 -k 14 -k 15 -k 16 -k 17 -k 18 -k 19 -k 20 -k 21 -k 22 -k 23 -k 24 -k 25 -k 26 -k 27 -k 28 -k 29 -k 30 -k 31 -k 32 -k 33 -k 34 -k 35 -k 36 -k 37 `;
+        else if ($type == "Cross")
+        $Ctrl=`curve -name ($i + "_Ctrl") -d 1 -p 0 2.090694 0 -p 0.363045 2.058931 0 -p 0.715059 1.964608 0 -p 1.04535 1.810592 0 -p 1.343872 1.601568 0 -p 1.601568 1.343872 0 -p 1.810592 1.04535 0 -p 1.964608 0.715059 0 -p 2.058931 0.363045 0 -p 2.090694 0 0 -p 2.058931 -0.363045 0 -p 1.964608 -0.715059 0 -p 1.810592 -1.04535 0 -p 1.601568 -1.343872 0 -p 1.343872 -1.601568 0 -p 1.04535 -1.810592 0 -p 0.715059 -1.964608 0 -p 0.363045 -2.058931 0 -p 0 -2.090694 0 -p -0.363045 -2.058931 0 -p -0.715059 -1.964608 0 -p -1.04535 -1.810592 0 -p -1.343872 -1.601568 0 -p -1.601568 -1.343872 0 -p -1.810592 -1.04535 0 -p -1.964608 -0.715059 0 -p -2.058931 -0.363045 0 -p -2.090694 0 0 -p -2.058931 0.363045 0 -p -1.964608 0.715059 0 -p -1.810592 1.04535 0 -p -1.601568 1.343872 0 -p -1.343872 1.601568 0 -p -1.04535 1.810592 0 -p -0.715059 1.964608 0 -p -0.363045 2.058931 0 -p 0 2.090694 0 -p 0 -2.090694 0 -p 0.363045 -2.058931 0 -p 0.715059 -1.964608 0 -p 1.04535 -1.810592 0 -p 1.343872 -1.601568 0 -p 1.601568 -1.343872 0 -p 1.810592 -1.04535 0 -p 1.964608 -0.715059 0 -p 2.058931 -0.363045 0 -p 2.090694 0 0 -p -2.090694 0 0 -k 0 -k 1 -k 2 -k 3 -k 4 -k 5 -k 6 -k 7 -k 8 -k 9 -k 10 -k 11 -k 12 -k 13 -k 14 -k 15 -k 16 -k 17 -k 18 -k 19 -k 20 -k 21 -k 22 -k 23 -k 24 -k 25 -k 26 -k 27 -k 28 -k 29 -k 30 -k 31 -k 32 -k 33 -k 34 -k 35 -k 36 -k 37 -k 38 -k 39 -k 40 -k 41 -k 42 -k 43 -k 44 -k 45 -k 46 -k 47 `;
+        else if ($type == "Square")
+        $Ctrl=`curve -name ($i + "_Ctrl") -d 1 -p -1.329118 0 -1.405774 -p -1.274914 0 -1.416555 -p 1.274914 0 -1.416555 -p 1.329118 0 -1.405774 -p 1.37507 0 -1.37507 -p 1.405774 0 -1.329118 -p 1.416555 0 -1.274914 -p 1.416555 0 1.274914 -p 1.405774 0 1.329118 -p 1.37507 0 1.37507 -p 1.329118 0 1.405774 -p 1.274914 0 1.416555 -p -1.274914 0 1.416555 -p -1.329118 0 1.405774 -p -1.37507 0 1.37507 -p -1.405774 0 1.329118 -p -1.416555 0 1.274914 -p -1.416555 0 -1.274914 -p -1.405774 0 -1.329118 -p -1.37507 0 -1.37507 -p -1.329118 0 -1.405774 -k 0 -k 1 -k 2 -k 3 -k 4 -k 5 -k 6 -k 7 -k 8 -k 9 -k 10 -k 11 -k 12 -k 13 -k 14 -k 15 -k 16 -k 17 -k 18 -k 19 -k 20 `;
+        else if ($type == "Circle")
+        $Ctrl=`curve -name ($i + "_Ctrl") -d 1 -p 0 0 -2.090694 -p 0.363045 0 -2.058931 -p 0.715059 0 -1.964608 -p 1.04535 0 -1.810592 -p 1.343872 0 -1.601568 -p 1.601568 0 -1.343872 -p 1.810592 0 -1.04535 -p 1.964608 0 -0.715059 -p 2.058931 0 -0.363045 -p 2.090694 0 0 -p 2.058931 0 0.363045 -p 1.964608 0 0.715059 -p 1.810592 0 1.04535 -p 1.601568 0 1.343872 -p 1.343872 0 1.601568 -p 1.04535 0 1.810592 -p 0.715059 0 1.964608 -p 0.363045 0 2.058931 -p 0 0 2.090694 -p -0.363045 0 2.058931 -p -0.715059 0 1.964608 -p -1.04535 0 1.810592 -p -1.343872 0 1.601568 -p -1.601568 0 1.343872 -p -1.810592 0 1.04535 -p -1.964608 0 0.715059 -p -2.058931 0 0.363045 -p -2.090694 0 0 -p -2.058931 0 -0.363045 -p -1.964608 0 -0.715059 -p -1.810592 0 -1.04535 -p -1.601568 0 -1.343872 -p -1.343872 0 -1.601568 -p -1.04535 0 -1.810592 -p -0.715059 0 -1.964608 -p -0.363045 0 -2.058931 -p 0 0 -2.090694 -k 0 -k 1 -k 2 -k 3 -k 4 -k 5 -k 6 -k 7 -k 8 -k 9 -k 10 -k 11 -k 12 -k 13 -k 14 -k 15 -k 16 -k 17 -k 18 -k 19 -k 20 -k 21 -k 22 -k 23 -k 24 -k 25 -k 26 -k 27 -k 28 -k 29 -k 30 -k 31 -k 32 -k 33 -k 34 -k 35 -k 36 `;
+        else if ($type =="Arrow")
+        $Ctrl=`curve -name ($i + "_Ctrl") -d 1 -p -3.994602 0 -1.274914 -p -3.98382 0 -1.329118 -p -3.953116 0 -1.37507 -p -3.907165 0 -1.405773 -p -3.852961 0 -1.416555 -p 0.859361 0 -1.416555 -p 0.859361 0 -3.108438 -p 0.937233 0 -3.108438 -p 3.994602 0 0 -p 0.937233 0 3.108438 -p 0.859361 0 3.108438 -p 0.859361 0 1.416555 -p -3.852961 0 1.416555 -p -3.907165 0 1.405773 -p -3.953116 0 1.37507 -p -3.98382 0 1.329118 -p -3.994602 0 1.274914 -p -3.994602 0 -1.274914 -k 0 -k 1 -k 2 -k 3 -k 4 -k 5 -k 6 -k 7 -k 8 -k 9 -k 10 -k 11 -k 12 -k 13 -k 14 -k 15 -k 16 -k 17` ;
+        else if ($type =="Kou")
+        $Ctrl=`curve -name ($i + "_Ctrl") -d 1 -p 0 11 2.090694 -p -0.363045 11 2.058931 -p -0.715059 11 1.964608 -p -1.04535 11 1.810592 -p -1.343872 11 1.601568 -p -1.601568 11 1.343872 -p -1.810592 11 1.04535 -p -1.964608 11 0.715059 -p -2.058931 11 0.363045 -p -2.090694 11 0 -p -2.058931 11 -0.363045 -p -1.964608 11 -0.715059 -p -1.810592 11 -1.04535 -p -1.601568 11 -1.343872 -p -1.343872 11 -1.601568 -p -1.04535 11 -1.810592 -p -0.715059 11 -1.964608 -p -0.363045 11 -2.058931 -p 0 11 -2.090694 -p 0.363045 11 -2.058931 -p 0.715059 11 -1.964608 -p 1.04535 11 -1.810592 -p 1.343872 11 -1.601568 -p 1.601568 11 -1.343872 -p 1.810592 11 -1.04535 -p 1.964608 11 -0.715059 -p 2.058931 11 -0.363045 -p 2.090694 11 0 -p 2.058931 11 0.363045 -p 1.964608 11 0.715059 -p 1.810592 11 1.04535 -p 1.601568 11 1.343872 -p 1.343872 11 1.601568 -p 1.04535 11 1.810592 -p 0.715059 11 1.964608 -p 0.363045 11 2.058931 -p 0 11 2.090694 -p 0 11.363045 2.058931 -p 0 11.715059 1.964608 -p 0 12.04535 1.810592 -p 0 12.343872 1.601568 -p 0 12.601568 1.343872 -p 0 12.810592 1.04535 -p 0 12.964608 0.715059 -p 0 13.058931 0.363045 -p 0 13.090694 0 -p 0 13.058931 -0.363045 -p 0 12.964608 -0.715059 -p 0 12.810592 -1.04535 -p 0 12.601568 -1.343872 -p 0 12.343872 -1.601568 -p 0 12.04535 -1.810592 -p 0 11.715059 -1.964608 -p 0 11.363045 -2.058931 -p 0 11 -2.090694 -p 0 10.636955 -2.058931 -p 0 10.284941 -1.964608 -p 0 9.95465 -1.810592 -p 0 9.656128 -1.601568 -p 0 9.398432 -1.343872 -p 0 9.189408 -1.04535 -p 0 9.035392 -0.715059 -p 0 8.941069 -0.363045 -p 0 8.909306 0 -p 0.363045 8.941069 0 -p 0.715059 9.035392 0 -p 1.04535 9.189408 0 -p 1.343872 9.398432 0 -p 1.601568 9.656128 0 -p 1.810592 9.95465 0 -p 1.964608 10.284941 0 -p 2.058931 10.636955 0 -p 2.090694 11 0 -p 2.058931 11.363045 0 -p 1.964608 11.715059 0 -p 1.810592 12.04535 0 -p 1.601568 12.343872 0 -p 1.343872 12.601568 0 -p 1.04535 12.810592 0 -p 0.715059 12.964608 0 -p 0.363045 13.058931 0 -p 0 13.090694 0 -p -0.363045 13.058931 0 -p -0.715059 12.964608 0 -p -1.04535 12.810592 0 -p -1.343872 12.601568 0 -p -1.601568 12.343872 0 -p -1.810592 12.04535 0 -p -1.964608 11.715059 0 -p -2.058931 11.363045 0 -p -2.090694 11 0 -p -2.058931 10.636955 0 -p -1.964608 10.284941 0 -p -1.810592 9.95465 0 -p -1.601568 9.656128 0 -p -1.343872 9.398432 0 -p -1.04535 9.189408 0 -p -0.715059 9.035392 0 -p -0.363045 8.941069 0 -p -0.0043859 8.909306 0 -p -0.0712512 8.882961 0 -p -0.0594249 0.374864 0 -p -0.0237258 0.283558 0 -p 0.0237258 0.283558 0 -p 0.0594249 0.374864 0 -p 0.0712512 8.882961 0 -p -0.00219274 8.909306 0 -p 0 8.941069 0.363045 -p 0 9.035392 0.715059 -p 0 9.189408 1.04535 -p 0 9.398432 1.343872 -p 0 9.656128 1.601568 -p 0 9.95465 1.810592 -p 0 10.284941 1.964608 -p 0 10.636955 2.058931 -p 0 11 2.090694 -k 0 -k 1 -k 2 -k 3 -k 4 -k 5 -k 6 -k 7 -k 8 -k 9 -k 10 -k 11 -k 12 -k 13 -k 14 -k 15 -k 16 -k 17 -k 18 -k 19 -k 20 -k 21 -k 22 -k 23 -k 24 -k 25 -k 26 -k 27 -k 28 -k 29 -k 30 -k 31 -k 32 -k 33 -k 34 -k 35 -k 36 -k 37 -k 38 -k 39 -k 40 -k 41 -k 42 -k 43 -k 44 -k 45 -k 46 -k 47 -k 48 -k 49 -k 50 -k 51 -k 52 -k 53 -k 54 -k 55 -k 56 -k 57 -k 58 -k 59 -k 60 -k 61 -k 62 -k 63 -k 64 -k 65 -k 66 -k 67 -k 68 -k 69 -k 70 -k 71 -k 72 -k 73 -k 74 -k 75 -k 76 -k 77 -k 78 -k 79 -k 80 -k 81 -k 82 -k 83 -k 84 -k 85 -k 86 -k 87 -k 88 -k 89 -k 90 -k 91 -k 92 -k 93 -k 94 -k 95 -k 96 -k 97 -k 98 -k 99 -k 100 -k 101 -k 102 -k 103 -k 104 -k 105 -k 106 -k 107 -k 108 -k 109 -k 110 -k 111 -k 112 -k 113 -k 114 -k 115 `;
+
+         break;
+        }
+         switch ($Option) 
+        {
+        case "outWorld":
+        string $CtrShape[] = `listRelatives -s -path $Ctrl`;
+        print $CtrShape[0];
+        $SelCtrShap = $CtrShape[0];
+        string $RameShape = `rename $SelCtrShap ($Ctrl + "_shape")`;
+        //string $skin_jnt =`joint -n ($i +"_Jnt") -p 0 0 0`;
+        string $Ctrl_G = `group -n ($i + "_Ctrl_G") $Ctrl`;
+        string $Ctrl_Gro = `group -n ($i + "_Ctrl_Gro") $Ctrl_G`;
+        string $Ctrl_Gp = `group -n ($i + "_Ctrl_Gp") $Ctrl_Gro`;
+        select -r $i ;
+        select -add $Ctrl_Gp ;
+        doCreatePointConstraintArgList 1 { "0","0","0","0","0","0","0","1","","1" };
+        pointConstraint -offset 0 0 0 -weight 1;
+        delete ($Ctrl_Gp+ "_pointConstraint1") ;
+        select -r $Ctrl ;
+        select -tgl $i;       
+        doCreateParentConstraintArgList 1 { "1","0","0","0","0","0","0","1","","1" };
+        parentConstraint -mo -weight 1;
+        select -cl; 
+         }
+        
+        switch ($Option) 
+        {
+        case "outRepale":
+        if      ($type == "Box")
+        $Ctrl=`curve -name ($i + "_Ctrl") -d 1 -p -1 1 1 -p -1 1 -1 -p 1 1 -1 -p 1 1 1 -p -1 1 1 -p -1 -1 1 -p -1 -1 -1 -p -1 1 -1 -p -1 1 1 -p -1 -1 1 -p 1 -1 1 -p 1 1 1 -p 1 1 -1 -p 1 -1 -1 -p 1 -1 1 -p 1 -1 -1 -p -1 -1 -1 -k 0 -k 1 -k 2 -k 3 -k 4 -k 5 -k 6 -k 7 -k 8 -k 9 -k 10 -k 11 -k 12 -k 13 -k 14 -k 15 -k 16 `;
+        else if ($type == "Sphere")
+        $Ctrl=`curve -name ($i + "_Ctrl") -d 1 -p 0 2.090694 0 -p 0 2.058931 0.363045 -p 0 1.964608 0.715059 -p 0 1.810592 1.04535 -p 0 1.601568 1.343872 -p 0 1.343872 1.601568 -p 0 1.04535 1.810592 -p 0 0.715059 1.964608 -p 0 0.363045 2.058931 -p 0 0 2.090694 -p 0 -0.363045 2.058931 -p 0 -0.715059 1.964608 -p 0 -1.04535 1.810592 -p 0 -1.343872 1.601568 -p 0 -1.601568 1.343872 -p 0 -1.810592 1.04535 -p 0 -1.964608 0.715059 -p 0 -2.058931 0.363045 -p 0 -2.090694 0 -p 0 -2.058931 -0.363045 -p 0 -1.964608 -0.715059 -p 0 -1.810592 -1.04535 -p 0 -1.601568 -1.343872 -p 0 -1.343872 -1.601568 -p 0 -1.04535 -1.810592 -p 0 -0.715059 -1.964608 -p 0 -0.363045 -2.058931 -p 0 0 -2.090694 -p 0 0.363045 -2.058931 -p 0 0.715059 -1.964608 -p 0 1.04535 -1.810592 -p 0 1.343872 -1.601568 -p 0 1.601568 -1.343872 -p 0 1.810592 -1.04535 -p 0 1.964608 -0.715059 -p 0 2.058931 -0.363045 -p 0 2.090694 0 -p -0.363045 2.058931 0 -p -0.715059 1.964608 0 -p -1.04535 1.810592 0 -p -1.343872 1.601568 0 -p -1.601568 1.343872 0 -p -1.810592 1.04535 0 -p -1.964608 0.715059 0 -p -2.058931 0.363045 0 -p -2.090694 0 0 -p -2.058931 -0.363045 0 -p -1.964608 -0.715059 0 -p -1.810592 -1.04535 0 -p -1.601568 -1.343872 0 -p -1.343872 -1.601568 0 -p -1.04535 -1.810592 0 -p -0.715059 -1.964608 0 -p -0.363045 -2.058931 0 -p 0 -2.090694 0 -p 0.363045 -2.058931 0 -p 0.715059 -1.964608 0 -p 1.04535 -1.810592 0 -p 1.343872 -1.601568 0 -p 1.601568 -1.343872 0 -p 1.810592 -1.04535 0 -p 1.964608 -0.715059 0 -p 2.058931 -0.363045 0 -p 2.090694 0 0 -p 2.058931 0.363045 0 -p 1.964608 0.715059 0 -p 1.810592 1.04535 0 -p 1.601568 1.343872 0 -p 1.343872 1.601568 0 -p 1.04535 1.810592 0 -p 0.715059 1.964608 0 -p 0.363045 2.058931 0 -p 0 2.090694 0 -p -0.363045 2.058931 0 -p -0.715059 1.964608 0 -p -1.04535 1.810592 0 -p -1.343872 1.601568 0 -p -1.601568 1.343872 0 -p -1.810592 1.04535 0 -p -1.964608 0.715059 0 -p -2.058931 0.363045 0 -p -2.090694 0 0 -p -2.058931 0 -0.363045 -p -1.964608 0 -0.715059 -p -1.810592 0 -1.04535 -p -1.601568 0 -1.343872 -p -1.343872 0 -1.601568 -p -1.04535 0 -1.810592 -p -0.715059 0 -1.964608 -p -0.363045 0 -2.058931 -p 0 0 -2.090694 -p 0.363045 0 -2.058931 -p 0.715059 0 -1.964608 -p 1.04535 0 -1.810592 -p 1.343872 0 -1.601568 -p 1.601568 0 -1.343872 -p 1.810592 0 -1.04535 -p 1.964608 0 -0.715059 -p 2.058931 0 -0.363045 -p 2.090694 0 0 -p 2.058931 0 0.363045 -p 1.964608 0 0.715059 -p 1.810592 0 1.04535 -p 1.601568 0 1.343872 -p 1.343872 0 1.601568 -p 1.04535 0 1.810592 -p 0.715059 0 1.964608 -p 0.363045 0 2.058931 -p 0 0 2.090694 -p -0.363045 0 2.058931 -p -0.715059 0 1.964608 -p -1.04535 0 1.810592 -p -1.343872 0 1.601568 -p -1.601568 0 1.343872 -p -1.810592 0 1.04535 -p -1.964608 0 0.715059 -p -2.058931 0 0.363045 -p -2.090694 0 0 -k 0 -k 1 -k 2 -k 3 -k 4 -k 5 -k 6 -k 7 -k 8 -k 9 -k 10 -k 11 -k 12 -k 13 -k 14 -k 15 -k 16 -k 17 -k 18 -k 19 -k 20 -k 21 -k 22 -k 23 -k 24 -k 25 -k 26 -k 27 -k 28 -k 29 -k 30 -k 31 -k 32 -k 33 -k 34 -k 35 -k 36 -k 37 -k 38 -k 39 -k 40 -k 41 -k 42 -k 43 -k 44 -k 45 -k 46 -k 47 -k 48 -k 49 -k 50 -k 51 -k 52 -k 53 -k 54 -k 55 -k 56 -k 57 -k 58 -k 59 -k 60 -k 61 -k 62 -k 63 -k 64 -k 65 -k 66 -k 67 -k 68 -k 69 -k 70 -k 71 -k 72 -k 73 -k 74 -k 75 -k 76 -k 77 -k 78 -k 79 -k 80 -k 81 -k 82 -k 83 -k 84 -k 85 -k 86 -k 87 -k 88 -k 89 -k 90 -k 91 -k 92 -k 93 -k 94 -k 95 -k 96 -k 97 -k 98 -k 99 -k 100 -k 101 -k 102 -k 103 -k 104 -k 105 -k 106 -k 107 -k 108 -k 109 -k 110 -k 111 -k 112 -k 113 -k 114 -k 115 -k 116 -k 117 `;
+        else if ($type == "Cross_01")
+        $Ctrl=`curve -name ($i + "_Ctrl") -d 1 -p -2.090694 0 0 -p -2.058931 0.363045 0 -p -1.964608 0.715059 0 -p -1.810592 1.04535 0 -p -1.601568 1.343872 0 -p -1.343872 1.601568 0 -p -1.04535 1.810592 0 -p -0.715059 1.964608 0 -p -0.363045 2.058931 0 -p 0 2.090694 0 -p 0.363045 2.058931 0 -p 0.715059 1.964608 0 -p 1.04535 1.810592 0 -p 1.343872 1.601568 0 -p 1.601568 1.343872 0 -p 1.810592 1.04535 0 -p 1.964608 0.715059 0 -p 2.058931 0.363045 0 -p 2.090694 0 0 -p 2.058931 -0.363045 0 -p 1.964608 -0.715059 0 -p 1.810592 -1.04535 0 -p 1.601568 -1.343872 0 -p 1.343872 -1.601568 0 -p 1.04535 -1.810592 0 -p 0.715059 -1.964608 0 -p 0.363045 -2.058931 0 -p 0 -2.090694 0 -p -0.363045 -2.058931 0 -p -0.715059 -1.964608 0 -p -1.04535 -1.810592 0 -p -1.343872 -1.601568 0 -p -1.601568 -1.343872 0 -p -1.810592 -1.04535 0 -p -1.964608 -0.715059 0 -p -2.058931 -0.363045 0 -p -2.090694 0 0 -p 2.090694 0 0 -k 0 -k 1 -k 2 -k 3 -k 4 -k 5 -k 6 -k 7 -k 8 -k 9 -k 10 -k 11 -k 12 -k 13 -k 14 -k 15 -k 16 -k 17 -k 18 -k 19 -k 20 -k 21 -k 22 -k 23 -k 24 -k 25 -k 26 -k 27 -k 28 -k 29 -k 30 -k 31 -k 32 -k 33 -k 34 -k 35 -k 36 -k 37 `;
+        else if ($type == "Cross")
+        $Ctrl=`curve -name ($i + "_Ctrl") -d 1 -p 0 2.090694 0 -p 0.363045 2.058931 0 -p 0.715059 1.964608 0 -p 1.04535 1.810592 0 -p 1.343872 1.601568 0 -p 1.601568 1.343872 0 -p 1.810592 1.04535 0 -p 1.964608 0.715059 0 -p 2.058931 0.363045 0 -p 2.090694 0 0 -p 2.058931 -0.363045 0 -p 1.964608 -0.715059 0 -p 1.810592 -1.04535 0 -p 1.601568 -1.343872 0 -p 1.343872 -1.601568 0 -p 1.04535 -1.810592 0 -p 0.715059 -1.964608 0 -p 0.363045 -2.058931 0 -p 0 -2.090694 0 -p -0.363045 -2.058931 0 -p -0.715059 -1.964608 0 -p -1.04535 -1.810592 0 -p -1.343872 -1.601568 0 -p -1.601568 -1.343872 0 -p -1.810592 -1.04535 0 -p -1.964608 -0.715059 0 -p -2.058931 -0.363045 0 -p -2.090694 0 0 -p -2.058931 0.363045 0 -p -1.964608 0.715059 0 -p -1.810592 1.04535 0 -p -1.601568 1.343872 0 -p -1.343872 1.601568 0 -p -1.04535 1.810592 0 -p -0.715059 1.964608 0 -p -0.363045 2.058931 0 -p 0 2.090694 0 -p 0 -2.090694 0 -p 0.363045 -2.058931 0 -p 0.715059 -1.964608 0 -p 1.04535 -1.810592 0 -p 1.343872 -1.601568 0 -p 1.601568 -1.343872 0 -p 1.810592 -1.04535 0 -p 1.964608 -0.715059 0 -p 2.058931 -0.363045 0 -p 2.090694 0 0 -p -2.090694 0 0 -k 0 -k 1 -k 2 -k 3 -k 4 -k 5 -k 6 -k 7 -k 8 -k 9 -k 10 -k 11 -k 12 -k 13 -k 14 -k 15 -k 16 -k 17 -k 18 -k 19 -k 20 -k 21 -k 22 -k 23 -k 24 -k 25 -k 26 -k 27 -k 28 -k 29 -k 30 -k 31 -k 32 -k 33 -k 34 -k 35 -k 36 -k 37 -k 38 -k 39 -k 40 -k 41 -k 42 -k 43 -k 44 -k 45 -k 46 -k 47 `;
+        else if ($type == "Square")
+        $Ctrl=`curve -name ($i + "_Ctrl") -d 1 -p -1.329118 0 -1.405774 -p -1.274914 0 -1.416555 -p 1.274914 0 -1.416555 -p 1.329118 0 -1.405774 -p 1.37507 0 -1.37507 -p 1.405774 0 -1.329118 -p 1.416555 0 -1.274914 -p 1.416555 0 1.274914 -p 1.405774 0 1.329118 -p 1.37507 0 1.37507 -p 1.329118 0 1.405774 -p 1.274914 0 1.416555 -p -1.274914 0 1.416555 -p -1.329118 0 1.405774 -p -1.37507 0 1.37507 -p -1.405774 0 1.329118 -p -1.416555 0 1.274914 -p -1.416555 0 -1.274914 -p -1.405774 0 -1.329118 -p -1.37507 0 -1.37507 -p -1.329118 0 -1.405774 -k 0 -k 1 -k 2 -k 3 -k 4 -k 5 -k 6 -k 7 -k 8 -k 9 -k 10 -k 11 -k 12 -k 13 -k 14 -k 15 -k 16 -k 17 -k 18 -k 19 -k 20 `;
+        else if ($type == "Circle")
+        $Ctrl=`curve -name ($i + "_Ctrl") -d 1 -p 0 0 -2.090694 -p 0.363045 0 -2.058931 -p 0.715059 0 -1.964608 -p 1.04535 0 -1.810592 -p 1.343872 0 -1.601568 -p 1.601568 0 -1.343872 -p 1.810592 0 -1.04535 -p 1.964608 0 -0.715059 -p 2.058931 0 -0.363045 -p 2.090694 0 0 -p 2.058931 0 0.363045 -p 1.964608 0 0.715059 -p 1.810592 0 1.04535 -p 1.601568 0 1.343872 -p 1.343872 0 1.601568 -p 1.04535 0 1.810592 -p 0.715059 0 1.964608 -p 0.363045 0 2.058931 -p 0 0 2.090694 -p -0.363045 0 2.058931 -p -0.715059 0 1.964608 -p -1.04535 0 1.810592 -p -1.343872 0 1.601568 -p -1.601568 0 1.343872 -p -1.810592 0 1.04535 -p -1.964608 0 0.715059 -p -2.058931 0 0.363045 -p -2.090694 0 0 -p -2.058931 0 -0.363045 -p -1.964608 0 -0.715059 -p -1.810592 0 -1.04535 -p -1.601568 0 -1.343872 -p -1.343872 0 -1.601568 -p -1.04535 0 -1.810592 -p -0.715059 0 -1.964608 -p -0.363045 0 -2.058931 -p 0 0 -2.090694 -k 0 -k 1 -k 2 -k 3 -k 4 -k 5 -k 6 -k 7 -k 8 -k 9 -k 10 -k 11 -k 12 -k 13 -k 14 -k 15 -k 16 -k 17 -k 18 -k 19 -k 20 -k 21 -k 22 -k 23 -k 24 -k 25 -k 26 -k 27 -k 28 -k 29 -k 30 -k 31 -k 32 -k 33 -k 34 -k 35 -k 36 `;
+        else if ($type =="Arrow")        
+        $Ctrl=`curve -name ($i + "_Ctrl") -d 1 -p -3.994602 0 -1.274914 -p -3.98382 0 -1.329118 -p -3.953116 0 -1.37507 -p -3.907165 0 -1.405773 -p -3.852961 0 -1.416555 -p 0.859361 0 -1.416555 -p 0.859361 0 -3.108438 -p 0.937233 0 -3.108438 -p 3.994602 0 0 -p 0.937233 0 3.108438 -p 0.859361 0 3.108438 -p 0.859361 0 1.416555 -p -3.852961 0 1.416555 -p -3.907165 0 1.405773 -p -3.953116 0 1.37507 -p -3.98382 0 1.329118 -p -3.994602 0 1.274914 -p -3.994602 0 -1.274914 -k 0 -k 1 -k 2 -k 3 -k 4 -k 5 -k 6 -k 7 -k 8 -k 9 -k 10 -k 11 -k 12 -k 13 -k 14 -k 15 -k 16 -k 17` ;
+        else if ($type =="Kou")
+        $Ctrl=`curve -name ($i + "_Ctrl") -d 1 -p 0 11 2.090694 -p -0.363045 11 2.058931 -p -0.715059 11 1.964608 -p -1.04535 11 1.810592 -p -1.343872 11 1.601568 -p -1.601568 11 1.343872 -p -1.810592 11 1.04535 -p -1.964608 11 0.715059 -p -2.058931 11 0.363045 -p -2.090694 11 0 -p -2.058931 11 -0.363045 -p -1.964608 11 -0.715059 -p -1.810592 11 -1.04535 -p -1.601568 11 -1.343872 -p -1.343872 11 -1.601568 -p -1.04535 11 -1.810592 -p -0.715059 11 -1.964608 -p -0.363045 11 -2.058931 -p 0 11 -2.090694 -p 0.363045 11 -2.058931 -p 0.715059 11 -1.964608 -p 1.04535 11 -1.810592 -p 1.343872 11 -1.601568 -p 1.601568 11 -1.343872 -p 1.810592 11 -1.04535 -p 1.964608 11 -0.715059 -p 2.058931 11 -0.363045 -p 2.090694 11 0 -p 2.058931 11 0.363045 -p 1.964608 11 0.715059 -p 1.810592 11 1.04535 -p 1.601568 11 1.343872 -p 1.343872 11 1.601568 -p 1.04535 11 1.810592 -p 0.715059 11 1.964608 -p 0.363045 11 2.058931 -p 0 11 2.090694 -p 0 11.363045 2.058931 -p 0 11.715059 1.964608 -p 0 12.04535 1.810592 -p 0 12.343872 1.601568 -p 0 12.601568 1.343872 -p 0 12.810592 1.04535 -p 0 12.964608 0.715059 -p 0 13.058931 0.363045 -p 0 13.090694 0 -p 0 13.058931 -0.363045 -p 0 12.964608 -0.715059 -p 0 12.810592 -1.04535 -p 0 12.601568 -1.343872 -p 0 12.343872 -1.601568 -p 0 12.04535 -1.810592 -p 0 11.715059 -1.964608 -p 0 11.363045 -2.058931 -p 0 11 -2.090694 -p 0 10.636955 -2.058931 -p 0 10.284941 -1.964608 -p 0 9.95465 -1.810592 -p 0 9.656128 -1.601568 -p 0 9.398432 -1.343872 -p 0 9.189408 -1.04535 -p 0 9.035392 -0.715059 -p 0 8.941069 -0.363045 -p 0 8.909306 0 -p 0.363045 8.941069 0 -p 0.715059 9.035392 0 -p 1.04535 9.189408 0 -p 1.343872 9.398432 0 -p 1.601568 9.656128 0 -p 1.810592 9.95465 0 -p 1.964608 10.284941 0 -p 2.058931 10.636955 0 -p 2.090694 11 0 -p 2.058931 11.363045 0 -p 1.964608 11.715059 0 -p 1.810592 12.04535 0 -p 1.601568 12.343872 0 -p 1.343872 12.601568 0 -p 1.04535 12.810592 0 -p 0.715059 12.964608 0 -p 0.363045 13.058931 0 -p 0 13.090694 0 -p -0.363045 13.058931 0 -p -0.715059 12.964608 0 -p -1.04535 12.810592 0 -p -1.343872 12.601568 0 -p -1.601568 12.343872 0 -p -1.810592 12.04535 0 -p -1.964608 11.715059 0 -p -2.058931 11.363045 0 -p -2.090694 11 0 -p -2.058931 10.636955 0 -p -1.964608 10.284941 0 -p -1.810592 9.95465 0 -p -1.601568 9.656128 0 -p -1.343872 9.398432 0 -p -1.04535 9.189408 0 -p -0.715059 9.035392 0 -p -0.363045 8.941069 0 -p -0.0043859 8.909306 0 -p -0.0712512 8.882961 0 -p -0.0594249 0.374864 0 -p -0.0237258 0.283558 0 -p 0.0237258 0.283558 0 -p 0.0594249 0.374864 0 -p 0.0712512 8.882961 0 -p -0.00219274 8.909306 0 -p 0 8.941069 0.363045 -p 0 9.035392 0.715059 -p 0 9.189408 1.04535 -p 0 9.398432 1.343872 -p 0 9.656128 1.601568 -p 0 9.95465 1.810592 -p 0 10.284941 1.964608 -p 0 10.636955 2.058931 -p 0 11 2.090694 -k 0 -k 1 -k 2 -k 3 -k 4 -k 5 -k 6 -k 7 -k 8 -k 9 -k 10 -k 11 -k 12 -k 13 -k 14 -k 15 -k 16 -k 17 -k 18 -k 19 -k 20 -k 21 -k 22 -k 23 -k 24 -k 25 -k 26 -k 27 -k 28 -k 29 -k 30 -k 31 -k 32 -k 33 -k 34 -k 35 -k 36 -k 37 -k 38 -k 39 -k 40 -k 41 -k 42 -k 43 -k 44 -k 45 -k 46 -k 47 -k 48 -k 49 -k 50 -k 51 -k 52 -k 53 -k 54 -k 55 -k 56 -k 57 -k 58 -k 59 -k 60 -k 61 -k 62 -k 63 -k 64 -k 65 -k 66 -k 67 -k 68 -k 69 -k 70 -k 71 -k 72 -k 73 -k 74 -k 75 -k 76 -k 77 -k 78 -k 79 -k 80 -k 81 -k 82 -k 83 -k 84 -k 85 -k 86 -k 87 -k 88 -k 89 -k 90 -k 91 -k 92 -k 93 -k 94 -k 95 -k 96 -k 97 -k 98 -k 99 -k 100 -k 101 -k 102 -k 103 -k 104 -k 105 -k 106 -k 107 -k 108 -k 109 -k 110 -k 111 -k 112 -k 113 -k 114 -k 115 `;
+
+         break;
+        }
+        
+        switch ($Option) 
+        {
+        case "outParent":
+        if      ($type == "Box")
+        $Ctrl=`curve -name ($i + "_Ctrl") -d 1 -p -1 1 1 -p -1 1 -1 -p 1 1 -1 -p 1 1 1 -p -1 1 1 -p -1 -1 1 -p -1 -1 -1 -p -1 1 -1 -p -1 1 1 -p -1 -1 1 -p 1 -1 1 -p 1 1 1 -p 1 1 -1 -p 1 -1 -1 -p 1 -1 1 -p 1 -1 -1 -p -1 -1 -1 -k 0 -k 1 -k 2 -k 3 -k 4 -k 5 -k 6 -k 7 -k 8 -k 9 -k 10 -k 11 -k 12 -k 13 -k 14 -k 15 -k 16 `;
+        else if ($type == "Sphere")
+        $Ctrl=`curve -name ($i + "_Ctrl") -d 1 -p 0 2.090694 0 -p 0 2.058931 0.363045 -p 0 1.964608 0.715059 -p 0 1.810592 1.04535 -p 0 1.601568 1.343872 -p 0 1.343872 1.601568 -p 0 1.04535 1.810592 -p 0 0.715059 1.964608 -p 0 0.363045 2.058931 -p 0 0 2.090694 -p 0 -0.363045 2.058931 -p 0 -0.715059 1.964608 -p 0 -1.04535 1.810592 -p 0 -1.343872 1.601568 -p 0 -1.601568 1.343872 -p 0 -1.810592 1.04535 -p 0 -1.964608 0.715059 -p 0 -2.058931 0.363045 -p 0 -2.090694 0 -p 0 -2.058931 -0.363045 -p 0 -1.964608 -0.715059 -p 0 -1.810592 -1.04535 -p 0 -1.601568 -1.343872 -p 0 -1.343872 -1.601568 -p 0 -1.04535 -1.810592 -p 0 -0.715059 -1.964608 -p 0 -0.363045 -2.058931 -p 0 0 -2.090694 -p 0 0.363045 -2.058931 -p 0 0.715059 -1.964608 -p 0 1.04535 -1.810592 -p 0 1.343872 -1.601568 -p 0 1.601568 -1.343872 -p 0 1.810592 -1.04535 -p 0 1.964608 -0.715059 -p 0 2.058931 -0.363045 -p 0 2.090694 0 -p -0.363045 2.058931 0 -p -0.715059 1.964608 0 -p -1.04535 1.810592 0 -p -1.343872 1.601568 0 -p -1.601568 1.343872 0 -p -1.810592 1.04535 0 -p -1.964608 0.715059 0 -p -2.058931 0.363045 0 -p -2.090694 0 0 -p -2.058931 -0.363045 0 -p -1.964608 -0.715059 0 -p -1.810592 -1.04535 0 -p -1.601568 -1.343872 0 -p -1.343872 -1.601568 0 -p -1.04535 -1.810592 0 -p -0.715059 -1.964608 0 -p -0.363045 -2.058931 0 -p 0 -2.090694 0 -p 0.363045 -2.058931 0 -p 0.715059 -1.964608 0 -p 1.04535 -1.810592 0 -p 1.343872 -1.601568 0 -p 1.601568 -1.343872 0 -p 1.810592 -1.04535 0 -p 1.964608 -0.715059 0 -p 2.058931 -0.363045 0 -p 2.090694 0 0 -p 2.058931 0.363045 0 -p 1.964608 0.715059 0 -p 1.810592 1.04535 0 -p 1.601568 1.343872 0 -p 1.343872 1.601568 0 -p 1.04535 1.810592 0 -p 0.715059 1.964608 0 -p 0.363045 2.058931 0 -p 0 2.090694 0 -p -0.363045 2.058931 0 -p -0.715059 1.964608 0 -p -1.04535 1.810592 0 -p -1.343872 1.601568 0 -p -1.601568 1.343872 0 -p -1.810592 1.04535 0 -p -1.964608 0.715059 0 -p -2.058931 0.363045 0 -p -2.090694 0 0 -p -2.058931 0 -0.363045 -p -1.964608 0 -0.715059 -p -1.810592 0 -1.04535 -p -1.601568 0 -1.343872 -p -1.343872 0 -1.601568 -p -1.04535 0 -1.810592 -p -0.715059 0 -1.964608 -p -0.363045 0 -2.058931 -p 0 0 -2.090694 -p 0.363045 0 -2.058931 -p 0.715059 0 -1.964608 -p 1.04535 0 -1.810592 -p 1.343872 0 -1.601568 -p 1.601568 0 -1.343872 -p 1.810592 0 -1.04535 -p 1.964608 0 -0.715059 -p 2.058931 0 -0.363045 -p 2.090694 0 0 -p 2.058931 0 0.363045 -p 1.964608 0 0.715059 -p 1.810592 0 1.04535 -p 1.601568 0 1.343872 -p 1.343872 0 1.601568 -p 1.04535 0 1.810592 -p 0.715059 0 1.964608 -p 0.363045 0 2.058931 -p 0 0 2.090694 -p -0.363045 0 2.058931 -p -0.715059 0 1.964608 -p -1.04535 0 1.810592 -p -1.343872 0 1.601568 -p -1.601568 0 1.343872 -p -1.810592 0 1.04535 -p -1.964608 0 0.715059 -p -2.058931 0 0.363045 -p -2.090694 0 0 -k 0 -k 1 -k 2 -k 3 -k 4 -k 5 -k 6 -k 7 -k 8 -k 9 -k 10 -k 11 -k 12 -k 13 -k 14 -k 15 -k 16 -k 17 -k 18 -k 19 -k 20 -k 21 -k 22 -k 23 -k 24 -k 25 -k 26 -k 27 -k 28 -k 29 -k 30 -k 31 -k 32 -k 33 -k 34 -k 35 -k 36 -k 37 -k 38 -k 39 -k 40 -k 41 -k 42 -k 43 -k 44 -k 45 -k 46 -k 47 -k 48 -k 49 -k 50 -k 51 -k 52 -k 53 -k 54 -k 55 -k 56 -k 57 -k 58 -k 59 -k 60 -k 61 -k 62 -k 63 -k 64 -k 65 -k 66 -k 67 -k 68 -k 69 -k 70 -k 71 -k 72 -k 73 -k 74 -k 75 -k 76 -k 77 -k 78 -k 79 -k 80 -k 81 -k 82 -k 83 -k 84 -k 85 -k 86 -k 87 -k 88 -k 89 -k 90 -k 91 -k 92 -k 93 -k 94 -k 95 -k 96 -k 97 -k 98 -k 99 -k 100 -k 101 -k 102 -k 103 -k 104 -k 105 -k 106 -k 107 -k 108 -k 109 -k 110 -k 111 -k 112 -k 113 -k 114 -k 115 -k 116 -k 117 `;
+        else if ($type == "Cross_01")
+        $Ctrl=`curve -name ($i + "_Ctrl") -d 1 -p -2.090694 0 0 -p -2.058931 0.363045 0 -p -1.964608 0.715059 0 -p -1.810592 1.04535 0 -p -1.601568 1.343872 0 -p -1.343872 1.601568 0 -p -1.04535 1.810592 0 -p -0.715059 1.964608 0 -p -0.363045 2.058931 0 -p 0 2.090694 0 -p 0.363045 2.058931 0 -p 0.715059 1.964608 0 -p 1.04535 1.810592 0 -p 1.343872 1.601568 0 -p 1.601568 1.343872 0 -p 1.810592 1.04535 0 -p 1.964608 0.715059 0 -p 2.058931 0.363045 0 -p 2.090694 0 0 -p 2.058931 -0.363045 0 -p 1.964608 -0.715059 0 -p 1.810592 -1.04535 0 -p 1.601568 -1.343872 0 -p 1.343872 -1.601568 0 -p 1.04535 -1.810592 0 -p 0.715059 -1.964608 0 -p 0.363045 -2.058931 0 -p 0 -2.090694 0 -p -0.363045 -2.058931 0 -p -0.715059 -1.964608 0 -p -1.04535 -1.810592 0 -p -1.343872 -1.601568 0 -p -1.601568 -1.343872 0 -p -1.810592 -1.04535 0 -p -1.964608 -0.715059 0 -p -2.058931 -0.363045 0 -p -2.090694 0 0 -p 2.090694 0 0 -k 0 -k 1 -k 2 -k 3 -k 4 -k 5 -k 6 -k 7 -k 8 -k 9 -k 10 -k 11 -k 12 -k 13 -k 14 -k 15 -k 16 -k 17 -k 18 -k 19 -k 20 -k 21 -k 22 -k 23 -k 24 -k 25 -k 26 -k 27 -k 28 -k 29 -k 30 -k 31 -k 32 -k 33 -k 34 -k 35 -k 36 -k 37 `;
+        else if ($type == "Cross")
+        $Ctrl=`curve -name ($i + "_Ctrl") -d 1 -p 0 2.090694 0 -p 0.363045 2.058931 0 -p 0.715059 1.964608 0 -p 1.04535 1.810592 0 -p 1.343872 1.601568 0 -p 1.601568 1.343872 0 -p 1.810592 1.04535 0 -p 1.964608 0.715059 0 -p 2.058931 0.363045 0 -p 2.090694 0 0 -p 2.058931 -0.363045 0 -p 1.964608 -0.715059 0 -p 1.810592 -1.04535 0 -p 1.601568 -1.343872 0 -p 1.343872 -1.601568 0 -p 1.04535 -1.810592 0 -p 0.715059 -1.964608 0 -p 0.363045 -2.058931 0 -p 0 -2.090694 0 -p -0.363045 -2.058931 0 -p -0.715059 -1.964608 0 -p -1.04535 -1.810592 0 -p -1.343872 -1.601568 0 -p -1.601568 -1.343872 0 -p -1.810592 -1.04535 0 -p -1.964608 -0.715059 0 -p -2.058931 -0.363045 0 -p -2.090694 0 0 -p -2.058931 0.363045 0 -p -1.964608 0.715059 0 -p -1.810592 1.04535 0 -p -1.601568 1.343872 0 -p -1.343872 1.601568 0 -p -1.04535 1.810592 0 -p -0.715059 1.964608 0 -p -0.363045 2.058931 0 -p 0 2.090694 0 -p 0 -2.090694 0 -p 0.363045 -2.058931 0 -p 0.715059 -1.964608 0 -p 1.04535 -1.810592 0 -p 1.343872 -1.601568 0 -p 1.601568 -1.343872 0 -p 1.810592 -1.04535 0 -p 1.964608 -0.715059 0 -p 2.058931 -0.363045 0 -p 2.090694 0 0 -p -2.090694 0 0 -k 0 -k 1 -k 2 -k 3 -k 4 -k 5 -k 6 -k 7 -k 8 -k 9 -k 10 -k 11 -k 12 -k 13 -k 14 -k 15 -k 16 -k 17 -k 18 -k 19 -k 20 -k 21 -k 22 -k 23 -k 24 -k 25 -k 26 -k 27 -k 28 -k 29 -k 30 -k 31 -k 32 -k 33 -k 34 -k 35 -k 36 -k 37 -k 38 -k 39 -k 40 -k 41 -k 42 -k 43 -k 44 -k 45 -k 46 -k 47 `;
+        else if ($type == "Square")
+        $Ctrl=`curve -name ($i + "_Ctrl") -d 1 -p -1.329118 0 -1.405774 -p -1.274914 0 -1.416555 -p 1.274914 0 -1.416555 -p 1.329118 0 -1.405774 -p 1.37507 0 -1.37507 -p 1.405774 0 -1.329118 -p 1.416555 0 -1.274914 -p 1.416555 0 1.274914 -p 1.405774 0 1.329118 -p 1.37507 0 1.37507 -p 1.329118 0 1.405774 -p 1.274914 0 1.416555 -p -1.274914 0 1.416555 -p -1.329118 0 1.405774 -p -1.37507 0 1.37507 -p -1.405774 0 1.329118 -p -1.416555 0 1.274914 -p -1.416555 0 -1.274914 -p -1.405774 0 -1.329118 -p -1.37507 0 -1.37507 -p -1.329118 0 -1.405774 -k 0 -k 1 -k 2 -k 3 -k 4 -k 5 -k 6 -k 7 -k 8 -k 9 -k 10 -k 11 -k 12 -k 13 -k 14 -k 15 -k 16 -k 17 -k 18 -k 19 -k 20 `;
+        else if ($type == "Circle")
+        $Ctrl=`curve -name ($i + "_Ctrl") -d 1 -p 0 0 -2.090694 -p 0.363045 0 -2.058931 -p 0.715059 0 -1.964608 -p 1.04535 0 -1.810592 -p 1.343872 0 -1.601568 -p 1.601568 0 -1.343872 -p 1.810592 0 -1.04535 -p 1.964608 0 -0.715059 -p 2.058931 0 -0.363045 -p 2.090694 0 0 -p 2.058931 0 0.363045 -p 1.964608 0 0.715059 -p 1.810592 0 1.04535 -p 1.601568 0 1.343872 -p 1.343872 0 1.601568 -p 1.04535 0 1.810592 -p 0.715059 0 1.964608 -p 0.363045 0 2.058931 -p 0 0 2.090694 -p -0.363045 0 2.058931 -p -0.715059 0 1.964608 -p -1.04535 0 1.810592 -p -1.343872 0 1.601568 -p -1.601568 0 1.343872 -p -1.810592 0 1.04535 -p -1.964608 0 0.715059 -p -2.058931 0 0.363045 -p -2.090694 0 0 -p -2.058931 0 -0.363045 -p -1.964608 0 -0.715059 -p -1.810592 0 -1.04535 -p -1.601568 0 -1.343872 -p -1.343872 0 -1.601568 -p -1.04535 0 -1.810592 -p -0.715059 0 -1.964608 -p -0.363045 0 -2.058931 -p 0 0 -2.090694 -k 0 -k 1 -k 2 -k 3 -k 4 -k 5 -k 6 -k 7 -k 8 -k 9 -k 10 -k 11 -k 12 -k 13 -k 14 -k 15 -k 16 -k 17 -k 18 -k 19 -k 20 -k 21 -k 22 -k 23 -k 24 -k 25 -k 26 -k 27 -k 28 -k 29 -k 30 -k 31 -k 32 -k 33 -k 34 -k 35 -k 36 `;
+        else if ($type =="Arrow")
+        $Ctrl=`curve -name ($i + "_Ctrl") -d 1 -p -3.994602 0 -1.274914 -p -3.98382 0 -1.329118 -p -3.953116 0 -1.37507 -p -3.907165 0 -1.405773 -p -3.852961 0 -1.416555 -p 0.859361 0 -1.416555 -p 0.859361 0 -3.108438 -p 0.937233 0 -3.108438 -p 3.994602 0 0 -p 0.937233 0 3.108438 -p 0.859361 0 3.108438 -p 0.859361 0 1.416555 -p -3.852961 0 1.416555 -p -3.907165 0 1.405773 -p -3.953116 0 1.37507 -p -3.98382 0 1.329118 -p -3.994602 0 1.274914 -p -3.994602 0 -1.274914 -k 0 -k 1 -k 2 -k 3 -k 4 -k 5 -k 6 -k 7 -k 8 -k 9 -k 10 -k 11 -k 12 -k 13 -k 14 -k 15 -k 16 -k 17` ;
+        else if ($type =="Kou")
+        $Ctrl=`curve -name ($i + "_Ctrl") -d 1 -p 0 11 2.090694 -p -0.363045 11 2.058931 -p -0.715059 11 1.964608 -p -1.04535 11 1.810592 -p -1.343872 11 1.601568 -p -1.601568 11 1.343872 -p -1.810592 11 1.04535 -p -1.964608 11 0.715059 -p -2.058931 11 0.363045 -p -2.090694 11 0 -p -2.058931 11 -0.363045 -p -1.964608 11 -0.715059 -p -1.810592 11 -1.04535 -p -1.601568 11 -1.343872 -p -1.343872 11 -1.601568 -p -1.04535 11 -1.810592 -p -0.715059 11 -1.964608 -p -0.363045 11 -2.058931 -p 0 11 -2.090694 -p 0.363045 11 -2.058931 -p 0.715059 11 -1.964608 -p 1.04535 11 -1.810592 -p 1.343872 11 -1.601568 -p 1.601568 11 -1.343872 -p 1.810592 11 -1.04535 -p 1.964608 11 -0.715059 -p 2.058931 11 -0.363045 -p 2.090694 11 0 -p 2.058931 11 0.363045 -p 1.964608 11 0.715059 -p 1.810592 11 1.04535 -p 1.601568 11 1.343872 -p 1.343872 11 1.601568 -p 1.04535 11 1.810592 -p 0.715059 11 1.964608 -p 0.363045 11 2.058931 -p 0 11 2.090694 -p 0 11.363045 2.058931 -p 0 11.715059 1.964608 -p 0 12.04535 1.810592 -p 0 12.343872 1.601568 -p 0 12.601568 1.343872 -p 0 12.810592 1.04535 -p 0 12.964608 0.715059 -p 0 13.058931 0.363045 -p 0 13.090694 0 -p 0 13.058931 -0.363045 -p 0 12.964608 -0.715059 -p 0 12.810592 -1.04535 -p 0 12.601568 -1.343872 -p 0 12.343872 -1.601568 -p 0 12.04535 -1.810592 -p 0 11.715059 -1.964608 -p 0 11.363045 -2.058931 -p 0 11 -2.090694 -p 0 10.636955 -2.058931 -p 0 10.284941 -1.964608 -p 0 9.95465 -1.810592 -p 0 9.656128 -1.601568 -p 0 9.398432 -1.343872 -p 0 9.189408 -1.04535 -p 0 9.035392 -0.715059 -p 0 8.941069 -0.363045 -p 0 8.909306 0 -p 0.363045 8.941069 0 -p 0.715059 9.035392 0 -p 1.04535 9.189408 0 -p 1.343872 9.398432 0 -p 1.601568 9.656128 0 -p 1.810592 9.95465 0 -p 1.964608 10.284941 0 -p 2.058931 10.636955 0 -p 2.090694 11 0 -p 2.058931 11.363045 0 -p 1.964608 11.715059 0 -p 1.810592 12.04535 0 -p 1.601568 12.343872 0 -p 1.343872 12.601568 0 -p 1.04535 12.810592 0 -p 0.715059 12.964608 0 -p 0.363045 13.058931 0 -p 0 13.090694 0 -p -0.363045 13.058931 0 -p -0.715059 12.964608 0 -p -1.04535 12.810592 0 -p -1.343872 12.601568 0 -p -1.601568 12.343872 0 -p -1.810592 12.04535 0 -p -1.964608 11.715059 0 -p -2.058931 11.363045 0 -p -2.090694 11 0 -p -2.058931 10.636955 0 -p -1.964608 10.284941 0 -p -1.810592 9.95465 0 -p -1.601568 9.656128 0 -p -1.343872 9.398432 0 -p -1.04535 9.189408 0 -p -0.715059 9.035392 0 -p -0.363045 8.941069 0 -p -0.0043859 8.909306 0 -p -0.0712512 8.882961 0 -p -0.0594249 0.374864 0 -p -0.0237258 0.283558 0 -p 0.0237258 0.283558 0 -p 0.0594249 0.374864 0 -p 0.0712512 8.882961 0 -p -0.00219274 8.909306 0 -p 0 8.941069 0.363045 -p 0 9.035392 0.715059 -p 0 9.189408 1.04535 -p 0 9.398432 1.343872 -p 0 9.656128 1.601568 -p 0 9.95465 1.810592 -p 0 10.284941 1.964608 -p 0 10.636955 2.058931 -p 0 11 2.090694 -k 0 -k 1 -k 2 -k 3 -k 4 -k 5 -k 6 -k 7 -k 8 -k 9 -k 10 -k 11 -k 12 -k 13 -k 14 -k 15 -k 16 -k 17 -k 18 -k 19 -k 20 -k 21 -k 22 -k 23 -k 24 -k 25 -k 26 -k 27 -k 28 -k 29 -k 30 -k 31 -k 32 -k 33 -k 34 -k 35 -k 36 -k 37 -k 38 -k 39 -k 40 -k 41 -k 42 -k 43 -k 44 -k 45 -k 46 -k 47 -k 48 -k 49 -k 50 -k 51 -k 52 -k 53 -k 54 -k 55 -k 56 -k 57 -k 58 -k 59 -k 60 -k 61 -k 62 -k 63 -k 64 -k 65 -k 66 -k 67 -k 68 -k 69 -k 70 -k 71 -k 72 -k 73 -k 74 -k 75 -k 76 -k 77 -k 78 -k 79 -k 80 -k 81 -k 82 -k 83 -k 84 -k 85 -k 86 -k 87 -k 88 -k 89 -k 90 -k 91 -k 92 -k 93 -k 94 -k 95 -k 96 -k 97 -k 98 -k 99 -k 100 -k 101 -k 102 -k 103 -k 104 -k 105 -k 106 -k 107 -k 108 -k 109 -k 110 -k 111 -k 112 -k 113 -k 114 -k 115 `;
+
+         break;
+        }
+         switch ($Option) 
+        {
+        case "outParent":
+        string $CtrShape[] = `listRelatives -s -path $Ctrl`;
+        print $CtrShape[0];
+        $SelCtrShap = $CtrShape[0];
+        string $RameShape = `rename $SelCtrShap ($Ctrl + "_shape")`;
+        //string $skin_jnt =`joint -n ($i +"_Jnt") -p 0 0 0`;
+        string $Ctrl_G = `group -n ($i + "_Ctrl_G") $Ctrl`;
+        string $Ctrl_Gro = `group -n ($i + "_Ctrl_Gro") $Ctrl_G`;
+        string $Ctrl_Gp = `group -n ($i + "_Ctrl_Gp") $Ctrl_Gro`;
+        select -r $i ;
+        select -add $Ctrl_Gp ;
+        doCreateParentConstraintArgList 1 { "0","0","0","0","0","0","0","1","","1" };
+        parentConstraint -weight 1;
+        delete ($Ctrl_Gp+ "_parentConstraint1") ;
+        parent  $i $Ctrl;
+        select -cl; 
+         }
+         switch ($Option) 
+        {
+        case "outRepale":
+        string $CtrShape[] = `listRelatives -s -path $i`;
+        print $CtrShape[0];
+        $rep = $CtrShape[0];
+        delete $rep;
+        string $newshapes[] = `listRelatives -s -path $Ctrl`;
+        $SelCtrShap=$newshapes[0];
+        string $RameShape = `rename $SelCtrShap $rep`;
+       
+        parent -s -add $RameShape $i;
+        delete $Ctrl;
+        
+         }
+         }
+         }
+//-----------------------------------------------------------------
+//-----------------------------------------------------------------         
+global proc SelectAllTrans()
+    {
+    string $selectAllTrans = `checkBox -q -value allTrans`;
+    string $selectAllRots = `checkBox -q -value allRots`;
+    string $selectAllScs = `checkBox -q -value allScs`;
+    string $vis = `checkBox -q -value vis`;
+    
+    if ($selectAllTrans)
+    {
+    	checkBox -e -v true transX;
+    	checkBox -e -v true transY;
+    	checkBox -e -v true transZ;
+    }
+    if ($selectAllTrans == 0)
+    {
+    	checkBox -e -v false transX;
+    	checkBox -e -v false transY;
+    	checkBox -e -v false transZ;
+    	checkBox -e -v false SelectDeselect;
+    }
+    
+    if (($selectAllTrans) && ($selectAllRots) && ($selectAllScs) && ($vis))
+    	checkBox -e -v true SelectDeselect;
+    }
+
+global proc SelectAllRots()
+    {
+    string $selectAllTrans = `checkBox -q -value allTrans`;
+    string $selectAllRots = `checkBox -q -value allRots`;
+    string $selectAllScs = `checkBox -q -value allScs`;
+    string $vis = `checkBox -q -value vis`;
+    
+    if ($selectAllRots)
+    {
+    	checkBox -e -v true rotX;
+    	checkBox -e -v true rotY;
+    	checkBox -e -v true rotZ;
+    }
+    else
+    {
+    	checkBox -e -v false rotX;
+    	checkBox -e -v false rotY;
+    	checkBox -e -v false rotZ;
+    	checkBox -e -v false SelectDeselect;
+    }
+    
+    
+    if (($selectAllTrans) && ($selectAllRots) && ($selectAllScs) && ($vis))
+    	checkBox -e -v true SelectDeselect;
+    }
+
+global proc SelectAllScs()
+    {
+    string $selectAllTrans = `checkBox -q -value allTrans`;
+    string $selectAllRots = `checkBox -q -value allRots`;
+    string $selectAllScs = `checkBox -q -value allScs`;
+    string $vis = `checkBox -q -value vis`;
+    
+    if ($selectAllScs)
+    {
+    	checkBox -e -v true scX;
+    	checkBox -e -v true scY;
+    	checkBox -e -v true scZ;
+    }
+    else
+    {
+    	checkBox -e -v false scX;
+    	checkBox -e -v false scY;
+    	checkBox -e -v false scZ;
+    	checkBox -e -v false SelectDeselect;
+    }
+
+    if (($selectAllTrans) && ($selectAllRots) && ($selectAllScs) && ($vis))
+    	checkBox -e -v true SelectDeselect;
+    }
+
+global proc SelectDeselectAll()
+    {
+    string $SelectDeselect = `checkBox -q -value SelectDeselect`;
+    
+    if ($SelectDeselect)
+    {
+    	checkBox -e -v true transX;
+    	checkBox -e -v true transY;
+    	checkBox -e -v true transZ;
+    	checkBox -e -v true allTrans;
+    	checkBox -e -v true rotX;
+    	checkBox -e -v true rotY;
+    	checkBox -e -v true rotZ;
+    	checkBox -e -v true allRots;
+    	checkBox -e -v true scX;
+    	checkBox -e -v true scY;
+    	checkBox -e -v true scZ;
+    	checkBox -e -v true allScs;
+    	checkBox -e -v true vis;
+    }
+    else
+    {
+    	checkBox -e -v false transX;
+    	checkBox -e -v false transY;
+    	checkBox -e -v false transZ;
+    	checkBox -e -v false allTrans;
+    	checkBox -e -v false rotX;
+    	checkBox -e -v false rotY;
+    	checkBox -e -v false rotZ;
+    	checkBox -e -v false allRots;
+    	checkBox -e -v false scX;
+    	checkBox -e -v false scY;
+    	checkBox -e -v false scZ;
+    	checkBox -e -v false allScs;
+    	checkBox -e -v false vis;
+    }
+    }
+global proc lockAttributes(int $all, int $trueFalse, int $hideAttrs, int $unHide)
+    {
+    string $selectedObjects[] = `ls -sl`;
+    string $transX = `checkBox -q -value transX`;
+    string $transY = `checkBox -q -value transY`;
+    string $transZ = `checkBox -q -value transZ`;
+    string $rotX = `checkBox -q -value rotX`;
+    string $rotY = `checkBox -q -value rotY`;
+    string $rotZ = `checkBox -q -value rotZ`;
+    string $scX = `checkBox -q -value scX`;
+    string $scY = `checkBox -q -value scY`;
+    string $scZ = `checkBox -q -value scZ`;
+    string $vis = `checkBox -q -value vis`;
+    string $attrs[]={".tx",".ty",".tz",".rx",".ry",".rz",".sx",".sy",".sz",".v"};
+    string $attrs2[]={$transX,$transY,$transZ,$rotX,$rotY,$rotZ,$scX,$scY,$scZ,$vis}; 
+    
+    for ($obj in $selectedObjects)
+    {
+    	for ($x=0;$x<size($attrs);$x++)
+    	{
+    		if (($attrs2[$x]) || ($all))				// checks what attributes are selected or if the button for "all" has been pressed
+    		{							
+    			setAttr -lock $trueFalse ($obj+$attrs[$x]);	// sets the attribute to lock or unlock depending on $trueFalse
+    			if ($unHide)					// checks if it's supposed to unhide the attribute too
+    				setAttr -keyable true ($obj+$attrs[$x]);
+    		}
+    		if (($attrs2[$x]) && ($hideAttrs))			// checks if it's supposed to hide the attributes too. from Lock 'n Hide button
+    			setAttr -keyable false ($obj+$attrs[$x]);
+    	}
+    }
+    }
+global proc HideAttributes(int $all, int $trueFalse)
+    {
+    string $selectedObjects[] = `ls -sl`;
+    string $transX = `checkBox -q -value transX`;
+    string $transY = `checkBox -q -value transY`;
+    string $transZ = `checkBox -q -value transZ`;
+    string $rotX = `checkBox -q -value rotX`;
+    string $rotY = `checkBox -q -value rotY`;
+    string $rotZ = `checkBox -q -value rotZ`;
+    string $scX = `checkBox -q -value scX`;
+    string $scY = `checkBox -q -value scY`;
+    string $scZ = `checkBox -q -value scZ`;
+    string $vis = `checkBox -q -value vis`;
+    string $attrs[]={".tx",".ty",".tz",".rx",".ry",".rz",".sx",".sy",".sz",".v"};
+    string $attrs2[]={$transX,$transY,$transZ,$rotX,$rotY,$rotZ,$scX,$scY,$scZ,$vis}; 
+    
+    for ($obj in $selectedObjects)
+    {
+    	for ($x=0;$x<size($attrs);$x++)
+    	{
+    		if (($attrs2[$x]) || ($all))				// if the attribute is on or the all button was hit
+    			setAttr -k $trueFalse ($obj+$attrs[$x]);	// set the attribute to true of false depending on $trueFalse
+    	}
+    }
+    }
+
+global proc unCheck(string $checkBoxes)
+    {
+    string $transX = `checkBox -q -value transX`;
+    string $transY = `checkBox -q -value transY`;
+    string $transZ = `checkBox -q -value transZ`;
+    string $rotX = `checkBox -q -value rotX`;
+    string $rotY = `checkBox -q -value rotY`;
+    string $rotZ = `checkBox -q -value rotZ`;
+    string $scX = `checkBox -q -value scX`;
+    string $scY = `checkBox -q -value scY`;
+    string $scZ = `checkBox -q -value scZ`;
+    string $vis = `checkBox -q -value vis`;
+    
+    switch ($checkBoxes)
+    {
+    	case "trans":
+    		if (($transX == 0) || ($transY == 0) || ($transZ == 0))
+    		{
+    			checkBox -e -v false allTrans;
+    			checkBox -e -v false SelectDeselect;
+    		}
+    		if ($transX && $transY && $transZ)
+    			checkBox -e -v true allTrans;
+    		if ($transX && $transY && $transZ && $rotX && $rotY && $rotZ && $scX && $scY && $scZ && $vis)
+    			checkBox -e -v true SelectDeselect;
+    	break;
+    
+    	case "rot":
+    		if (($rotX == 0) || ($rotY == 0) || ($rotZ == 0))
+    		{
+    			checkBox -e -v false allRots;
+    			checkBox -e -v false SelectDeselect;
+    		}
+    		if ($rotX && $rotY && $rotZ)
+    			checkBox -e -v true allRots;
+    		if ($transX && $transY && $transZ && $rotX && $rotY && $rotZ && $scX && $scY && $scZ && $vis)
+    			checkBox -e -v true SelectDeselect;
+    	break;
+    
+    	case "sc":
+    		if (($scX == 0) || ($scY == 0) || ($scZ == 0))
+    		{
+    			checkBox -e -v false allScs;
+    			checkBox -e -v false SelectDeselect;
+    		}
+    		if ($scX && $scY && $scZ)
+    			checkBox -e -v true allScs;
+    		if ($transX && $transY && $transZ && $rotX && $rotY && $rotZ && $scX && $scY && $scZ && $vis)
+    			checkBox -e -v true SelectDeselect;
+    
+    	case "vis":
+    	if ($vis == 0)
+    	{
+    		checkBox -e -v false SelectDeselect;
+    	}
+    	if ($transX && $transY && $transZ && $rotX && $rotY && $rotZ && $scX && $scY && $scZ && $vis)
+    		checkBox -e -v true SelectDeselect;
+    	break;
+    }
+    }
+//-----------------------------------------------------------------
+//-----------------------------------------------------------------       
+    global proc Mainname(){
+   
+        string $objectName [] = ` ls  -sl `;
+        string $buffer[];
+        tokenize $objectName[0] ":" $buffer;
+        string $Mainname = $objectName[0] ;
+        textField -e -text $Mainname txMain ;
+
+}
+ 
+ global proc objctrname(){
+   
+        string $objectName [] = ` ls  -sl `;
+        string $buffer[];
+        tokenize $objectName[0] ":" $buffer;
+        string $objctrname = $buffer [0];
+        textField -e -text $objctrname txobjctr ;
+   
+}
+////
+ global proc Aces(){
+   
+        string $objectName [] = ` ls  -sl `;
+        string $buffer[];
+        tokenize $objectName[0] ":" $buffer;
+        string $objctrname = $objectName[0];
+        textField -e -text $objctrname txmsh ;
+   
+}
+////
+ global proc Mainctrname(){
+   
+        string $objectName [] = ` ls  -sl `;
+        string $buffer[];
+        tokenize $objectName[0] ":" $buffer;
+        string $objctrname = $objectName[0];
+        textField -e -text $objctrname Mainctr ;
+   
+}
+////
+global proc string BSShape() {
+
+  // Select the blend shape and then the skinned mesh 
+  string $Mainname  = ` textField  -q  -tx  txMain` ;
+  string $objctrname  = ` textField  -q  -tx  txobjctr` ;
+  
+  print $Mainname;
+  select -r $objctrname ;
+  select -tgl $Mainname ;
+
+  string $Temp[] = `ls -sl`;
+  //string $Mainname =$Temp[1];
+  //string $objctrname =$Temp[0];
+  global string $BlendDuplicate[];
+
+  if (`size $Temp` == 2) {
+
+    string $BaseModel = $Mainname;
+    string $BlendShape = $objctrname;
+    string $Skin =`findRelatedSkinCluster $BaseModel`;
+    string $SkinResult;
+
+    if ($Skin == "") {
+
+      do {
+
+        string $promptDialogResult = `promptDialog 
+  
+          -title "Missing SkinCluster"
+          -message "Enter a valid skinCluster for the selected baseMesh"
+          -button "Proceed" -button "Abort"
+          -defaultButton "Proceed" -cancelButton "Abort"
+          -dismissString "Abort"`;
+
+        if ($promptDialogResult == "Proceed") {
+
+          string $NewSkinCluster = `promptDialog -query -text`;
+          
+          if (`objExists $NewSkinCluster`) {
+
+            string $SkinClusterSet = `listConnections -destination true ($NewSkinCluster + ".usedBy[0]")`;
+            string $QueryBaseModel = `listConnections -source true ($SkinClusterSet + ".instObjGroups[0].objectGroups[0]")`;
+
+            if ($QueryBaseModel == $BaseModel)
+              $SkinResult = "Proceed";      
+          }
+        }
+
+        else 
+          $SkinResult = "Abort";  
+
+      } while (($SkinResult != "Abort") && ($SkinResult != "Proceed"));
+    }
+    else $SkinResult = "Proceed";
+
+    if ($SkinResult == "Proceed") {
+
+      float $Progress = 0.0; 
+      float $BaseTempOffset[] = `getAttr ($BaseModel+".translate")`;
+      float $BlendTempOffset[] = `getAttr ($BlendShape+".translate")`;
+      float $Offset[3];
+      float $targetPosArray[];
+      float $absPosArray[];
+      float $relPosArray[];
+
+      $Offset[0] = $BlendTempOffset[0] - $BaseTempOffset[0];
+      $Offset[1] = $BlendTempOffset[1] - $BaseTempOffset[1];
+      $Offset[2] = $BlendTempOffset[2] - $BaseTempOffset[2];
+
+      int $vertexNameArray[];
+      int $VertexCount[] = `polyEvaluate -v $BaseModel`;
+      int $BlendVertexCount[] = `polyEvaluate -v $BlendShape`;
+
+      string $ShapeNode[] = `pickWalk -d down $BaseModel`;
+      progressWindow
+
+        -title "BSpirit Corrective Shape"
+        -progress $Progress
+        -status "Calculating VertexMovements"
+        -isInterruptable true
+        -min 0
+        -max 100;
+
+      if ($VertexCount[0] == $BlendVertexCount[0]) {  
+
+        for ($i = 0; $i < $VertexCount[0]; $i++) {
+
+          if ( `progressWindow -query -isCancelled` ) break;
+
+          $Progress = `trunc (20.0 * $i / $VertexCount[0] + 0.5)`;
+          progressWindow -e -progress $Progress;
+
+          string $vertexName = $BlendShape + ".vtx[" + $i + "]";
+          float $targetPos[] = `pointPosition -w $vertexName`;
+
+          $vertexName = $BaseModel + ".vtx[" + $i + "]"; 
+          float $Pos[] = `pointPosition -w $vertexName`;
+          float $relVertexPos[] = `getAttr $vertexName`;
+
+          $targetPos[0] -= ($Pos[0]+$Offset[0]);
+          $targetPos[1] -= ($Pos[1]+$Offset[1]);
+          $targetPos[2] -= ($Pos[2]+$Offset[2]); 
+
+          if (($targetPos[0]>0.001) || ($targetPos[0]<-0.001) || ($targetPos[1]>0.001) || ($targetPos[1]<-0.001) || ($targetPos[2]>0.001) || ($targetPos[2]<-0.001)) {
+
+            int $vertexArraySize = `size $vertexNameArray`;
+
+            $vertexNameArray[$vertexArraySize] = $i;
+
+            $targetPosArray[($vertexArraySize * 3)] = $targetPos[0];//差值
+            $targetPosArray[($vertexArraySize * 3 + 1)] = $targetPos[1];
+            $targetPosArray[($vertexArraySize * 3 + 2)] = $targetPos[2];
+  
+            $absPosArray[($vertexArraySize * 3)] = $Pos[0];
+            $absPosArray[($vertexArraySize * 3 + 1)] = $Pos[1];//原位置
+            $absPosArray[($vertexArraySize * 3 + 2)] = $Pos[2];
+
+            $relPosArray[($vertexArraySize * 3)] = $relVertexPos[0];
+            $relPosArray[($vertexArraySize * 3 + 1)] = $relVertexPos[1];//
+            $relPosArray[($vertexArraySize * 3 + 2)] = $relVertexPos[2];
+
+          }
+        }
+
+        int $vertexNameArraySize = `size $vertexNameArray`;
+
+        progressWindow -e -status "Calculating VertexMatrix";
+
+
+        for ($i = 0; $i < $vertexNameArraySize; $i++) {
+
+          if ( `progressWindow -query -isCancelled` ) break;
+
+          $Progress = `trunc (20.0 + 60.0 * $i / $vertexNameArraySize + 0.5)`;
+          progressWindow -e -progress $Progress;
+
+          $Pos[0] = $absPosArray[($i * 3)];
+          $Pos[1] = $absPosArray[($i * 3 + 1)];
+          $Pos[2] = $absPosArray[($i * 3 + 2)];
+
+          $targetPos[0] = $targetPosArray[($i * 3)];
+          $targetPos[1] = $targetPosArray[($i * 3 + 1)];
+          $targetPos[2] = $targetPosArray[($i * 3 + 2)];
+
+          $vertexName = $BaseModel + ".vtx[" + $vertexNameArray[$i] + "]";
+
+          float $return[];
+          float $denominator;
+          float $tempPos[];
+          float $matrixEq[];
+
+          move -r 1 0 0 $vertexName;
+          $tempPos = `pointPosition -w $vertexName`;
+          $matrixEq[0]  = $tempPos[0]-$Pos[0];
+          $matrixEq[4]  = $tempPos[1]-$Pos[1];
+          $matrixEq[8]  = $tempPos[2]-$Pos[2];
+          $matrixEq[3]  = $targetPos[0];
+
+          move -r -1 1 0 $vertexName;
+          $tempPos = `pointPosition -w $vertexName`;
+          $matrixEq[1]  = $tempPos[0]-$Pos[0];
+          $matrixEq[5]  = $tempPos[1]-$Pos[1];
+          $matrixEq[9]  = $tempPos[2]-$Pos[2];
+          $matrixEq[7]  = $targetPos[1];
+
+          move -r 0 -1 1 $vertexName;
+          $tempPos = `pointPosition -w $vertexName`;
+          $matrixEq[2]  = $tempPos[0]-$Pos[0];
+          $matrixEq[6]  = $tempPos[1]-$Pos[1];
+          $matrixEq[10] = $tempPos[2]-$Pos[2];
+          $matrixEq[11] = $targetPos[2];
+
+          $denominator = 
+
+          ($matrixEq[0] * (($matrixEq[5]*$matrixEq[10]) - ($matrixEq[6]*$matrixEq[9]))) - 
+          ($matrixEq[1] * (($matrixEq[4]*$matrixEq[10]) - ($matrixEq[6]*$matrixEq[8]))) + 
+          ($matrixEq[2] * (($matrixEq[4]*$matrixEq[9] ) - ($matrixEq[5]*$matrixEq[8])));
+
+          if ($denominator != 0) { 
+
+            $return[0] = 
+ 
+            (
+            ($matrixEq[3] * (($matrixEq[5]*$matrixEq[10]) - ($matrixEq[6]*$matrixEq[9]  ))) - 
+            ($matrixEq[1] * (($matrixEq[7]*$matrixEq[10]) - ($matrixEq[6]*$matrixEq[11] ))) + 
+            ($matrixEq[2] * (($matrixEq[7]*$matrixEq[9] ) - ($matrixEq[5]*$matrixEq[11] )))
+            ) / $denominator;
+
+            $return[1] = 
+ 
+            (
+            ($matrixEq[0] * (($matrixEq[7]*$matrixEq[10]) - ($matrixEq[6]*$matrixEq[11] ))) -
+            ($matrixEq[3] * (($matrixEq[4]*$matrixEq[10]) - ($matrixEq[6]*$matrixEq[8]  ))) + 
+            ($matrixEq[2] * (($matrixEq[4]*$matrixEq[11]) - ($matrixEq[7]*$matrixEq[8]  )))
+            ) / $denominator;
+
+            $return[2] =
+
+            (
+            ($matrixEq[0] * (($matrixEq[5]*$matrixEq[11]) - ($matrixEq[7]*$matrixEq[9]  ))) - 
+            ($matrixEq[1] * (($matrixEq[4]*$matrixEq[11]) - ($matrixEq[7]*$matrixEq[8]  ))) + 
+            ($matrixEq[3] * (($matrixEq[4]*$matrixEq[9] ) - ($matrixEq[5]*$matrixEq[8]  )))
+            ) / $denominator;
+
+            move -r $return[0] $return[1] ($return[2]-1) $vertexName;
+
+          }
+        }
+  
+      if (! `progressWindow -query -isCancelled` ) {
+     
+          global string $BlendDuplicate[];
+		  setAttr ($Skin + ".envelope" ) 0;
+          string $BlendDuplicated[] = `duplicate -rc -rr $BaseModel`;
+		  $BlendDuplicate[0] = $BlendDuplicated[0];
+          string $UnlockAttributes[] = {".tx",".ty",".tz",".rx",".ry",".rz",".sx",".sy",".sz"};
+          for ($i = 0; $i < 9; $i++) {
+
+            setAttr -lock 0 ($BlendDuplicate[0] + $UnlockAttributes[$i]);
+
+          }
+        }
+  
+        progressWindow -e -st "Reseting BaseMesh";
+
+        for ($i = 0; $i < $vertexNameArraySize; $i++) {
+
+          $Progress = `trunc (80.0 + 20.0 * $i / $vertexNameArraySize + 0.5)`;
+          progressWindow -e -progress $Progress;
+
+          setAttr ($BaseModel+".vtx["+ $vertexNameArray[$i] +"]") $relPosArray[($i*3)] $relPosArray[($i*3+1)] $relPosArray[($i*3+2)];
+
+        }
+
+        setAttr ($Skin + ".envelope") 1;
+
+      }
+  
+      else print "BaseMesh and BlendShape should contain the same number of vertices.\n";
+      progressWindow -endProgress;
+    }
+  }
+  else 
+    print "Select the blend shape and then the skinned mesh - try again. \n";
+  delete $objctrname;
+  rename $BlendDuplicate[0] ($objctrname+"_bs");
+  return $BlendDuplicate[0];
+
+} 
+//======================================================================
+// wp_jointOnCV procedure
+//======================================================================
+
+global proc wp_jointOnCV() 
+{//wp_jointOnCV
+
+	// query dei nomi delle curve
+	string $curves[] = `ls -long -sl`;
+	int $NumberOfCurves = `size($curves)`;
+
+	if ($NumberOfCurves > 0)
+	{
+		string $i;
+		for ($i in $curves)
+		{
+			select -r $i;
+			string $iShape[] = `pickWalk -d down`;
+			
+			if (`objectType -isType "nurbsCurve" $iShape[0]`)
+			{
+				// faccio il query delle spans della curva
+				float $NumberOfSpans = `getAttr ($i + ".spans")`;
+				// faccio il query del degree della curva
+				float $CurveDegree = `getAttr ($i + ".degree")`;
+				// calcolo il numero dei CV della curva
+				// CV = Span + Degree
+				float $NumberOfCV = $NumberOfSpans + $CurveDegree;
+				
+				int $x = 0;
+				int $counter;
+				for ($counter = 1; $counter < ($NumberOfCV + 1); $counter++)
+				{
+						
+					select -r ($i + ".cv[" + $x + "]");	
+						
+					string $TempCluster_[] = `cluster -n TempCluster`;
+					
+					float $clusterxyz[] = `xform -q -rp $TempCluster_[1]`;
+						float $jointX = $clusterxyz[0];
+						float $jointY = $clusterxyz[1];
+						float $jointZ = $clusterxyz[2];
+					
+					select -cl;
+					string $JointName = "Joint" + $x;
+					joint -p $jointX $jointY $jointZ -roo yzx -n $JointName;
+					
+					$x += 1;
+					delete TempClusterHandle;
+				}
+			}
+		}
+			
+		select -r $curves;
+		print "**********************************************************************************\n";
+		print "**********************************************************************************\n";
+		print "Objects processed:\n";
+		print $curves;
+		print ("---> " +  $NumberOfCurves + " objects processed <---  read the script editor for more info..");
+	}
+	else
+	{
+		error "Select the curves!";
+	}
+}//wp_jointOnCV
+
+
+
+//======================================================================
+// wp_jointOnEP procedure
+//======================================================================
+
+global proc wp_jointOnEP() 
+{//wp_jointOnEP
+
+	// query dei nomi delle curve
+	string $curves[] = `ls -long -sl`;
+	int $NumberOfCurves = `size($curves)`;
+
+	if ($NumberOfCurves > 0)
+	{
+		string $i;
+		for ($i in $curves)
+		{
+			select -r $i;
+			string $iShape[] = `pickWalk -d down`;
+			
+			if (`objectType -isType "nurbsCurve" $iShape[0]`)
+			{
+			
+				// faccio il query delle spans della curva
+				float $NumberOfSpans = `getAttr ($i + ".spans")`;
+				// calcolo il numero degli EP della curva
+				// EP = Span + 1
+				float $NumberOfEP = $NumberOfSpans + 1;
+				
+				int $x = 0;
+				int $counter;
+				for ($counter = 1; $counter < ($NumberOfEP + 1); $counter++)
+				{
+						
+					select -r ($i + ".ep[" + $x + "]");	
+						
+					string $TempCluster_[] = `cluster -n TempCluster`;
+					
+					float $clusterxyz[] = `xform -q -rp $TempCluster_[1]`;
+						float $jointX = $clusterxyz[0];
+						float $jointY = $clusterxyz[1];
+						float $jointZ = $clusterxyz[2];
+					
+					select -cl;
+					string $JointName = "Joint" + $x;
+					joint -p $jointX $jointY $jointZ -roo yzx -n $JointName;
+					
+					$x += 1;
+					delete TempClusterHandle;
+				}
+			}
+		}
+			
+		select -r $curves;
+		print "**********************************************************************************\n";
+		print "**********************************************************************************\n";
+		print "Objects processed:\n";
+		print $curves;
+		print ("---> " +  $NumberOfCurves + " objects processed <---  read the script editor for more info..");
+	}
+	else
+	{
+		error "Select the curves!";
+	}
+}//wp_jointOnEP
+
+
+
+//======================================================================
+// wp_jointsOnCurves_doIt procedure
+//======================================================================
+
+global proc wp_jointsOnCurves_doIt(string $type) 
+{//wp_jointsOnCurves_doIt
+
+// query dei nomi delle curve
+string $curves[] = `ls -sl -long`;
+int $NumberOfCurves = `size($curves)`;
+int $NumberOfJoints;
+
+if ($type == "jointChain")
+{
+	$NumberOfJoints = `intField -q -v wp_jointOnCurves_window_numOfJoint_first`;
+}
+else if ($type == "joint")
+{
+	$NumberOfJoints = `intField -q -v wp_jointOnCurves_window_numOfJoint_second`;
+}
+
+
+string $i;
+int $curveCount = 0;
+for ($i in $curves)
+{
+	select -r $i;
+	string $iShape[] = `pickWalk -d down`;
+			
+	if (`objectType -isType "nurbsCurve" $iShape[0]`)
+	{
+		string $pathNodes[];
+		int $numTokens = tokenize($i, "|", $pathNodes);
+		string $myObj = $pathNodes[$numTokens - 1];
+		
+		// faccio il query del nome originale della curva (per poterlo riutilizzare in seguito)
+		string $OriginalCurveName_ = $i;
+		  
+		// duplico la curva
+		select -r $i ;
+		string $newCurve_[] = `duplicate -smartTransform`;
+		
+		// seleziono la curva duplicata e la freezo
+		select $newCurve_[0];
+		makeIdentity -apply true -t 1 -r 1 -s 1 -n 0; 
+		
+		// faccio il rebuild della curva in base al numero di joints che la mia joint Chain deve avere
+		//int $numberOfSpans = $NumberOfJoints - 1;
+		int $numberOfSpans;
+		if ($type == "jointChain")
+		{
+			$numberOfSpans = $NumberOfJoints;
+		}
+		else if ($type == "joint")
+		{
+			$numberOfSpans = $NumberOfJoints - 1;
+		}
+
+		rebuildCurve -ch 1 -rpo 1 -rt 0 -end 1 -kr 0 -kcp 0 -kep 1 -kt 0 -s $numberOfSpans -d 3 -tol 0.01 $newCurve_[0];
+		
+		// faccio il query delle spans della curva
+		float $NumberOfSpans = `getAttr ($newCurve_[0] + ".spans")`;
+		// calcolo il numero degli EP della curva
+		// EP = Span + 1
+		float $NumberOfEP = $NumberOfSpans + 1;
+		
+		// faccio il query della posizione del primo EditPoint della curva
+		string $ep_0 = $newCurve_[0] + ".ep[0]";
+		string $tempCluster[0] = `cluster $ep_0`;
+		float $cluster_xyz[] = `xform -q -rp -ws $tempCluster[1]`;
+		
+		// creo il primo joint della catena
+		select -cl;
+		string $RootJoint;
+		
+		if ($type == "jointChain")
+		{
+			$RootJoint = `joint -p $cluster_xyz[0] $cluster_xyz[1] $cluster_xyz[2] -name ($myObj + "_jointChain")`;
+		}
+		else if ($type == "joint")
+		{
+			$RootJoint = `joint -p $cluster_xyz[0] $cluster_xyz[1] $cluster_xyz[2]`;
+		}
+
+
+		delete $tempCluster[1];
+		
+		// creo la catena di joint
+		string $BaseJoint = $RootJoint;
+		int $j;
+		for ($j = 1; $j < $NumberOfEP; $j++)
+		{
+			if ($type == "jointChain")
+			{
+				$ep_0 = $newCurve_[0] + ".ep[" + $j + "]";
+				string $tempCluster[0] = `cluster $ep_0`;	
+				float $cluster_xyz[] = `xform -q -rp -ws $tempCluster[1]`;
+				
+				//string $boneName = $myObj + "_joint_" + ($j + 1);
+				string $newJoint = `joint -p $cluster_xyz[0] $cluster_xyz[1] $cluster_xyz[2]`;
+				
+				parent $newJoint $BaseJoint;
+				$BaseJoint = $newJoint;
+				
+				delete $tempCluster[1];
+			}
+			
+			else if ($type == "joint")
+			{
+				$ep_0 = $newCurve_[0] + ".ep[" + $j + "]";
+				string $tempCluster[0] = `cluster $ep_0`;	
+				float $cluster_xyz[] = `xform -q -rp -ws $tempCluster[1]`;
+				
+				//string $boneName = $myObj + "_joint_" + ($j + 1);
+				string $newJoint = `joint -p $cluster_xyz[0] $cluster_xyz[1] $cluster_xyz[2]`;
+				
+				parent -w $newJoint;
+				//$BaseJoint = $newJoint;
+				
+				delete $tempCluster[1];
+			}	
+			
+		}
+		
+		if ($type == "jointChain")
+		{
+			// ri-oriento la catena
+			select -r $RootJoint;
+			joint -e -oj xyz -secondaryAxisOrient yup -ch -zso;
+		}
+
+		// elimino la curva duplicata e utilizzata per la costruzione della catena
+		delete $newCurve_[0];
+		$curveCount++;
+	}
+}
+
+select -r $curves;
+print "**********************************************************************************\n";
+print "**********************************************************************************\n";
+print "Objects processed:\n";
+print $curves;
+
+if ($type == "jointChain")
+{
+	print ("---> " + $curveCount + " joint chains created <---  read the script editor for more info..");
+}
+else if ($type == "joint")
+{
+	print ("---> " + $curveCount + " objects processed <---  read the script editor for more info..");
+}
+
+}//wp_jointsOnCurves_doIt  
+
+//================================================
+
+global proc MirrorBlendShape()
+	{
+	$base = `textFieldButtonGrp -q -tx TFBG1`;
+	$shapeToMirror = `textFieldButtonGrp -q -tx TFBG2`;
+
+	$tx = `getAttr ($shapeToMirror + ".translateX")`;
+	$ty = `getAttr ($shapeToMirror + ".translateY")`;
+	$tz = `getAttr ($shapeToMirror + ".translateZ")`;
+
+	select -r $base;
+	$baseDup = `duplicate -rr -name baseDup`; 
+	DeleteHistory;
+	//FreezeTransformations;
+	$dup =  `duplicate -rr -n "ntNBS_rest_neg"`;
+	setAttr ($dup[0] + ".scaleX") -1;
+	
+	select -r $shapeToMirror;
+
+	$absShapePosition  = `xform -q -a -t $shapeToMirror`;	
+
+	select -r $baseDup $shapeToMirror; 
+	delete `pointConstraint -offset 0 0 0 -weight 1`; 	
+
+	DeleteHistory; 
+
+	select -r $shapeToMirror;
+
+	$dupTempNeg = `duplicate -rr -n "ntMBS_temp_neg"`;
+	setAttr ($dupTempNeg[0] + ".scaleX") -1;
+	
+	
+	select -r $dup ;
+	select -tgl $dupTempNeg ;
+	
+	$blend = `blendShape -parallel`;
+	
+	setAttr ($blend[0] + "." + $dup[0]) 1;
+
+	//======================================
+
+	select -r $baseDup ;
+	$dupNeg = `duplicate -rr -n "ntMBS_neg"`;
+
+	select -r $dupNeg ;
+	select -add $dupTempNeg ;
+
+	
+	CreateWrap;
+
+	setAttr ($blend[0] + "." + $dup[0]) 0;
+	select -r $dupNeg;
+			//ntMBS_neg ;
+	DeleteHistory;
+
+	// Clean-up
+
+	delete $dup[0]
+	       $dupTempNeg
+	       ($dupTempNeg[0] + "Base") ;
+
+
+	setAttr ($dupNeg[0] + ".translateX") (-$tx);
+	setAttr ($dupNeg[0] + ".translateY") ($ty);
+	setAttr ($dupNeg[0] + ".translateZ") ($tz);
+			
+	setAttr ($shapeToMirror + ".translateX") $tx;
+	setAttr ($shapeToMirror + ".translateY") $ty;
+	setAttr ($shapeToMirror + ".translateZ") $tz;
+	
+	rename $dupNeg[0] ("ntMBS_" + $shapeToMirror);
+	
+	delete $baseDup;
+
+	}
+
+//=======================================
+
+global proc PickBase()
+	{
+	string $objs[0];
+	$objs = `ls -sl`;
+	
+	// check and see if $objs[0] is a polygon object
+	if (size($objs) == 0)
+		error "You have nothing selected, try again.";
+	$shape = `listRelatives -f -c $objs[0]`;
+	if (`nodeType $shape[0]` != "mesh")
+		error "You don't have a polygon object selected.\n";
+	textFieldButtonGrp -e -tx $objs[0] TFBG1;
+	}
+
+global proc PickMirrorFrom()
+	{
+	string $objs[0];
+	$objs = `ls -sl`;
+	
+	// check and see if $objs[0] is a polygon object
+	if (size($objs) == 0)
+		error "You have nothing selected, try again.";
+	$shape = `listRelatives -f -c $objs[0]`;
+	if (`nodeType $shape[0]` != "mesh")
+		error "You don't have a polygon object selected.\n";
+	textFieldButtonGrp -e -tx $objs[0] TFBG2;
+	}
+//=======================================	
+global proc CAcc()
+	{	
+            string $newName  = ` textField  -q  -tx  txmsh` ;
+            string $curveupName  = ` textField  -q  -tx  txmsh` ;
+            string $objctrname  = ` textField  -q  -tx  Mainctr` ;
+            float $number=`intField -q -v nbJnt`;
+            //string $CtrStyle_name=`optionMenuGrp  -q -v  Control_shape`;         
+            string $Aces_loc =`group -em -name ($newName + "Loc_G")`;
+            //string $Aces_Ctr =`group -em -name ($newName + "Ctr_G")`;
+
+            int $i=1;
+            for($i=1;$i<=$number;$i++)
+            {
+                createNode -n ($newName + "_pointOnCurve"+$i)  pointOnSurfaceInfo;
+                spaceLocator -n ($newName + "_loc"+$i) -p 0 0 0;
+                select -cl  ;
+                string $sec_ctrl=`curve  -d 1 -p -1 1 1 -p -1 1 -1 -p 1 1 -1 -p 1 1 1 -p -1 1 1 -p -1 -1 1 -p -1 -1 -1 -p -1 1 -1 -p -1 1 1 -p -1 -1 1 -p 1 -1 1 -p 1 1 1 -p 1 1 -1 -p 1 -1 -1 -p 1 -1 1 -p 1 -1 -1 -p -1 -1 -1 -k 0 -k 1 -k 2 -k 3 -k 4 -k 5 -k 6 -k 7 -k 8 -k 9 -k 10 -k 11 -k 12 -k 13 -k 14 -k 15 -k 16 `;
+                string $sec_name = `rename ($newName +"_"+"0"+$i + "_sel") `;
+                string $skin_jnt =`joint -n ($newName +"0"+$i+"_Jnt") -p 0 0 0`;
+                string $sdk = `group -n ($newName +"_"+"0"+$i + "_sdk")$sec_name`;
+                string $Mix = `group -n ($newName +"_"+"0"+$i + "_Mix")$sdk`;
+                string $Pos = `group -n ($newName +"_"+"0"+$i + "_Pos")$Mix`;
+                //parentConstraint -weight 1 ($newName + "_loc"+$i) ($newName +"_"+"0"+$i + "_Pos");
+                //scaleConstraint -mo -weight 1 ($newName + "_loc"+$i) ($newName +"_"+"0"+$i + "_Pos");
+                parent ($newName +"_"+"0"+$i + "_Pos") ($newName + "_loc"+$i);
+                //创建上曲线LOC连接
+                select -r ($newName + "_loc"+$i);
+                addAttr -ln "position"  -at double  -min 0 -max 1 -dv 0 ($newName+"_loc"+$i);
+                setAttr -e -keyable true ($newName+"_loc"+$i+".position");
+                
+                connectAttr -f ($curveupName + "Shape." + "worldSpace[0]")($newName + "_pointOnCurve"+$i+".inputSurface");//曲线连接poisn
+                connectAttr -f ($newName + "_pointOnCurve"+$i+".position") ($newName+"_loc"+$i+".translate");//poisn连接loc
+                connectAttr -f ($newName+"_loc"+$i+".position") ($newName + "_pointOnCurve"+$i+".parameterU");//loc连接poisn
+                
+               
+               
+                string $nameAC = `createNode aimConstraint -p ($newName + "_loc"+$i) -n ($newName + "_loc"+$i+"_AimCon")`;
+                setAttr ".tg[0].tw" 1;
+                setAttr ".a" -type "double3" 0 1 0;
+                setAttr ".u" -type "double3" 0 0 1;
+                setAttr -k off ".v";
+                setAttr -k off ".tx";
+                setAttr -k off ".ty";
+                setAttr -k off ".tz";
+                setAttr -k off ".rx";
+                setAttr -k off ".ry";
+                setAttr -k off ".rz";
+                setAttr -k off ".sx";
+                setAttr -k off ".sy";
+                setAttr -k off ".sz";
+               
+              
+                connectAttr -f ($newName + "_pointOnCurve"+$i + ".n") ($nameAC + ".tg[0].tt");
+                connectAttr -f ($newName + "_pointOnCurve"+$i + ".tv") ($nameAC + ".wu");
+                connectAttr -f ($nameAC + ".constraintRotateX") ($newName + "_loc"+$i + ".rotateX");
+                connectAttr -f ($nameAC + ".constraintRotateY") ($newName + "_loc"+$i + ".rotateY");
+                connectAttr -f ($nameAC + ".constraintRotateZ") ($newName + "_loc"+$i + ".rotateZ");
+                select -cl  ;
+                setAttr ($newName+"_loc"+$i+"Shape"+".localScaleX") 0.1;
+                setAttr ($newName+"_loc"+$i+"Shape"+".localScaleY") 0.1;
+                setAttr ($newName+"_loc"+$i+"Shape"+".localScaleZ") 0.1;
+                
+                connectAttr -f ($objctrname + ".scale") ($newName + "_loc"+$i + ".scale");
+                
+                parent ($newName+"_loc"+$i)($newName + "Loc_G");
+               // parent ($newName +"_"+"0"+$i + "_Pos")($newName + "Ctr_G");
+                setAttr ($newName+"_loc"+$i+".position") (($i-1)/($number-1));
+                setAttr ($newName + "_pointOnCurve"+$i+".parameterV") 0.5;
+                
+                setAttr ($newName +"_"+"0"+$i + "_sel"+".overrideEnabled") 1;
+                setAttr  ($newName +"_"+"0"+$i + "_sel"+".overrideColor")6;
+select -cl  ;
+               
+
+           
+    }
+}
+//=======================================	
+global proc Att()
+	{	
+	string $OBJ[] = `ls -long -sl`;
+	string $CtrStyle_name=`optionMenuGrp  -q -v  Control_Style`;
+	int $NumberOfCurves = `size($OBJ)`;
+
+	if ($NumberOfCurves > 0)
+	{
+		string $i;
+		for ($i in $OBJ)
+		{
+			//select -r $i;
+			
+      //setAttr ($i+".drawStyle") 2;
+      //setAttr ($i+".radius") 0.05;
+      //setAttr ($i+".overrideColor") 3;
+
+       
+    switch ($CtrStyle_name) {
+    
+            case "Normal":
+            setAttr ($i+".overrideEnabled") 1;
+            setAttr ($i+".overrideDisplayType") 0;
+            break;
+            
+            case "Template":
+            setAttr ($i+".overrideEnabled") 1;
+            setAttr ($i+".overrideDisplayType") 1;
+            break;
+            
+            
+            case "Reference":
+            setAttr ($i+".overrideEnabled") 1;
+            setAttr ($i+".overrideDisplayType") 2;
+            break;
+            
+            case "Jnt_Hide":
+            setAttr ($i+".overrideEnabled") 1;
+            setAttr ($i+".drawStyle") 2;
+            break;
+            
+            case "Jnt_Show":
+            setAttr ($i+".overrideEnabled") 1;
+            setAttr ($i+".drawStyle") 1;
+            break;      
+            
+            case "Red":
+            setAttr ($i+".overrideEnabled") 1;
+            setAttr ($i+".overrideColor") 13;
+            break;
+    
+            case "R1":
+            setAttr ($i+".overrideEnabled") 1;
+            setAttr ($i+".overrideColor") 4;
+            break;
+            case "Green":
+            setAttr ($i+".overrideEnabled") 1;
+            setAttr ($i+".overrideColor") 14;
+            break;
+            case "G1":
+            setAttr ($i+".overrideEnabled") 1;
+            setAttr ($i+".overrideColor") 23;
+            break;
+            case "Blue":
+            setAttr ($i+".overrideEnabled") 1;
+            setAttr ($i+".overrideColor") 6;
+            break;
+            case "B1":
+            setAttr ($i+".overrideEnabled") 1;
+            setAttr ($i+".overrideColor") 15;
+            break;
+            case "B2":
+            setAttr ($i+".overrideEnabled") 1;
+            setAttr ($i+".overrideColor") 18;
+            break;
+            case "Yellow":
+            setAttr ($i+".overrideEnabled") 1;
+            setAttr ($i+".overrideColor") 17;
+            break;
+            case "Y1":
+            setAttr ($i+".overrideEnabled") 1;
+            setAttr ($i+".overrideColor") 22;
+            break;
+            case "Brown":
+            setAttr ($i+".overrideEnabled") 1;
+            setAttr ($i+".overrideColor") 11;
+            break;
+            case "Br1":
+            setAttr ($i+".overrideEnabled") 1;
+            setAttr ($i+".overrideColor") 31;
+            break; 
+            case "Pink":
+            setAttr ($i+".overrideEnabled") 1;
+            setAttr ($i+".overrideColor") 20;
+            break; 
+            case "P1":
+            setAttr ($i+".overrideEnabled") 1;
+            setAttr ($i+".overrideColor") 21;
+            break;           
+            case "White":
+            setAttr ($i+".overrideEnabled") 1;
+            setAttr ($i+".overrideColor") 16;
+            break; 
+
+        }
+        }
+}
+}
+
+global proc skinPassSel()
+{
+	string $allObjs[] = `ls -sl`;
+	int $numSel = size($allObjs);
+	if($numSel<2)
+	{
+		error "请选择两个物体,先选已蒙皮的物体";
+	}
+	string $tarObjs[];
+	for($i=1;$i<$numSel;$i++)
+	{
+		$tarObjs[($i-1)] = $allObjs[$i];
+	}
+	string $baseObj = $allObjs[0];
+	string $baseSkinCls = `findRelatedSkinCluster($baseObj)`; 
+	string $jotSkin[] = `listConnections($baseSkinCls+".matrix")`;
+	int $numTar = size($tarObjs);
+	for($i=0;$i<$numTar;$i++)
+	{
+		
+		select -r $jotSkin;
+		select -add $tarObjs[$i];
+		SmoothBindSkin;
+    	copySkinWeights  -noMirror -surfaceAssociation closestPoint -influenceAssociation closestJoint $baseObj $tarObjs[$i];
+		select -cl;
+		print ($baseObj+"====skinWeight has passed to===="+$tarObjs[$i]);
+	}
+}   
+
+global proc string rivet ( )
+{
+
+string $nameObject;
+string $namePOSI;
+
+string $parts[];
+string $list[] = `filterExpand -sm 32`;
+int $size = size($list);
+if ($size > 0)
+{
+	if ($size != 2)
+	{	error("No two edges selected");
+		return "";
+	}
+
+	tokenize($list[0],".",$parts);
+	$nameObject = $parts[0];
+	tokenize($list[0],"[]",$parts);
+	float $e1 = $parts[1];
+	tokenize($list[1],"[]",$parts);
+	float $e2 = $parts[1];
+
+	string $nameCFME1 = `createNode curveFromMeshEdge -n "rivetCurveFromMeshEdge1"`;
+		setAttr ".ihi" 1;
+		setAttr ".ei[0]"  $e1;
+	string $nameCFME2 = `createNode curveFromMeshEdge -n "rivetCurveFromMeshEdge2"`;
+		setAttr ".ihi" 1;
+		setAttr ".ei[0]"  $e2;
+	string $nameLoft = `createNode loft -n "rivetLoft1"`;
+		setAttr -s 2 ".ic";
+		setAttr ".u" yes;
+		setAttr ".rsn" yes;
+
+	$namePOSI = `createNode pointOnSurfaceInfo -n "rivetPointOnSurfaceInfo1"`;
+		setAttr ".turnOnPercentage" 1;
+		setAttr ".parameterU" 0.5;
+		setAttr ".parameterV" 0.5;
+
+	connectAttr -f ($nameLoft + ".os") ($namePOSI + ".is");
+	connectAttr ($nameCFME1 + ".oc") ($nameLoft + ".ic[0]");
+	connectAttr ($nameCFME2 + ".oc") ($nameLoft + ".ic[1]");
+	connectAttr ($nameObject + ".w") ($nameCFME1 + ".im");
+	connectAttr ($nameObject + ".w") ($nameCFME2 + ".im");
+}
+else
+{	$list = `filterExpand -sm 41`;
+	$size = size($list);
+
+	if ($size > 0)
+	{
+		if ($size != 1)
+		{	error("No one point selected");
+			return "";
+		}
+		tokenize($list[0],".",$parts);
+		$nameObject = $parts[0];
+		tokenize($list[0],"[]",$parts);
+		float $u = $parts[1];
+		float $v = $parts[2];
+		$namePOSI = `createNode pointOnSurfaceInfo -n "rivetPointOnSurfaceInfo1"`;
+				setAttr ".turnOnPercentage" 0;
+				setAttr ".parameterU" $u;
+				setAttr ".parameterV" $v;
+		connectAttr -f ($nameObject + ".ws") ($namePOSI + ".is");
+	}
+	else
+	{	error("No edges or point selected");
+		return "";
+	}
+}
+
+string $nameLocator = `createNode transform -n "rivet1"`;
+createNode locator -n ($nameLocator + "Shape") -p $nameLocator;
+
+string $nameAC = `createNode aimConstraint -p $nameLocator -n ($nameLocator + "_rivetAimConstraint1")`;
+	setAttr ".tg[0].tw" 1;
+	setAttr ".a" -type "double3" 0 1 0;
+	setAttr ".u" -type "double3" 0 0 1;
+	setAttr -k off ".v";
+	setAttr -k off ".tx";
+	setAttr -k off ".ty";
+	setAttr -k off ".tz";
+	setAttr -k off ".rx";
+	setAttr -k off ".ry";
+	setAttr -k off ".rz";
+	setAttr -k off ".sx";
+	setAttr -k off ".sy";
+	setAttr -k off ".sz";
+
+connectAttr ($namePOSI + ".position") ($nameLocator + ".translate");
+connectAttr ($namePOSI + ".n") ($nameAC + ".tg[0].tt");
+connectAttr ($namePOSI + ".tv") ($nameAC + ".wu");
+connectAttr ($nameAC + ".crx") ($nameLocator + ".rx");
+connectAttr ($nameAC + ".cry") ($nameLocator + ".ry");
+connectAttr ($nameAC + ".crz") ($nameLocator + ".rz");
+
+select -r $nameLocator;
+return ($nameLocator);
+
+}

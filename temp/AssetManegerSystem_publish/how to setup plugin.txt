@@ -1,0 +1,8 @@
+1.copy \modules to ..\Documents\maya\version
+2.open maya
+3.run command
+	model:	setupMODEL()
+	rig:	setupRIG()
+	texture:	setupTEXTURE()
+	shade:	setupSHADE()
+4.enjoy it

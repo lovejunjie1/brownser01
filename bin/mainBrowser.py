@@ -36,12 +36,18 @@ import bin.relatives.flowLayout as flowLayout
 reload(flowLayout)
 import bin.relatives.gridWidget as gridWidget
 reload(gridWidget)
+import bin.relatives.HTML_base as _HTML
+reload(_HTML)
 import src.resources
+
+import bin.util as util
+reload(util)
+
 
 if IsPyQt4:
     import PyQt4.QtWebKit as qwweb
 elif IsPySide:
-    pass
+    import PySide.QtWebKit as qwweb
 elif IsPyQt5 or IsPySide2:
     pass
 
@@ -521,6 +527,13 @@ class Ui_MainWindow(qw.QMainWindow):
         self.webColPage.setupLayout(title="Unit History")
         # 这就是折叠页，自己写的
         self.html = qwweb.QWebView()
+        #self.qweb = QWebView()
+        self.html.setRenderHints(
+            QtGui.QPainter.Antialiasing | QtGui.QPainter.HighQualityAntialiasing | QtGui.QPainter.NonCosmeticDefaultPen | QtGui.QPainter.SmoothPixmapTransform | QtGui.QPainter.TextAntialiasing)
+        self.html.setStyleSheet('QWebView{-webkit-border-radius: 26px}')
+        #self.qweb.settings().setDefaultTextEncoding('utf-8')
+        self.html.page().setLinkDelegationPolicy(qwweb.QWebPage.DelegateAllLinks)
+
         self.webColPage.addWidget(self.html)
         
         self.verticalLayout_3.addWidget(self.webColPage)
@@ -609,7 +622,52 @@ class Ui_MainWindow(qw.QMainWindow):
 
         self.comboBox.setIconSize(QtCore.QSize(1,self.comboBox.height()))
 
+
+    def loadHtml(self,_path):
+        #historypath = self.serverPath + '\\asset\\PRODUCE\\' + self.nowTreePage + '\\' + changeTabItm.text(
+        #    0) + '\\history.html'
+        if (os.path.exists(_path)):
+            historydata = open(_path)
+            codec = QtCore.QTextCodec.codecForName('utf-8')
+            itmString = codec.toUnicode(historydata.read())
+            self.qweb.setHtml(itmString, QtCore.QUrl('http://www.baidu.com'))
+
     def dbClickedEvent_default(self,dic):
+        # 改变html的信息，需要增加多线程
+        '''
+        historypath = self.serverPath + '\\asset\\PRODUCE\\' + self.nowTreePage + '\\' + changeTabItm.text(
+            0) + '\\history.html'
+        if not (os.path.exists(historypath)):
+            self.HTML_CreateEmptyStyle(historypath)
+
+        innerMsg = '[ ' + self.departmentName + ' ] copy the concept from concept path to model path'
+        htmlMsg = self.HTML_createMsg(innerMsg, artName, '', side=1, initPath=self.initPath)
+        self.HTML_addMsg(historypath, htmlMsg)
+        '''
+        hisPath = util.getPath(dataType=dic['dataType'], 
+            name=dic['name'], 
+            varient=dic['varient'], 
+            dep=dic['dep'], 
+            project='ZZZ',
+            location='work',
+            isHistory=True)
+        HT = _HTML.assetManager_HTML()
+        if not os.path.exists(hisPath):
+            os.makedirs(hisPath)
+            HT.HTML_CreateEmptyStyle(hisPath+'/html.html')
+            print 'hisPath',hisPath
+        htmlMsg = HT.HTML_createMsg('clicked in','me')
+        HT.HTML_addMsg(hisPath+'/html.html', htmlMsg)
+        
+
+
+
+        historydata = open(hisPath+'/html.html')
+        codec = QtCore.QTextCodec.codecForName('utf-8')
+        itmString = codec.toUnicode(historydata.read())
+        self.html.setHtml(itmString,QtCore.QUrl(''))
+
+        # 改变显示信息
         self.titleLab_type.setText(dic['dataType'])
         self.titleLab_var.setText(dic['varient'])
         self.titleLab_name.setText(dic['name'])

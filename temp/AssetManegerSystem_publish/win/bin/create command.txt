@@ -1,0 +1,7 @@
+c:\Python27\python.exe pyinstaller.py -F -p D:\AssetManegerSystem;D:\AssetManegerSystem\bin;D:\AssetManegerSystem\data;D:\AssetManegerSystem\icon D:\AssetManegerSystem\CONCEPT\textPYQT04.py
+
+c:\Python27\python.exe pyinstaller.py -F -w -i D:\logo.ico  -p D:\AssetManegerSystem;D:\AssetManegerSystem\bin;D:\AssetManegerSystem\data;D:\AssetManegerSystem\icon D:\AssetManegerSystem\CONCEPT\concept_manager_ui.py
+
+c:\Python27\python.exe pyinstaller.py -F -w -i D:\logo.ico  -p D:\AssetManegerSystem_publish;D:\AssetManegerSystem_publish\win\bin;D:\AssetManegerSystem_publish\data;D:\AssetManegerSystem_publish\icon D:\AssetManegerSystem_publish\win\PRODUCER\refreceServer02.py
+
+c:\Python27\python.exe pyinstaller.py -F -w -i D:\logo.ico  -p D:\AssetManegerSystem_publish;D:\AssetManegerSystem_publish\win\bin;D:\AssetManegerSystem_publish\win\CONCEPT;D:\AssetManegerSystem_publish\data;Z:\AssetManegerSystem_publish\icon D:\AssetManegerSystem_publish\win\CONCEPT\concept_manager_ui.py

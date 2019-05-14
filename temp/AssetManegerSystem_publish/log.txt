@@ -1,0 +1,73 @@
+﻿2017-11-16 16:04:07
+figo
+model模块
+	更新了左侧treewidget的箭头图标	
+	更新了general page里面切换角色的箭头图标
+data模块
+	更新了stylesheet到0_10版，与之前的版本不兼容
+		更改了调用函数名的方式，全部改成了类型的名字，如pushbtnStyle改成了QPushButton
+		添加了QtreeWidget（）
+		添加了iconpath，和setIconPath（）
+2018-1-9 14:59:07
+figo
+concept模块
+	完成了全功能的设置，但是版本大改，目前还未修改以及重新生成
+loading
+	载入方式重写，影响到了win平台的界面以及maya平台的界面。目前已完成。
+	maya平台的分功能移到了maya文件夹中
+	windows平台的分功能移到了win文件夹中
+	增加了modules文件夹
+	增加了scripts文件夹
+2018-3-5 18:15:40
+figo
+loading
+	修改了modules，自适应版本，2016和2017共用
+common
+	增加了baseclass模块
+	升级了信息记录模块，老模块记录的信息已经不可用了
+	完善了confirm dialog
+	统一了upload dialog
+	修复了history中文写入的bug
+	history现在是倒序添加了
+	修复了一些bug
+	自动载入时增加了四个命令 
+		setupMODEL()
+		setupRIG()
+		setupTEXTURE()
+		setupSHADE()
+concept
+	本次更新未涉及，数据结构还是老版本的
+model
+	继承了baseclass重写了一遍
+	修复了bug
+
+rig
+	继承了baseclass重写了一遍
+	修复了bug
+
+texture
+	继承了baseclass重写了一遍
+	增加了texturelist dialog，检查贴图命名和指认
+	修复了bug
+
+shade
+	继承了baseclass重写了一遍
+	修复了bug
+
+2018-3-22 18:48:54
+icon
+	增加了一些图标
+common
+	新增加的模块，目前里面有一个所有流程都能用到的工具架
+rig
+	增加了plugins目录，去置放工作中使用到的脚本和功能
+
+2018-5-2 18:59:34
+layout
+	制作了一半，还在进行中
+common
+	2016和2017的baseClass里增加了项目切换的功能
+	更改了path.json的数据结构
+concept
+	更新项目切换功能
+	重构代码结构，还未结束
