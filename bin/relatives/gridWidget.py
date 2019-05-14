@@ -17,6 +17,7 @@ class gridWidget(qw.QWidget):
         super(gridWidget,self).__init__()
         self.setWindowFlags(QtCore.Qt.SubWindow | QtCore.Qt.FramelessWindowHint | QtCore.Qt.WindowStaysOnTopHint)
         self.setAttribute(QtCore.Qt.WA_StyledBackground)
+        self.setProperty('widgetType','grid')
         self.baseDict = {
             'Model':'',
             'LookDev':'',
@@ -85,6 +86,11 @@ class gridWidget(qw.QWidget):
         baseHet = 400
         baseWid = 250
         self.setFixedSize(baseWid*val,baseHet*val)
+        marginVal = val*10
+        spaceVal = val*3
+        self.mainH.setContentsMargins(marginVal,marginVal,marginVal,marginVal)
+        self.mainH.setSpacing(spaceVal)
+        self.leftV.setSpacing(spaceVal)
 
 
     def setModule(self,_type='_assets'):
@@ -199,22 +205,20 @@ class gridWidget(qw.QWidget):
         #self.setObjectName(("frame"))
 
 
-        mainH = qw.QHBoxLayout(self)
-        mainH.setContentsMargins(3,10,3,3)
-        mainH.setSpacing(1)
+        self.mainH = qw.QHBoxLayout(self)
 
-        self.setLayout(mainH)
+        self.setLayout(self.mainH)
 
 
-        leftV = qw.QVBoxLayout(self)
-        mainH.addLayout(leftV)
+        self.leftV = qw.QVBoxLayout(self)
+        self.mainH.addLayout(self.leftV)
 
         self.depDict = dict(self.baseDict)
 
         self.assetPage = spoilerItem.FrameDialog()
         self.assetPage.setupLayout(title="Assets")
         
-        leftV.addWidget(self.assetPage)
+        self.leftV.addWidget(self.assetPage)
 
         for i in self.assetList:
             thePushButton = qw.QPushButton()
@@ -229,8 +233,8 @@ class gridWidget(qw.QWidget):
         self.shotPage = spoilerItem.FrameDialog()
         self.shotPage.setupLayout(title="Sequences")
         
-        leftV.addWidget(self.shotPage)
-        leftV.addStretch()
+        self.leftV.addWidget(self.shotPage)
+        self.leftV.addStretch()
 
 
         for i in self.shotList:
@@ -244,14 +248,14 @@ class gridWidget(qw.QWidget):
 
 
         self.mainList = qw.QListWidget()
-        mainH.addWidget(self.mainList)
+        self.mainH.addWidget(self.mainList)
 
         #self.pushButton.setMouseTracking(True)
         #self.pushButton.clicked.connect(self.clickAction)
         
         #self.pushButton.setFixedSize(240,160)
 
-    def setLeftVisable(self,state):
+    def setleftVisable(self,state):
 
         self.shotPage.setVisible(state)
         self.assetPage.setVisible(state)
@@ -340,8 +344,8 @@ if __name__ == '__main__':
     #gg.setShotSub(['seq001','seq003','seq022','seq005'])
     gg.setModule('shot')
     gg.setSubList('seq022')
-    #gg.setLeftVisable(False)
-    #gg.setLeftVisable(True)
+    #gg.setself.leftVisable(False)
+    #gg.setself.leftVisable(True)
     gg.Op_Ui()
     
 

@@ -70,7 +70,7 @@ if 'src.resources' not in sys.modules:
 #reload(src.resources)
 
 class modelBrowser(mainBrowser.Ui_MainWindow):
-    scale = 1
+    scale = 2
     def setupGuild(self):
         
         '''  
@@ -111,6 +111,7 @@ class modelBrowser(mainBrowser.Ui_MainWindow):
         testF.setLayout(testV)
 
         publishBtn = qw.QPushButton()
+        publishBtn.setProperty('dep','model')
         publishBtn.setObjectName('publish_button')
         publishBtn.setText('Publish Model')
         testV.addWidget(publishBtn)

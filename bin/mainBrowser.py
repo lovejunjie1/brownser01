@@ -15,11 +15,9 @@ binPath = r'C:\gitLab\brownser01\bin'
 if binPath not in sys.path:
     sys.path.append(binPath)
 
-from Qt import QtWidgets as qw, QtGui, QtCore, IsPySide, IsPySide2
-#import Qt
-#print dir(Qt)
-if IsPySide:
+from Qt import QtWidgets as qw, QtGui, QtCore, IsPySide, IsPySide2, IsPyQt4, IsPyQt5 
 
+if IsPySide:
     from PySide import QtWebKit
 elif IsPySide2:
     from PySide2 import QtWebKit
@@ -40,10 +38,21 @@ import bin.relatives.gridWidget as gridWidget
 reload(gridWidget)
 import src.resources
 
+if IsPyQt4:
+    import PyQt4.QtWebKit as qwweb
+elif IsPySide:
+    pass
+elif IsPyQt5 or IsPySide2:
+    pass
+
+
 if IsPySide:
     from shiboken import wrapInstance
 elif IsPySide2:
     from shiboken2 import wrapInstance
+
+
+
 
 try:
     import maya.OpenMayaUI as omui
@@ -282,6 +291,9 @@ class Ui_MainWindow(qw.QMainWindow):
         self.comboBox.setObjectName(("addressBar"))
         self.comboBox.setStatusTip(_translate("MainWindow", "显示曾经浏览过的地址栏", None))
         self.comboBox.lineEdit().setReadOnly(True)
+        #self.comboBox.setIconSize(QtCore.QSize(1,self.comboBox.height()));
+        self.comboView = qw.QListView()
+        self.comboBox.setView(self.comboView)
         self.horizontalLayout_2.addWidget(self.comboBox)
 
         self.moduleButton = qw.QPushButton(self.centralwidget)
@@ -508,13 +520,14 @@ class Ui_MainWindow(qw.QMainWindow):
         self.webColPage = spoilerItem.FrameDialog()
         self.webColPage.setupLayout(title="Unit History")
         # 这就是折叠页，自己写的
-
-        self.webColPage.addWidget(qw.QPushButton('a'))
+        self.html = qwweb.QWebView()
+        self.webColPage.addWidget(self.html)
         
         self.verticalLayout_3.addWidget(self.webColPage)
-
+        #"https://rinfigo.shotgunstudio.com",login="lovejunjie1",password="WFshotgun!23")
         self.fileColPage = spoilerItem.FrameDialog()
         self.fileColPage.setupLayout(title="File Struct")
+        self.structSheet = qw.QTreeView()
         self.fileColPage.addWidget(qw.QLabel('fileStruct sheet'))
         self.verticalLayout_3.addWidget(self.fileColPage)
 
@@ -594,6 +607,8 @@ class Ui_MainWindow(qw.QMainWindow):
                                 _frame.setStatusTip('%s : %s - <%s> - %s' % (dataType,depName,va,i))
                                 self.flowLayout.addWidget(_frame)
 
+        self.comboBox.setIconSize(QtCore.QSize(1,self.comboBox.height()))
+
     def dbClickedEvent_default(self,dic):
         self.titleLab_type.setText(dic['dataType'])
         self.titleLab_var.setText(dic['varient'])
@@ -607,10 +622,11 @@ class Ui_MainWindow(qw.QMainWindow):
         self.dbClickedEvent(dic)
 
     def dbPlayedEvent_default(self,dic):
-        self.dbPlayedEvent(dic)  
+        self.dbPlayedEvent()  
+
 
     def dbAddChartEvent_default(self,dic):
-        self.dbAddChartEvent(dic)  
+        self.dbAddChartEvent()  
 
     def dbClickedEvent(self,dic):
         pass  
@@ -648,6 +664,7 @@ class Ui_MainWindow(qw.QMainWindow):
         maxCom = self.comboBox.count() -1
         #print maxCom
         self.comboBox.setCurrentIndex (maxCom)
+        self.comboBox.setIconSize(QtCore.QSize(1,self.comboBox.height()))
 
     def setGuildEnableList(self,theList):
         if isinstance(theList,list):
@@ -700,7 +717,7 @@ class Ui_MainWindow(qw.QMainWindow):
         #print self.searchLine.pos()
         #boxWidget.show()
 
-        GlobalPoint = self.guildButton.mapToGlobal(QtCore.QPoint(-1 * self.pos().x() - (self.guildButton.width()*0.25), -1 * self.pos().y()-2*self.scale))
+        GlobalPoint = self.guildButton.mapToGlobal(QtCore.QPoint(-1 * self.pos().x() - (self.guildButton.width()*0.25), -1 * self.pos().y()+20*self.scale))
         gg.move(GlobalPoint)
 
         #gg.setStyleSheet('QWidget {background-color:#AAAAAA;}')
@@ -763,6 +780,7 @@ if __name__ == '__main__':
     testV.addWidget(qw.QLabel('actionsA'))
     testV.addWidget(qw.QLabel('actionsV'))
     gg.addActionArea(testF)
+    gg.html.load(QtCore.QUrl('https://www.baidu.com'))
     gg.show()
     #gg.resize(500,500)
     gg.move(0,0)

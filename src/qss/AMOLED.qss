@@ -58,6 +58,23 @@ QPushButton::default{
 	background-color: #222019;
 }
 
+QPushButton::checked{
+    border-style: solid;
+    border-top-color: transparent;
+    border-right-color: transparent;
+    border-left-color: transparent;
+    border-bottom-color: qlineargradient(x1:0, y1:0, x2:1, y2:0, 
+    stop:0 transparent, 
+    stop:0.25 #e67e22,
+    stop:0.75 #e67e22, 
+    stop:1 transparent);
+
+    border-width: 2px;
+    color: #e67e22;
+    padding: 2px;
+    background-color: #222019;
+}
+
 QToolButton {
 	border-style: solid;
 	border-top-color: transparent;
@@ -115,7 +132,7 @@ QPushButton:disabled{
 	border-bottom-width: 2px;
 	border-bottom-radius: 6px;
 	border-style: solid;
-	color: #808086;
+	color: #666666;
 	padding-bottom: 1px;
 	background-color: #222019;
 }
@@ -356,10 +373,16 @@ QDateEdit {
 	background-color:#222019;
 }
 QComboBox {
+    border: 1px solid grey;
+    border-radius: 12px;
+    padding-left:30px;
+    min-width: 9em; 
 	font-family:Verdana;font-style:oblique;
 	color: #a9b7c6;	
+    radius:12px;
 	background: #383A3F;
 }
+
 QComboBox:editable {
 	background: #383A3F;
 	color: #a9b7c6;
@@ -367,10 +390,37 @@ QComboBox:editable {
 }
 QComboBox QAbstractItemView {
 	color: #a9b7c6;	
+    font-family:Verdana;font-style:oblique;
 	background: #383A3F;
+    min-height: 30px; 
+    padding-left:30px;
 	selection-color: #FFFFFF;
 	selection-background-color:#222019;
 }
+
+QComboBox QAbstractItemView:item {
+    height: 45px; 
+    font-family:Verdana;font-style:oblique;
+}
+
+QComboBox::drop-down {
+    subcontrol-origin: padding;
+    min-width: 32px;
+    background: #383A3F;
+
+    border-left-width: 1px;
+    border-left-color: darkgray;
+    border-left-style: solid; /* just a single line */
+    border-top-right-radius: 12px; /* same radius as the QComboBox */
+    border-bottom-right-radius: 12px;
+}
+QComboBox::down-arrow {
+    border-image: url(:/icon/down.png) 0 0 0 0 stretch stretch;
+    min-width:32px;
+    min-height:32px;
+
+}
+
 QComboBox:!editable:on, QComboBox::drop-down:editable:on {
 	color: #a9b7c6;	
 	background: #383A3F;
@@ -623,15 +673,37 @@ custom settings for single item
 
 QLabel[dep=model] {
 
-  	border: 0px solid grey;
-  	border-radius: 8px;
-	radius: 8 px;
-	font-family:Verdana;font-style:oblique;
-	color: #FFFFFF;
-	background-color: qlineargradient(x1:0, y1:0, x2:1, y2:0, stop:0 #ED4264, stop:1 #FFEDBC);
-	
+    border: 0px solid grey;
+    border-radius: 8px;
+    radius: 8 px;
+    font-family:Verdana;font-style:oblique;
+    color: #FFFFFF;
+    background-color: qlineargradient(x1:0, y1:0, x2:1, y2:0, stop:0 #ED4264, stop:1 #FFEDBC);
+    
 }
 
+
+QPushButton[dep=model] {
+
+    border: 1px solid grey;
+    border-radius: 8px;
+    radius: 8 px;
+    font-family:Verdana;font-style:oblique;
+    color: #333333;
+    background-color: qlineargradient(x1:0, y1:0, x2:1, y2:0, stop:0 #ED4264, stop:1 #FFEDBC);
+    
+}
+
+QPushButton[dep=model]:hover {
+
+    color: #DDDDDD;
+    border-style: solid;
+    border-top-color: transparent;
+    border-right-color: transparent;
+    border-left-color: transparent;
+    border-bottom-color: #e67e22;
+    border-width:5px;
+}
 
 QLabel[dep=lookdev] {
 
@@ -651,8 +723,94 @@ QLabel#titleLab_name {
   	border: 1px solid grey;
   	border-radius: 8px;
 	radius: 8 px;
-	font-family:Verdana;font-style:oblique;
 	color: #FFFFFF;
 	background-color: #111111;
 	
 }
+
+QFrame[spore=title] {
+    background-color: transparent;
+    
+    border-style: solid;
+    border-top-color: transparent;
+    border-right-color: transparent;
+    border-left-color: transparent;
+    border-bottom-color: qlineargradient(x1:0, y1:0, x2:1, y2:0, 
+    stop:0 transparent, 
+    stop:0.1 #DDDDDD, 
+    stop:0.45 #DDDDDD, 
+    stop:0.7 transparent, 
+    stop:1 transparent);
+    ;
+    border-width:2px;
+    
+}
+
+
+QWidget[spore=box] {
+
+
+    background-color: transparent;
+}
+QFrame[spore=body] {
+
+
+    background-color: transparent;
+    
+    border-style: solid;
+    border-top-color: transparent;
+    border-right-color: transparent;
+    border-left-color: #383A3F;
+    border-bottom-color: transparent;
+    border-width:5px;
+    
+}
+
+
+QFrame[spore=title]:disabled {
+    background-color: transparent;
+    
+    border-style: solid;
+    border-top-color: transparent;
+    border-right-color: transparent;
+    border-left-color: transparent;
+    border-bottom-color: qlineargradient(x1:0, y1:0, x2:1, y2:0, 
+    stop:0 transparent, 
+    stop:0.1 #666666, 
+    stop:0.45 #666666, 
+    stop:0.7 transparent, 
+    stop:1 transparent);
+    border-width:2px;
+    
+}
+
+QLabel[spore=label] {
+
+    font-family:Verdana;font-style:oblique;
+    border: 0px solid grey;
+    border-radius: 8px;
+    radius: 8 px;
+    color: #FFFFFF;
+    background-color: transparent;
+    
+}
+
+QLabel[spore=label]:disabled {
+
+    font-family:Verdana;font-style:oblique;
+    border: 0px solid grey;
+    border-radius: 8px;
+    radius: 8 px;
+    color: #666666;
+    background-color: transparent;
+    
+}
+
+
+QWidget[widgetType=grid] {
+    background-color:qlineargradient(x1:0, y1:0, x2:0, y2:1, 
+    stop:0 #1D1C13, 
+    stop:1 #27251E);
+}
+
+

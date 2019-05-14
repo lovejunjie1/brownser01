@@ -13,6 +13,7 @@ class FrameDialog(qw.QFrame):
         self._is_collasped = True
         self._title_frame = None
         self._content, self._content_layout = (None, None)
+        self.setProperty('spore','body')
 
         self._main_v_layout = qw.QVBoxLayout(self)
         self._main_v_layout.addWidget(self.initTitleFrame(title, self._is_collasped))
@@ -30,6 +31,7 @@ class FrameDialog(qw.QFrame):
 
     def initContent(self, collapsed):
         self._content = qw.QWidget()
+        self._content.setProperty('spore','box')
         self._content_layout = qw.QVBoxLayout()
 
         self._content.setLayout(self._content_layout)
@@ -60,7 +62,8 @@ class FrameDialog(qw.QFrame):
 
             self.setMinimumHeight(24)
             self.move(QtCore.QPoint(24, 0))
-            self.setStyleSheet("border:1px solid rgb(41, 41, 41); ")
+            #self.setStyleSheet("border:1px solid rgb(41, 41, 41); ")
+            self.setProperty('spore','title')
 
             self._hlayout = qw.QHBoxLayout(self)
             self._hlayout.setContentsMargins(0, 0, 0, 0)
@@ -81,9 +84,10 @@ class FrameDialog(qw.QFrame):
 
         def initTitle(self, title=None):
             self._title = qw.QLabel(title)
+            self._title.setProperty('spore','label')
             self._title.setMinimumHeight(24)
             self._title.move(QtCore.QPoint(24, 0))
-            self._title.setStyleSheet("border:0px")
+            #self._title.setStyleSheet("border:0px")
 
             return self._title
 
