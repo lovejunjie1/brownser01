@@ -99,6 +99,6 @@ class assetManager_HTML(QtCore.QObject):
         message += ']:</strong><br>'
         message += contect
         message += '<br>'
-        message += pic
+        #message += pic
         message += '<span class="bottomLevel"></span>  <span class="topLevel"></span>  </span>  </div> \n'
         return message

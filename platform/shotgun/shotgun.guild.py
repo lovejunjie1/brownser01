@@ -37,7 +37,10 @@ fields = ['id', 'code']
 sequence_id = 41
 project_id = 89
 filters = [
-['project', 'is', {'type': 'Project', 'id': project_id}]]
+['project', 'is', {'type': 'Project', 'id': project_id}],
+['id','is',1173]
+
+]
 assets= sg.find("Shot",filters,fields)
 print assets
 '''

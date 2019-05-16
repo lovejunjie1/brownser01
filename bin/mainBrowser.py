@@ -355,6 +355,7 @@ class Ui_MainWindow(qw.QMainWindow):
 
         self.horizontalLayout_3.setObjectName(("horizontalLayout_3"))
         self.splitter = qw.QSplitter(self.widget)
+        self.splitter.splitterMoved.connect(self.resizeAttributeWidget)
         sizePolicy = qw.QSizePolicy(qw.QSizePolicy.Maximum, qw.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(1)
         sizePolicy.setVerticalStretch(0)
@@ -525,7 +526,15 @@ class Ui_MainWindow(qw.QMainWindow):
 
         self.webColPage = spoilerItem.FrameDialog()
         self.webColPage.setupLayout(title="Unit History")
+        self.webColPage._content.setFixedHeight(300)
         # 这就是折叠页，自己写的
+
+
+        sizePolicy = qw.QSizePolicy(
+            qw.QSizePolicy.Minimum, qw.QSizePolicy.Minimum)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+
         self.html = qwweb.QWebView()
         #self.qweb = QWebView()
         self.html.setRenderHints(
@@ -533,6 +542,10 @@ class Ui_MainWindow(qw.QMainWindow):
         self.html.setStyleSheet('QWebView{-webkit-border-radius: 26px}')
         #self.qweb.settings().setDefaultTextEncoding('utf-8')
         self.html.page().setLinkDelegationPolicy(qwweb.QWebPage.DelegateAllLinks)
+        self.html.loadFinished.connect(self._load_finished)
+        self.html.setSizePolicy(sizePolicy)
+
+
 
         self.webColPage.addWidget(self.html)
         
@@ -580,6 +593,23 @@ class Ui_MainWindow(qw.QMainWindow):
             self.dataListMainVLayout.setMargin(0)
 
 
+    def _load_finished(self):
+        self.resizeAttributeWidget()
+        #self.html.parent().setSizePolicy(sizePolicy)
+        #self.html.parent().setFixedSize(QtCore.QSize(300,300))
+        #frame.setFixedSize(QtCore.QSize(300,300))
+        #self.html.page().setViewportSize(frame.contentsSize())
+        #self.resize(frame.contentsSize())
+        #html_data = frame.toHtml()
+
+    def resizeAttributeWidget(self):
+        #print _pos,_id
+        #print self.width()
+        thereg = self.splitter.sizes()
+        #print thereg
+        containerWidth = int(thereg[1]*0.95)
+        #containerWidth = thereg[1]
+        self.html.parent().setFixedWidth(containerWidth)
 
     def clearDataDialog(self):
 
@@ -651,6 +681,7 @@ class Ui_MainWindow(qw.QMainWindow):
             project='ZZZ',
             location='work',
             isHistory=True)
+        print 'hisPath',hisPath
         HT = _HTML.assetManager_HTML()
         if not os.path.exists(hisPath):
             os.makedirs(hisPath)
@@ -695,11 +726,13 @@ class Ui_MainWindow(qw.QMainWindow):
 
     def updateAddressBar(self,inputArray):
         # D:\testDir\pipPrj\ZZZ\assets\Charactors\rabbit\Model\defaultVersion
+        bigConfig = util.getSoftwareConfig()
         deplist = []
         self.dataMatchDirList = []
         substr = ''
         for i in inputArray:
-            theStr = '%(serv)s/pipPrj/%(prj)s/%(module)s/%(sub)s/%(name)s/%(dep)s'  % {'prj':self._prjName,'serv':self._serverPath,'module':self._module,'dep':i[0],'sub':i[1],'name':'%(name)s'}
+            #theStrNew = util.getPath(dataType=i[1], name='%(name)s', varient='default', dep=i[0], project=self._prjName)
+            theStr = bigConfig['general']['pipeMainPath'] + '/%(prj)s/%(module)s/%(sub)s/%(name)s/%(dep)s'  % {'prj':self._prjName,'module':self._module,'dep':i[0],'sub':i[1],'name':'%(name)s'}
             self.dataMatchDirList.append(theStr)
             substr = i[1]
             deplist.append(i[0])
@@ -709,7 +742,7 @@ class Ui_MainWindow(qw.QMainWindow):
 
         #fullStr = '%(serv)s/pipPrj/%(prj)s/%(module)s/%(sub)s/%(name)s/%(dep)s'  % {'prj':self._prjName,'serv':self._serverPath,'module':module,'dep':depStr,'sub':substr,'name':'%(name)s'}
         
-        displayStr = '%(serv)s/pipPrj/%(prj)s/%(module)s/%(sub)s'  % {'prj':self._prjName,'serv':self._serverPath,'module':self._module,'sub':substr}
+        displayStr = bigConfig['general']['pipeMainPath'] + '/%(prj)s/%(module)s/%(sub)s'  % {'prj':self._prjName,'serv':self._serverPath,'module':self._module,'sub':substr}
         
         #print 'display',fullStr
 

@@ -57,15 +57,10 @@ except:
 
 import bin.mainBrowser as mainBrowser
 reload(mainBrowser)
+import bin.util as util
+reload(util)
+
 if 'src.resources' not in sys.modules:
-    '''
-    gg = sys.modules
-    for g in gg:
-        if 'resources' in g:
-            print '>>>',g
-        else:
-            print g
-    '''
     import src.resources as resources
 #reload(src.resources)
 
@@ -142,9 +137,9 @@ class modelBrowser(mainBrowser.Ui_MainWindow):
         #{'varient': u'defaultVersion', 'name': u'goddsmake', 'dataType': u'Charactors', 'sizeLevel': 1, 'dep': u'Model', 'path': u'D:/testDir/pipPrj/ZZZ/_assets/Charactors/goddsmake/Model/defaultVersion/Main'}
 
         #D:\testDir\pipPrj\ZZZ\.HistoryInfo\_assets\Charactors\girl\history  
-
-        _path = '%(serverPath)s/pipPrj/%(prjName)s/.HistoryInfo/%(_module)s/%(dataType)s/%(name)s/' % dic
-        logger.info( _path)
+        dataDict = util.getSoftwareConfig()
+        _path = dataDict['general']['pipeMainPath'] + '/%(prjName)s/.HistoryInfo/%(_module)s/%(dataType)s/%(name)s/' % dic
+        logger.info(_path)
         if not os.path.exists(_path):
             os.makedirs(_path)
 
