@@ -253,7 +253,7 @@ QTabWidget::pane {
 		border-color: rgb(77,77,77);
 		background-color:#222019;
 		border-style: solid;
-		border-width: 1px;
+		border-width: 0px;
     	border-radius: 6px;
 }
 QTabBar::tab {
@@ -667,6 +667,80 @@ QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
   	background: none;
 }
 
+
+
+
+QTableWidget {
+    gridline-color: #fffff8;
+    background-color:transparent;
+    margin:0px;
+
+    border:none;
+    border-style: none;
+
+    border: 0px solid #ecedef;
+}
+
+
+
+
+QTableWidget QHeaderView::section:horizontal
+{
+    radius:12px;
+    border-radius: 12px;
+
+    margin-right:2px;
+    border-style: none;
+
+    border-left: 1px solid #ecedef;
+    border-top: 1px solid #161618;
+    border-right: 1px solid #b1b1b5;
+    border-bottom: 1px solid #161618;
+
+    background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 #f4f4f6, stop:1 #ceced6);
+ }
+
+QTableWidget QHeaderView::section:vertical
+{
+    border-left: 1px solid #fffff8;
+}
+
+QTableView::item{
+    color:#999999;
+    background-color: transparent;
+    margin:3px;
+
+    border-left: 0px solid #ecedef;
+    border-top: 0px solid #161618;
+    border-right: 0px solid #b1b1b5;
+    border-bottom: 1px solid #161618;
+
+}
+
+QTableView::item:selected{
+    color:#FFFFFF;
+    background-color: #e67e22;
+    margin:-1px;
+
+    border-left: 0px solid #ecedef;
+    border-top: 0px solid #161618;
+    border-right: 0px solid #b1b1b5;
+    border-bottom: 1px solid #161618;
+
+}
+
+
+QTableView::item:hover{
+    background-color: transparent;
+    margin:3px;
+
+    border-left: 0px solid #ecedef;
+    border-top: 0px solid #161618;
+    border-right: 0px solid #b1b1b5;
+    border-bottom: 1px solid #e67e22;
+
+}
+
 /*
 custom settings for single item
 */
@@ -813,4 +887,12 @@ QWidget[widgetType=grid] {
     stop:1 #27251E);
 }
 
+QWidget[widgetType=table] {
 
+    background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1, 
+    stop:0 transparent, 
+    stop:0.1 transparent, 
+    stop:1 transparent);
+    border-radius: 12px;
+    border: 0px solid grey;
+    }

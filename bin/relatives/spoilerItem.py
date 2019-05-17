@@ -16,6 +16,7 @@ class FrameDialog(qw.QFrame):
         self.setProperty('spore','body')
 
         self._main_v_layout = qw.QVBoxLayout(self)
+        self._main_v_layout.setContentsMargins(0, 0, 0, 0)
         self._main_v_layout.addWidget(self.initTitleFrame(title, self._is_collasped))
         self._main_v_layout.addWidget(self.initContent(self._is_collasped))
 
@@ -33,7 +34,7 @@ class FrameDialog(qw.QFrame):
         self._content = qw.QWidget()
         self._content.setProperty('spore','box')
         self._content_layout = qw.QVBoxLayout()
-
+        self._content_layout.setContentsMargins(10, 0, 0, 0)
         self._content.setLayout(self._content_layout)
         self._content.setVisible(not collapsed)
 
@@ -60,7 +61,7 @@ class FrameDialog(qw.QFrame):
         def setupTitle(self, parent=None, title="", collapsed=False):
             #qw.TitleFrame.__init__(self, parent=parent)
 
-            self.setMinimumHeight(24)
+            self.setFixedHeight(28)
             self.move(QtCore.QPoint(24, 0))
             #self.setStyleSheet("border:1px solid rgb(41, 41, 41); ")
             self.setProperty('spore','title')

@@ -65,7 +65,7 @@ if 'src.resources' not in sys.modules:
 #reload(src.resources)
 
 class modelBrowser(mainBrowser.Ui_MainWindow):
-    scale = 1
+    scale = 2
     def setupGuild(self):
         
         '''  
@@ -132,11 +132,7 @@ class modelBrowser(mainBrowser.Ui_MainWindow):
         dic['prjName'] = self.getProjectName()
         dic['_module'] = self.getBrowserModule()
         logger.info(dic)
-        #D:/testDir
-        #ZZZ
-        #{'varient': u'defaultVersion', 'name': u'goddsmake', 'dataType': u'Charactors', 'sizeLevel': 1, 'dep': u'Model', 'path': u'D:/testDir/pipPrj/ZZZ/_assets/Charactors/goddsmake/Model/defaultVersion/Main'}
-
-        #D:\testDir\pipPrj\ZZZ\.HistoryInfo\_assets\Charactors\girl\history  
+        
         dataDict = util.getSoftwareConfig()
         _path = dataDict['general']['pipeMainPath'] + '/%(prjName)s/.HistoryInfo/%(_module)s/%(dataType)s/%(name)s/' % dic
         logger.info(_path)
@@ -162,6 +158,8 @@ class modelBrowser(mainBrowser.Ui_MainWindow):
         #print ':/qss/AMOLED.qss'
         #print dir(styleSheet)
         #print str(styleSheet.readAll())
+
+
 class makeUploadFiles(object):
     """docstring for makeUploadFiles"""
     def __init__(self, arg):

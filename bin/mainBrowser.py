@@ -171,39 +171,15 @@ class Ui_MainWindow(qw.QMainWindow):
         self.scale = int(val)
         # reload ui form
 
-    def setupUi(self):
-        uiWidth = 1280 * self.scale
-        uiHeight = 728 * self.scale
-        unitSize = 32 * self.scale
-        iconSize = unitSize - (6 * self.scale)
-        fontHeight = 20 * self.scale
-
-        self.setObjectName('MainUI')
-        self.setMinimumSize(QtCore.QSize(uiWidth*0.5, uiHeight*0.5))
-        self.resize(uiWidth, uiHeight)
-        self.setWindowOpacity(1)
-        '''
-        self.setStyleSheet(("QPushButton {color:rgb(170, 85, 255);font: 75 9pt \"Arial\";}\n"
-                    "QPushButton#closeBtn { background-color: red }\n"
-                    "QsearchLine{ background-color: red }\n"
-                    "QsearchLine[readOnly=\"true\"]{ background-color: gray }"))
-        '''
-
-        self.centralwidget = qw.QWidget(self)
-        self.centralwidget.setAttribute(QtCore.Qt.WA_StyledBackground)
-        self.centralwidget.setAutoFillBackground(True)
-        self.centralwidget.setObjectName(("centralwidget"))
-
-        self.verticalLayout = qw.QVBoxLayout(self.centralwidget)
-        self.verticalLayout.setObjectName(("mainVLayout"))
+    def createTitleLayout(self):
 
         self.horizontalLayout_4 = qw.QHBoxLayout()
         self.horizontalLayout_4.setObjectName(("titleHLayout"))
 
         self.logoLab = qw.QLabel(self.centralwidget)
-        self.logoLab.setMaximumSize(QtCore.QSize(16777215, fontHeight))
+        self.logoLab.setMaximumSize(QtCore.QSize(16777215, self.fontHeight))
         logoPixmap = QtGui.QPixmap.fromImage(QtGui.QImage(':/icon/alipay.png'))
-        logoPixmap = logoPixmap.scaled(fontHeight,fontHeight,aspectRatioMode=QtCore.Qt.KeepAspectRatio)
+        logoPixmap = logoPixmap.scaled(self.fontHeight,self.fontHeight,aspectRatioMode=QtCore.Qt.KeepAspectRatio)
         self.logoLab.setPixmap(logoPixmap)
         self.logoLab.setObjectName(("logoLab"))
 
@@ -217,8 +193,8 @@ class Ui_MainWindow(qw.QMainWindow):
         spacerItem = qw.QSpacerItem(0, 0, qw.QSizePolicy.Expanding, qw.QSizePolicy.Minimum)
         self.horizontalLayout_4.addItem(spacerItem)
         self.progressBar = qw.QProgressBar(self.centralwidget)
-        self.progressBar.setMinimumSize(QtCore.QSize(fontHeight*2, 0))
-        self.progressBar.setMaximumSize(QtCore.QSize(fontHeight*5, 16777215))
+        self.progressBar.setMinimumSize(QtCore.QSize(self.fontHeight*2, 0))
+        self.progressBar.setMaximumSize(QtCore.QSize(self.fontHeight*5, 16777215))
         self.progressBar.setProperty("value", 24)
         self.progressBar.setTextVisible(True)
         self.progressBar.setInvertedAppearance(True)
@@ -227,22 +203,22 @@ class Ui_MainWindow(qw.QMainWindow):
         self.horizontalLayout_4.addWidget(self.progressBar)
 
         self.maxResumeUI = qw.QPushButton(self.centralwidget)
-        self.maxResumeUI.setMaximumSize(QtCore.QSize(fontHeight, fontHeight))
+        self.maxResumeUI.setMaximumSize(QtCore.QSize(self.fontHeight, self.fontHeight))
         self.maxResumeUI.setObjectName(("maxResumeUI"))
         self.maxResumeUI.setIcon(QtGui.QIcon(':/icon/maxium.png'))
-        #self.maxResumeUI.setIconSize(QtCore.QSize(fontHeight, fontHeight))
+        #self.maxResumeUI.setIconSize(QtCore.QSize(self.fontHeight, self.fontHeight))
         self.horizontalLayout_4.addWidget(self.maxResumeUI)
 
         self.closeBtn = qw.QPushButton(self.centralwidget)
-        self.closeBtn.setMaximumSize(QtCore.QSize(fontHeight, fontHeight))
+        self.closeBtn.setMaximumSize(QtCore.QSize(self.fontHeight, self.fontHeight))
         self.closeBtn.setIcon(QtGui.QIcon(':/icon/closeWidget.png'))
-        #self.closeBtn.setIconSize(QtCore.QSize(fontHeight, fontHeight))
+        #self.closeBtn.setIconSize(QtCore.QSize(self.fontHeight, self.fontHeight))
         self.closeBtn.setObjectName(("closeBtn"))
         self.horizontalLayout_4.addWidget(self.closeBtn)
 
         self.verticalLayout.addLayout(self.horizontalLayout_4)
 
-        # ================ titile part over =======================
+    def createToolBar(self):
 
         self.horizontalLayout_2 = qw.QHBoxLayout()
         self.horizontalLayout_2.setSpacing(0)
@@ -250,48 +226,48 @@ class Ui_MainWindow(qw.QMainWindow):
         self.horizontalLayout_2.setContentsMargins(0, 0, 0, 0)
         self.horizontalLayout_2.setObjectName(("horizontalLayout_2"))
         self.guildButton = qw.QPushButton(self.centralwidget)
-        self.guildButton.setMinimumSize(QtCore.QSize(unitSize, unitSize))
-        self.guildButton.setMaximumSize(QtCore.QSize(unitSize, unitSize))
+        self.guildButton.setMinimumSize(QtCore.QSize(self.unitSize, self.unitSize))
+        self.guildButton.setMaximumSize(QtCore.QSize(self.unitSize, self.unitSize))
         self.guildButton.setFlat(False)
         self.guildButton.setObjectName(("guildButton"))
         self.guildButton.setIcon(QtGui.QIcon(':/icon/grouplist.png'))
-        self.guildButton.setIconSize(QtCore.QSize(iconSize, iconSize))
+        self.guildButton.setIconSize(QtCore.QSize(self.iconSize, self.iconSize))
         self.guildButton.setStatusTip(_translate("MainWindow", "开启导航栏", None))
 
 
         self.horizontalLayout_2.addWidget(self.guildButton)
         self.backButton = qw.QPushButton(self.centralwidget)
-        self.backButton.setMinimumSize(QtCore.QSize(unitSize,unitSize))
-        self.backButton.setMaximumSize(QtCore.QSize(unitSize,unitSize))
+        self.backButton.setMinimumSize(QtCore.QSize(self.unitSize,self.unitSize))
+        self.backButton.setMaximumSize(QtCore.QSize(self.unitSize,self.unitSize))
         self.backButton.setObjectName(("backButton"))
         self.backButton.setIcon(QtGui.QIcon(':/icon/back.png'))
-        self.backButton.setIconSize(QtCore.QSize(iconSize, iconSize))
+        self.backButton.setIconSize(QtCore.QSize(self.iconSize, self.iconSize))
         self.backButton.setStatusTip(_translate("MainWindow", "后退到上一次浏览的地址", None))
 
 
         self.horizontalLayout_2.addWidget(self.backButton)
         self.upButton = qw.QPushButton(self.centralwidget)
-        self.upButton.setMinimumSize(QtCore.QSize(unitSize,unitSize))
-        self.upButton.setMaximumSize(QtCore.QSize(unitSize,unitSize))
+        self.upButton.setMinimumSize(QtCore.QSize(self.unitSize,self.unitSize))
+        self.upButton.setMaximumSize(QtCore.QSize(self.unitSize,self.unitSize))
         self.upButton.setIcon(QtGui.QIcon(':/icon/refresh.png'))
-        self.upButton.setIconSize(QtCore.QSize(iconSize, iconSize))
+        self.upButton.setIconSize(QtCore.QSize(self.iconSize, self.iconSize))
         self.upButton.setObjectName(("refreshButton"))
         self.upButton.setEnabled(False)
 
         self.horizontalLayout_2.addWidget(self.upButton)
         self.projectButton = qw.QPushButton(self.centralwidget)
-        self.projectButton.setMinimumSize(QtCore.QSize(unitSize,unitSize))
-        self.projectButton.setMaximumSize(QtCore.QSize(0, unitSize))
+        self.projectButton.setMinimumSize(QtCore.QSize(self.unitSize,self.unitSize))
+        self.projectButton.setMaximumSize(QtCore.QSize(0, self.unitSize))
         self.projectButton.setObjectName(("projectButton"))
         self.projectButton.setStatusTip(_translate("MainWindow", "切换项目", None))
 
         self.projectButton.setIcon(QtGui.QIcon(':/icon/switch.png'))
-        self.projectButton.setIconSize(QtCore.QSize(iconSize, iconSize))
+        self.projectButton.setIconSize(QtCore.QSize(self.iconSize, self.iconSize))
         self.horizontalLayout_2.addWidget(self.projectButton)
 
         self.comboBox = qw.QComboBox(self.centralwidget)
-        self.comboBox.setMinimumSize(QtCore.QSize(0, unitSize))
-        self.comboBox.setMaximumSize(QtCore.QSize(16777215, unitSize))
+        self.comboBox.setMinimumSize(QtCore.QSize(0, self.unitSize))
+        self.comboBox.setMaximumSize(QtCore.QSize(16777215, self.unitSize))
         self.comboBox.setEditable(True)
         self.comboBox.setSizeAdjustPolicy(qw.QComboBox.AdjustToMinimumContentsLength)
         self.comboBox.setObjectName(("addressBar"))
@@ -303,73 +279,51 @@ class Ui_MainWindow(qw.QMainWindow):
         self.horizontalLayout_2.addWidget(self.comboBox)
 
         self.moduleButton = qw.QPushButton(self.centralwidget)
-        self.moduleButton.setMinimumSize(QtCore.QSize(unitSize,unitSize))
-        self.moduleButton.setMaximumSize(QtCore.QSize(unitSize,unitSize))
+        self.moduleButton.setMinimumSize(QtCore.QSize(self.unitSize,self.unitSize))
+        self.moduleButton.setMaximumSize(QtCore.QSize(self.unitSize,self.unitSize))
         self.moduleButton.setObjectName(("moduleButton"))
         self.moduleButton.setStatusTip(_translate("MainWindow", "列表模式/图标模式/大图标模式", None))
         self.moduleButton.setIcon(QtGui.QIcon(':/icon/iconManager.png'))
-        self.moduleButton.setIconSize(QtCore.QSize(iconSize, iconSize))
+        self.moduleButton.setIconSize(QtCore.QSize(self.iconSize, self.iconSize))
         self.horizontalLayout_2.addWidget(self.moduleButton)
 
         self.attributeButton = qw.QPushButton(self.centralwidget)
-        self.attributeButton.setMinimumSize(QtCore.QSize(unitSize,unitSize))
-        self.attributeButton.setMaximumSize(QtCore.QSize(unitSize,unitSize))
+        self.attributeButton.setMinimumSize(QtCore.QSize(self.unitSize,self.unitSize))
+        self.attributeButton.setMaximumSize(QtCore.QSize(self.unitSize,self.unitSize))
         self.attributeButton.setObjectName(("attributeButton"))
         self.attributeButton.setIcon(QtGui.QIcon(':/icon/pin.png'))
-        self.attributeButton.setIconSize(QtCore.QSize(iconSize, iconSize))
+        self.attributeButton.setIconSize(QtCore.QSize(self.iconSize, self.iconSize))
         self.horizontalLayout_2.addWidget(self.attributeButton)
 
         self.batchButton = qw.QPushButton(self.centralwidget)
-        self.batchButton.setMinimumSize(QtCore.QSize(unitSize,unitSize))
-        self.batchButton.setMaximumSize(QtCore.QSize(unitSize,unitSize))
+        self.batchButton.setMinimumSize(QtCore.QSize(self.unitSize,self.unitSize))
+        self.batchButton.setMaximumSize(QtCore.QSize(self.unitSize,self.unitSize))
         self.batchButton.setObjectName(("batchButton"))
         self.batchButton.setIcon(QtGui.QIcon(':/icon/batch.png'))
-        self.batchButton.setIconSize(QtCore.QSize(iconSize, iconSize))
+        self.batchButton.setIconSize(QtCore.QSize(self.iconSize, self.iconSize))
         self.horizontalLayout_2.addWidget(self.batchButton)
 
         self.pushButton_3 = qw.QPushButton(self.centralwidget)
-        self.pushButton_3.setMinimumSize(QtCore.QSize(unitSize,unitSize))
-        self.pushButton_3.setMaximumSize(QtCore.QSize(unitSize,unitSize))
+        self.pushButton_3.setMinimumSize(QtCore.QSize(self.unitSize,self.unitSize))
+        self.pushButton_3.setMaximumSize(QtCore.QSize(self.unitSize,self.unitSize))
         self.pushButton_3.setObjectName(("pushButton_3"))
         self.pushButton_3.setIcon(QtGui.QIcon(':/icon/more.png'))
-        self.pushButton_3.setIconSize(QtCore.QSize(iconSize, iconSize))
+        self.pushButton_3.setIconSize(QtCore.QSize(self.iconSize, self.iconSize))
         self.horizontalLayout_2.addWidget(self.pushButton_3)
 
         self.setupButton = qw.QPushButton(self.centralwidget)
-        self.setupButton.setMinimumSize(QtCore.QSize(unitSize,unitSize))
-        self.setupButton.setMaximumSize(QtCore.QSize(unitSize,unitSize))
+        self.setupButton.setMinimumSize(QtCore.QSize(self.unitSize,self.unitSize))
+        self.setupButton.setMaximumSize(QtCore.QSize(self.unitSize,self.unitSize))
         self.setupButton.setObjectName(("setupButton"))
         self.setupButton.setIcon(QtGui.QIcon(':/icon/setting.png'))
-        self.setupButton.setIconSize(QtCore.QSize(iconSize, iconSize))
+        self.setupButton.setIconSize(QtCore.QSize(self.iconSize, self.iconSize))
         self.horizontalLayout_2.addWidget(self.setupButton)
         self.verticalLayout.addLayout(self.horizontalLayout_2)
 
-        #====================== tool bar over ==========================
+        self.guildButton.clicked.connect(self.openGuildWidget)
+        self.comboBox.currentIndexChanged.connect(self.fillDataDialog)
 
-        self.horizontalLayout = qw.QHBoxLayout()
-        self.horizontalLayout.setObjectName(("horizontalLayout"))
-        self.widget = qw.QWidget(self.centralwidget)
-        self.widget.setAttribute(QtCore.Qt.WA_StyledBackground)
-        self.widget.setObjectName(("widget"))
-        self.horizontalLayout_3 = qw.QHBoxLayout(self.widget)
-
-        self.horizontalLayout_3.setObjectName(("horizontalLayout_3"))
-        self.splitter = qw.QSplitter(self.widget)
-        self.splitter.splitterMoved.connect(self.resizeAttributeWidget)
-        sizePolicy = qw.QSizePolicy(qw.QSizePolicy.Maximum, qw.QSizePolicy.Preferred)
-        sizePolicy.setHorizontalStretch(1)
-        sizePolicy.setVerticalStretch(0)
-        #sizePolicy.setHeightForWidth(self.splitter.sizePolicy().hasHeightForWidth())
-        #self.splitter.setSizePolicy(sizePolicy)
-        self.splitter.setFrameShape(qw.QFrame.NoFrame)
-        self.splitter.setLineWidth(0)
-        self.splitter.setMidLineWidth(1)
-        self.splitter.setOrientation(QtCore.Qt.Horizontal)
-        self.splitter.setOpaqueResize(False)
-        self.splitter.setChildrenCollapsible(True)
-        self.splitter.setObjectName(("splitter"))
-
-
+    def createDataDisplayArea(self):
 
         self.dataListWidget = qw.QWidget(self.splitter)
         self.dataListWidget.setAttribute(QtCore.Qt.WA_StyledBackground)
@@ -438,6 +392,146 @@ class Ui_MainWindow(qw.QMainWindow):
         #spacerItem1 = qw.QSpacerItem(160, 40, qw.QSizePolicy.Minimum, qw.QSizePolicy.MinimumExpanding)
         #self.dataListMainVLayout.addItem(spacerItem1)
 
+    def createWebHistoryWidget(self):
+
+        self.webColPage = spoilerItem.FrameDialog()
+        self.webColPage.setupLayout(title="Unit History")
+        self.webColPage._content.setFixedHeight(280*self.scale)
+        # 这就是折叠页，自己写的
+
+
+        sizePolicy = qw.QSizePolicy(
+            qw.QSizePolicy.Minimum, qw.QSizePolicy.Minimum)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+
+        self.html = qwweb.QWebView()
+        #self.qweb = QWebView()
+        self.html.setRenderHints(
+            QtGui.QPainter.Antialiasing | QtGui.QPainter.HighQualityAntialiasing | QtGui.QPainter.NonCosmeticDefaultPen | QtGui.QPainter.SmoothPixmapTransform | QtGui.QPainter.TextAntialiasing)
+        #self.html.setStyleSheet('QWebView{-webkit-border-radius: 26px}')
+        #self.html.settings().setDefaultTextEncoding('utf-8')
+        self.html.page().setLinkDelegationPolicy(qwweb.QWebPage.DelegateAllLinks)
+        self.html.loadFinished.connect(self._load_finished)
+        self.html.setSizePolicy(sizePolicy)
+
+
+
+        self.webColPage.addWidget(self.html)
+        
+        self.verticalLayout_3.addWidget(self.webColPage)
+
+
+    def createFileVersionWidget_emptyTable(self):
+        self.rowHeight = 28*self.scale
+
+        theTable = qw.QTableWidget()
+        theTable.setShowGrid(False)
+        theTable.setSelectionBehavior(qw.QAbstractItemView.SelectRows)
+        theTable.horizontalHeader().setFixedHeight(self.rowHeight)
+        theTable.verticalHeader().setDefaultSectionSize(self.rowHeight)
+        theTable.verticalHeader().setVisible(False)
+        theTable.setColumnCount(5)
+        theTable.setHorizontalHeaderItem(0, qw.QTableWidgetItem("id"))
+
+        columnHeaderItem0 = qw.QTableWidgetItem() 
+        columnHeaderItem0.setFont(QtGui.QFont("Helvetica"))  #; //设置字体 
+        columnHeaderItem0.setBackgroundColor(QtGui.QColor(0,60,10))  #; //设置单元格背景颜色 
+        columnHeaderItem0.setTextColor(QtGui.QColor(200,111,30))  #; //设置文字颜色
+        columnHeaderItem0.setText('name')
+
+        theTable.setHorizontalHeaderItem(1, columnHeaderItem0)
+        theTable.setHorizontalHeaderItem(2, qw.QTableWidgetItem("date"))
+        theTable.setHorizontalHeaderItem(3, qw.QTableWidgetItem("size"))
+        theTable.setHorizontalHeaderItem(4, qw.QTableWidgetItem("path"))
+
+        theTable.setEditTriggers(qw.QAbstractItemView.NoEditTriggers)
+        #theTable.horizontalHeader().setResizeMode(qw.QHeaderView.Stretch)
+        theTable.horizontalHeader().setResizeMode(0, qw.QHeaderView.ResizeToContents)
+        theTable.horizontalHeader().setResizeMode(1, qw.QHeaderView.ResizeToContents)
+        theTable.horizontalHeader().setResizeMode(2, qw.QHeaderView.ResizeToContents)
+        theTable.horizontalHeader().setResizeMode(3, qw.QHeaderView.ResizeToContents)
+        theTable.horizontalHeader().setResizeMode(4, qw.QHeaderView.ResizeToContents)
+        #theTable.horizontalHeader().setResizeMode(5, qw.QHeaderView.ResizeToContents)
+        #theTable.horizontalHeader().setSectionResizeMode(qw.QHeaderView.Stretch)
+        #QHeaderView::Fixed
+        return theTable
+
+    def createFileVersionWidget(self):
+
+        self.fileVersionPage = spoilerItem.FrameDialog()
+        self.fileVersionPage.setupLayout(title="Unit History")
+        self.fileVersionPage._content.setFixedHeight(300*self.scale)
+        self.verticalLayout_3.addWidget(self.fileVersionPage)
+
+        self.versionTable = qw.QTabWidget()
+        self.fileVersionPage.addWidget(self.versionTable)
+
+        self.publishVersionWidget = qw.QWidget()
+        self.publishVersionWidget.setProperty('widgetType','table')
+        self.publishVersionWidget.setAttribute(QtCore.Qt.WA_StyledBackground)
+
+        self.versionTable.addTab(self.publishVersionWidget, 'publish')
+
+        publishversionLayout= qw.QVBoxLayout()
+        self.publishVersionWidget.setLayout(publishversionLayout)
+
+        self.publishTable = self.createFileVersionWidget_emptyTable()
+        publishversionLayout.addWidget(self.publishTable)
+
+        self.addPublishTableData()
+
+        self.workVersionWidget = qw.QWidget()
+        self.workVersionWidget.setProperty('widgetType','table')
+        self.workVersionWidget.setAttribute(QtCore.Qt.WA_StyledBackground)
+        self.versionTable.addTab(self.workVersionWidget, 'work')
+
+        workversionLayout= qw.QVBoxLayout()
+        self.workVersionWidget.setLayout(workversionLayout)
+
+        self.workTable = self.createFileVersionWidget_emptyTable()
+        workversionLayout.addWidget(self.workTable)
+
+    def addPublishTableData(self):
+        
+        dataList = [
+        {'id':'4','name':'testItem','date':'2018-02-02 16:24:33','size':'222MB','path':r'C:\gitLab\brownser01\platform\maya\model'},
+        {'id':'5','name':'testItem','date':'2018-04-02 16:24:33','size':'222MB','path':r'C:\gitLab\brownser01\platform\maya\model'},
+        {'id':'8','name':'testItem','date':'2018-06-02 16:24:33','size':'222MB','path':r'C:\gitLab\brownser01\platform\maya\model'},
+        {'id':'11','name':'testItem','date':'2018-09-02 16:24:33','size':'222MB','path':r'C:\gitLab\brownser01\platform\maya\model'}
+
+
+        ]
+
+        self.publishTable.setRowCount(len(dataList))
+        for count,i in enumerate(dataList):
+
+            idItem = qw.QTableWidgetItem(i['id'])
+            idItem.setToolTip(i['id'])
+            self.publishTable.setItem(count,0,idItem)
+            idItem.setTextAlignment(QtCore.Qt.AlignHCenter | QtCore.Qt.AlignVCenter);
+
+            nameItem = qw.QTableWidgetItem(i['name'])
+            nameItem.setToolTip(i['name'])
+            self.publishTable.setItem(count,1,nameItem)
+
+            dateItem = qw.QTableWidgetItem(i['date'])
+            dateItem.setToolTip(i['date'])
+            self.publishTable.setItem(count,2,dateItem)
+
+            sizeItem = qw.QTableWidgetItem(i['size'])
+            sizeItem.setToolTip(i['size'])
+            self.publishTable.setItem(count,3,sizeItem)
+
+            pathItem = qw.QTableWidgetItem(i['path'])
+            pathItem.setToolTip(i['path'])
+            self.publishTable.setItem(count,4,pathItem)
+
+            self.publishTable.resizeColumnToContents (3)
+            self.publishTable.resizeColumnToContents (2)
+            self.rowHeight
+    def createAttributeDisplayArea(self):
+
         self.attributeWidget = qw.QWidget(self.splitter)
         self.attributeWidget.setAttribute(QtCore.Qt.WA_StyledBackground)
 
@@ -447,7 +541,7 @@ class Ui_MainWindow(qw.QMainWindow):
         #sizePolicy.setHeightForWidth(self.attributeWidget.sizePolicy().hasHeightForWidth())
         self.attributeWidget.setSizePolicy(sizePolicy)
         self.attributeWidget.setMaximumSize(QtCore.QSize(16777215, 16777215))
-        self.attributeWidget.setMinimumSize(QtCore.QSize(uiWidth*0.3, 16777215))
+        self.attributeWidget.setMinimumSize(QtCore.QSize(self.uiWidth*0.3, 16777215))
         self.attributeWidget.setObjectName(("attributeWidget"))
 
         self.verticalLayout_2 = qw.QVBoxLayout(self.attributeWidget)
@@ -524,38 +618,19 @@ class Ui_MainWindow(qw.QMainWindow):
         #self.label.setText('attributeName_999')
         self.verticalLayout_3.addWidget(self.label)'''
 
-        self.webColPage = spoilerItem.FrameDialog()
-        self.webColPage.setupLayout(title="Unit History")
-        self.webColPage._content.setFixedHeight(300)
-        # 这就是折叠页，自己写的
 
+        self.createWebHistoryWidget()
 
-        sizePolicy = qw.QSizePolicy(
-            qw.QSizePolicy.Minimum, qw.QSizePolicy.Minimum)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-
-        self.html = qwweb.QWebView()
-        #self.qweb = QWebView()
-        self.html.setRenderHints(
-            QtGui.QPainter.Antialiasing | QtGui.QPainter.HighQualityAntialiasing | QtGui.QPainter.NonCosmeticDefaultPen | QtGui.QPainter.SmoothPixmapTransform | QtGui.QPainter.TextAntialiasing)
-        self.html.setStyleSheet('QWebView{-webkit-border-radius: 26px}')
-        #self.qweb.settings().setDefaultTextEncoding('utf-8')
-        self.html.page().setLinkDelegationPolicy(qwweb.QWebPage.DelegateAllLinks)
-        self.html.loadFinished.connect(self._load_finished)
-        self.html.setSizePolicy(sizePolicy)
-
-
-
-        self.webColPage.addWidget(self.html)
-        
-        self.verticalLayout_3.addWidget(self.webColPage)
         #"https://rinfigo.shotgunstudio.com",login="lovejunjie1",password="WFshotgun!23")
         self.fileColPage = spoilerItem.FrameDialog()
         self.fileColPage.setupLayout(title="File Struct")
-        self.structSheet = qw.QTreeView()
-        self.fileColPage.addWidget(qw.QLabel('fileStruct sheet'))
+        self.fileColPage._content.setFixedHeight(300*self.scale)
         self.verticalLayout_3.addWidget(self.fileColPage)
+
+        self.structSheet = qw.QTreeView()
+        self.fileColPage.addWidget(self.structSheet)
+
+        self.createFileVersionWidget()
 
         self.actionColPage = spoilerItem.FrameDialog()
         self.actionColPage.setupLayout(title="actions",switch=True)
@@ -572,10 +647,73 @@ class Ui_MainWindow(qw.QMainWindow):
 
         self.scrollArea.setWidget(self.scrollAreaWidgetContents)
         self.verticalLayout_2.addWidget(self.scrollArea)
+
+    def createSplitter(self):
+
+        self.horizontalLayout = qw.QHBoxLayout()
+        self.horizontalLayout.setObjectName(("horizontalLayout"))
+        self.splitterBaseWidget = qw.QWidget(self.centralwidget)
+        self.splitterBaseWidget.setAttribute(QtCore.Qt.WA_StyledBackground)
+        self.splitterBaseWidget.setObjectName(("widget"))
+        self.horizontalLayout_3 = qw.QHBoxLayout(self.splitterBaseWidget)
+
+        self.horizontalLayout_3.setObjectName(("horizontalLayout_3"))
+        self.splitter = qw.QSplitter(self.splitterBaseWidget)
+        self.splitter.splitterMoved.connect(self.resizeAttributeWidget)
+        sizePolicy = qw.QSizePolicy(qw.QSizePolicy.Maximum, qw.QSizePolicy.Preferred)
+        sizePolicy.setHorizontalStretch(1)
+        sizePolicy.setVerticalStretch(0)
+        self.splitter.setFrameShape(qw.QFrame.NoFrame)
+        self.splitter.setLineWidth(0)
+        self.splitter.setMidLineWidth(1)
+        self.splitter.setOrientation(QtCore.Qt.Horizontal)
+        self.splitter.setOpaqueResize(False)
+        self.splitter.setChildrenCollapsible(True)
+        self.splitter.setObjectName(("splitter"))
+
+        self.createDataDisplayArea()
+
+        self.createAttributeDisplayArea()
+
         self.horizontalLayout_3.addWidget(self.splitter)
-        self.horizontalLayout.addWidget(self.widget)
+
+
+    def setupUi(self):
+        self.uiWidth = 1280 * self.scale
+        self.uiHeight = 728 * self.scale
+        self.unitSize = 32 * self.scale
+        self.iconSize = self.unitSize - (6 * self.scale)
+        self.fontHeight = 20 * self.scale
+
+        self.setObjectName('MainUI')
+        self.setMinimumSize(QtCore.QSize(self.uiWidth*0.5, self.uiHeight*0.5))
+        self.resize(self.uiWidth, self.uiHeight)
+        self.setWindowOpacity(1)
+        '''
+        self.setStyleSheet(("QPushButton {color:rgb(170, 85, 255);font: 75 9pt \"Arial\";}\n"
+                    "QPushButton#closeBtn { background-color: red }\n"
+                    "QsearchLine{ background-color: red }\n"
+                    "QsearchLine[readOnly=\"true\"]{ background-color: gray }"))
+        '''
+
+        self.centralwidget = qw.QWidget(self)
+        self.centralwidget.setAttribute(QtCore.Qt.WA_StyledBackground)
+        self.centralwidget.setAutoFillBackground(True)
+        self.centralwidget.setObjectName(("centralwidget"))
+
+        self.verticalLayout = qw.QVBoxLayout(self.centralwidget)
+        self.verticalLayout.setObjectName(("mainVLayout"))
+
+        self.createTitleLayout()
+        # ================ titile part over =======================
+        self.createToolBar()
+
+        self.createSplitter()
+
+        self.horizontalLayout.addWidget(self.splitterBaseWidget)
         self.verticalLayout.addLayout(self.horizontalLayout)
         self.setCentralWidget(self.centralwidget)
+
         self.statusbar = qw.QStatusBar(self)
         self.statusbar.setObjectName(("statusbar"))
         self.setStatusBar(self.statusbar)
@@ -583,8 +721,7 @@ class Ui_MainWindow(qw.QMainWindow):
         self.retranslateUi(self)
 
         QtCore.QMetaObject.connectSlotsByName(self)
-        self.guildButton.clicked.connect(self.openGuildWidget)
-        self.comboBox.currentIndexChanged.connect(self.fillDataDialog)
+
 
         if not(IsPySide2 or IsPySide):
             # pyside不支持setMargin
