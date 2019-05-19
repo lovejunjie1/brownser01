@@ -7,8 +7,13 @@ import json_pack as json
 #print '__file__',__file__
 #print 'abs',os.path.abspath(__file__)
 
-def getSoftwareConfig():
-	theAbsPath = os.path.abspath(__file__)
+def getSoftwareConfig(testPath = ''):
+	#C:\gitLab\brownser01\bin\util\__init__.py
+	if testPath:
+		theAbsPath = testPath
+	else:
+		theAbsPath = os.path.abspath(__file__)
+	#print theAbsPath
 	spPath = theAbsPath.split('bin')
 	configPath = spPath[0] + '/configs/universeSet.pipeSet'
 	ext = os.path.exists(configPath)
@@ -61,7 +66,9 @@ def getPath(dataType='', name='', varient='', dep='', project='',isHistory = Fal
 	elif location == 'local':
 		serv = mainData['general']['localCachePath']
 
-	print 'serv',serv
+	#print 'serv',serv
+	print 'dep',dep
+	print keyDict
 	cbDict = {
 		'serv':serv,
 		'prj':project,
@@ -77,15 +84,41 @@ def getPath(dataType='', name='', varient='', dep='', project='',isHistory = Fal
 	rtRoot = pathRoot % cbDict
 	return rtRoot
 
-def slot():
-    pass
+def getPublishSlot(dataType='', name='', varient='', dep='', project=''):
+	thePath = getPath(dataType=dataType, name=name, varient=varient, dep=dep, project=project,location='main')
+    
 
 
-def has():
-    pass
+def getWorkSlot(dataType='', name='', varient='', dep='', project=''):
+	thePath = getPath(dataType=dataType, name=name, varient=varient, dep=dep, project=project,location='work')
+	theDir = '/'.join(thePath.split('/')[:-1])
+
+	if not os.path.exists(theDir):
+		os.makedirs(theDir)
+
+	returnPath = ''
+	dirList = os.listdir(theDir)
+	if dirList:
+		biggest = 0
+		for dl in dirList:
+			cbPath = theDir+'/'+dl
+			if os.path.isdir(cbPath):
+				val = int(dl.split('.')[-1])
+				if val > biggest:
+					biggest = val
+		biggest += 1
+		bigStr = str(biggest).zfill(3)
+		returnPath = thePath + '.' + bigStr
+	else:
+		returnPath = thePath + '.001'
+
+	print returnPath
+	return returnPath
 
 def help():
     pass
 
 if __name__ == '__main__':
-	getPath()
+	testDic = {"basic": {"project": "ZZZ", "dataType": "Charactors", "name": "girl", "varient": "defaultVersion", "path": "D:/testDir/pipePrj/ZZZ/_assets/Charactors/girl/LookDev/defaultVersion/Main", "sizeLevel": 1, "dep": "LookDev"}}
+	td = testDic['basic']
+	getWorkSlot(dataType=td['dataType'],name=td['name'], varient=td['varient'], dep=td['dep'], project=td['project'])

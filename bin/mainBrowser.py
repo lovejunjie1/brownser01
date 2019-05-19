@@ -25,9 +25,10 @@ elif IsPySide2:
 else:
     from PyQt4 import QtWebKit
 
-import sys
 import os
 import logging
+import json
+
 import bin.relatives.dataItem as dataItem
 reload(dataItem)
 import bin.relatives.spoilerItem as spoilerItem
@@ -170,6 +171,7 @@ class Ui_MainWindow(qw.QMainWindow):
     def setScale(self,val):
         self.scale = int(val)
         # reload ui form
+
 
     def createTitleLayout(self):
 
@@ -492,6 +494,52 @@ class Ui_MainWindow(qw.QMainWindow):
         self.workTable = self.createFileVersionWidget_emptyTable()
         workversionLayout.addWidget(self.workTable)
 
+        self.addWorkTableData()
+
+    def addWorkTableData(self):
+        baseList = [{'id':'-','name':'new','date':'now','size':' - MB','path':''}]
+
+
+
+        tempList = [
+        {'id':'4','name':'testItem','date':'2018-02-02 16:24:33','size':'222MB','path':r'C:\gitLab\brownser01\platform\maya\model'},
+        {'id':'5','name':'testItem','date':'2018-04-02 16:24:33','size':'222MB','path':r'C:\gitLab\brownser01\platform\maya\model'},
+        {'id':'8','name':'testItem','date':'2018-06-02 16:24:33','size':'222MB','path':r'C:\gitLab\brownser01\platform\maya\model'},
+        {'id':'11','name':'testItem','date':'2018-09-02 16:24:33','size':'222MB','path':r'C:\gitLab\brownser01\platform\maya\model'}
+
+
+        ]
+        dataList = baseList + tempList
+
+        self.workTable.setRowCount(len(dataList))
+        for count,i in enumerate(dataList):
+
+            idItem = qw.QTableWidgetItem(i['id'])
+            idItem.setToolTip(i['id'])
+            self.workTable.setItem(count,0,idItem)
+            idItem.setTextAlignment(QtCore.Qt.AlignHCenter | QtCore.Qt.AlignVCenter);
+
+            nameItem = qw.QTableWidgetItem(i['name'])
+            nameItem.setToolTip(i['name'])
+            self.workTable.setItem(count,1,nameItem)
+
+            dateItem = qw.QTableWidgetItem(i['date'])
+            dateItem.setToolTip(i['date'])
+            self.workTable.setItem(count,2,dateItem)
+
+            sizeItem = qw.QTableWidgetItem(i['size'])
+            sizeItem.setToolTip(i['size'])
+            self.workTable.setItem(count,3,sizeItem)
+
+            pathItem = qw.QTableWidgetItem(i['path'])
+            pathItem.setToolTip(i['path'])
+            self.workTable.setItem(count,4,pathItem)
+
+            self.workTable.resizeColumnToContents (3)
+            self.workTable.resizeColumnToContents (2)
+            #self.rowHeight
+
+
     def addPublishTableData(self):
         
         dataList = [
@@ -529,11 +577,18 @@ class Ui_MainWindow(qw.QMainWindow):
 
             self.publishTable.resizeColumnToContents (3)
             self.publishTable.resizeColumnToContents (2)
-            self.rowHeight
+            #self.rowHeight
+
+
     def createAttributeDisplayArea(self):
 
         self.attributeWidget = qw.QWidget(self.splitter)
         self.attributeWidget.setAttribute(QtCore.Qt.WA_StyledBackground)
+
+        #_mv = qw.QVBoxLayout()
+        #self.attributeWidget.setLayout(_mv)
+
+
 
         sizePolicy = qw.QSizePolicy(qw.QSizePolicy.MinimumExpanding, qw.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
@@ -548,33 +603,6 @@ class Ui_MainWindow(qw.QMainWindow):
         self.verticalLayout_2.setSpacing(0)
         self.verticalLayout_2.setObjectName(("verticalLayout_2"))
 
-
-        sizePolicy = qw.QSizePolicy(qw.QSizePolicy.Minimum, qw.QSizePolicy.Expanding)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-
-        self.scrollArea = qw.QScrollArea(self.attributeWidget)
-        self.scrollArea.setSizePolicy(sizePolicy)
-        self.scrollArea.setMinimumSize(QtCore.QSize(0, 0))
-        self.scrollArea.setMaximumSize(QtCore.QSize(16777212, 16777215))
-        self.scrollArea.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
-        self.scrollArea.setWidgetResizable(True)
-        self.scrollArea.setObjectName(("scrollArea"))
-        self.scrollAreaWidgetContents = qw.QWidget()
-        self.scrollAreaWidgetContents.setAttribute(QtCore.Qt.WA_StyledBackground)
-        #self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 548, 337))
-
-        sizePolicy = qw.QSizePolicy(qw.QSizePolicy.Minimum, qw.QSizePolicy.Preferred)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.scrollAreaWidgetContents.sizePolicy().hasHeightForWidth())
-
-        self.scrollAreaWidgetContents.setSizePolicy(sizePolicy)
-        self.scrollAreaWidgetContents.setObjectName(("scrollAreaWidgetContents"))
-        self.verticalLayout_3 = qw.QVBoxLayout(self.scrollAreaWidgetContents)
-        self.verticalLayout_3.setObjectName(("verticalLayout_3"))
-
-        
         titleBox = qw.QHBoxLayout(self)
 
         self.titleLab_dep = qw.QLabel(self.centralwidget)
@@ -603,21 +631,32 @@ class Ui_MainWindow(qw.QMainWindow):
         self.titleLab_type.setAlignment(QtCore.Qt.AlignHCenter | QtCore.Qt.AlignVCenter)
         titleBox.addWidget(self.titleLab_type)
 
-        self.verticalLayout_3.addLayout(titleBox)
-        
-        '''
-        self.label = qw.QLabel(self.scrollAreaWidgetContents)
+        self.verticalLayout_2.addLayout(titleBox)
 
-        sizePolicy = qw.QSizePolicy(qw.QSizePolicy.MinimumExpanding, qw.QSizePolicy.Preferred)
+        sizePolicy = qw.QSizePolicy(qw.QSizePolicy.Minimum, qw.QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.label.sizePolicy().hasHeightForWidth())
 
-        self.label.setSizePolicy(sizePolicy)
-        self.label.setObjectName(("attributeName"))
-        #self.label.setText('attributeName_999')
-        self.verticalLayout_3.addWidget(self.label)'''
+        self.scrollArea = qw.QScrollArea(self.attributeWidget)
+        self.scrollArea.setSizePolicy(sizePolicy)
+        self.scrollArea.setMinimumSize(QtCore.QSize(0, 0))
+        self.scrollArea.setMaximumSize(QtCore.QSize(16777212, 16777215))
+        self.scrollArea.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
+        self.scrollArea.setWidgetResizable(True)
+        self.scrollArea.setObjectName(("scrollArea"))
+        self.scrollAreaWidgetContents = qw.QWidget()
+        self.scrollAreaWidgetContents.setAttribute(QtCore.Qt.WA_StyledBackground)
+        #self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 548, 337))
 
+        sizePolicy = qw.QSizePolicy(qw.QSizePolicy.Minimum, qw.QSizePolicy.Preferred)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.scrollAreaWidgetContents.sizePolicy().hasHeightForWidth())
+
+        self.scrollAreaWidgetContents.setSizePolicy(sizePolicy)
+        self.scrollAreaWidgetContents.setObjectName(("scrollAreaWidgetContents"))
+        self.verticalLayout_3 = qw.QVBoxLayout(self.scrollAreaWidgetContents)
+        self.verticalLayout_3.setObjectName(("verticalLayout_3"))
 
         self.createWebHistoryWidget()
 
@@ -815,7 +854,7 @@ class Ui_MainWindow(qw.QMainWindow):
             name=dic['name'], 
             varient=dic['varient'], 
             dep=dic['dep'], 
-            project='ZZZ',
+            project=self.getProjectName(),
             location='work',
             isHistory=True)
         print 'hisPath',hisPath
@@ -845,7 +884,20 @@ class Ui_MainWindow(qw.QMainWindow):
         self.titleLab_dep.style().unpolish(self.titleLab_dep)
         self.titleLab_dep.style().polish(self.titleLab_dep)
 
+        dic['project'] = self.getProjectName()
+        self.selectionDict = dict(dic)
+
         self.dbClickedEvent(dic)
+
+
+
+
+    def getBrowserState(self):
+        theDict = {}
+        theDict['basic'] = self.selectionDict
+        print json.dumps(theDict)
+        return theDict
+        
 
     def dbPlayedEvent_default(self,dic):
         self.dbPlayedEvent()  

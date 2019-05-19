@@ -3,7 +3,7 @@ import sys
 import os
 import logging
 
-logger = logging.getLogger('model_Log')  
+logger = logging.getLogger('model_publish_Log')  
 logger.setLevel(logging.DEBUG)  
 #fh = logging.FileHandler('/tmp/test.log')  
   
@@ -161,6 +161,8 @@ class modelBrowser(mainBrowser.Ui_MainWindow):
         self.setServerPath('D:/testDir')
         self.setProjectName('ZZZ')
         self.setupActionArea()
+        self.fileVersionPage.hide()
+        self.fileColPage.hide()
 
         styleSheet = QtCore.QFile('C:/gitLab/brownser01/src/qss/AMOLED.qss')        
         styleSheet.open(QtCore.QFile.ReadOnly)   

@@ -257,6 +257,7 @@ QTabWidget::pane {
     	border-radius: 6px;
 }
 QTabBar::tab {
+	font-size:14px;
 	border-style: solid;
 	border-top-color: transparent;
 	border-right-color: transparent;
@@ -268,6 +269,8 @@ QTabBar::tab {
 	padding: 3px;
 	margin-left:3px;
 	background-color:#222019;
+	height:30px;
+	width:60px;
 }
 QTabBar::tab:selected, QTabBar::tab:last:selected, QTabBar::tab:hover {
   	border-style: solid;
@@ -686,8 +689,8 @@ QTableWidget {
 
 QTableWidget QHeaderView::section:horizontal
 {
-    radius:12px;
-    border-radius: 12px;
+    radius:7px;
+    border-radius: 7px;
 
     margin-right:2px;
     border-style: none;
@@ -741,9 +744,38 @@ QTableView::item:hover{
 
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /*
 custom settings for single item
 */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 QLabel[dep=model] {
 
@@ -772,11 +804,11 @@ QPushButton[dep=model]:hover {
 
     color: #DDDDDD;
     border-style: solid;
-    border-top-color: transparent;
-    border-right-color: transparent;
-    border-left-color: transparent;
-    border-bottom-color: #e67e22;
-    border-width:5px;
+    border-top-color: #AAAAAA;
+    border-right-color: #AAAAAA;
+    border-left-color: #AAAAAA;
+    border-bottom-color: #AAAAAA;
+    border-width:1px;
 }
 
 QLabel[dep=lookdev] {
