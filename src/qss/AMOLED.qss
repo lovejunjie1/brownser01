@@ -94,7 +94,6 @@ QToolButton:hover{
 	border-left-color: transparent;
 	border-bottom-color: #e67e22;
 	border-bottom-width: 1px;
-	border-bottom-radius: 6px;
 	border-style: solid;
 	color: #FFFFFF;
 	background-color: #222019;
@@ -106,7 +105,6 @@ QPushButton:hover{
 	border-left-color: transparent;
 	border-bottom-color: #e67e22;
 	border-bottom-width: 1px;
-	border-bottom-radius: 6px;
 	border-style: solid;
 	color: #FFFFFF;
 	background-color: #25251E;
@@ -118,7 +116,6 @@ QPushButton:pressed{
 	border-left-color: transparent;
 	border-bottom-color: #e67e22;
 	border-bottom-width: 1px;
-	border-bottom-radius: 6px;
 	border-style: solid;
 	color: #e67e22;
 	background-color: #222019;
@@ -130,7 +127,6 @@ QPushButton:disabled{
 	border-left-color: transparent;
 	border-bottom-color: transparent;
 	border-bottom-width: 2px;
-	border-bottom-radius: 6px;
 	border-style: solid;
 	color: #666666;
 	padding-bottom: 1px;
@@ -781,7 +777,6 @@ QLabel[dep=model] {
 
     border: 0px solid grey;
     border-radius: 8px;
-    radius: 8 px;
     font-family:Verdana;font-style:oblique;
     color: #FFFFFF;
     background-color: qlineargradient(x1:0, y1:0, x2:1, y2:0, stop:0 #ED4264, stop:1 #FFEDBC);
@@ -793,7 +788,6 @@ QPushButton[dep=model] {
 
     border: 1px solid grey;
     border-radius: 8px;
-    radius: 8 px;
     font-family:Verdana;font-style:oblique;
     color: #333333;
     background-color: qlineargradient(x1:0, y1:0, x2:1, y2:0, stop:0 #ED4264, stop:1 #FFEDBC);
@@ -815,7 +809,6 @@ QLabel[dep=lookdev] {
 
   	border: 0px solid grey;
   	border-radius: 8px;
-	radius: 8 px;
 	font-family:Verdana;font-style:oblique;
 	color: #FFFFFF;
 	background-color: qlineargradient(x1:0, y1:0, x2:1, y2:0, stop:0 #514A9D, stop:1 #24C6DC);
@@ -828,7 +821,6 @@ QLabel#titleLab_name {
 	font-family:YaHei;font-style:oblique;
   	border: 1px solid grey;
   	border-radius: 8px;
-	radius: 8 px;
 	color: #FFFFFF;
 	background-color: #111111;
 	
@@ -895,7 +887,6 @@ QLabel[spore=label] {
     font-family:Verdana;font-style:oblique;
     border: 0px solid grey;
     border-radius: 8px;
-    radius: 8 px;
     color: #FFFFFF;
     background-color: transparent;
     
@@ -906,7 +897,6 @@ QLabel[spore=label]:disabled {
     font-family:Verdana;font-style:oblique;
     border: 0px solid grey;
     border-radius: 8px;
-    radius: 8 px;
     color: #666666;
     background-color: transparent;
     
