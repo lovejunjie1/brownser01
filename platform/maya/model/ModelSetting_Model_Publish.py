@@ -65,7 +65,7 @@ if 'src.resources' not in sys.modules:
 #reload(src.resources)
 
 class modelBrowser(mainBrowser.Ui_MainWindow):
-    scale = 1
+    scale = 2
     def setupGuild(self):
         
         '''  
