@@ -49,7 +49,11 @@ if IsPyQt4:
     import PyQt4.QtWebKit as qwweb
 elif IsPySide:
     import PySide.QtWebKit as qwweb
-elif IsPyQt5 or IsPySide2:
+elif IsPySide2:
+    import PySide2.QtWebKit as qwweb
+elif IsPyQt5:
+    pass
+else:
     pass
 
 
@@ -406,7 +410,7 @@ class Ui_MainWindow(qw.QMainWindow):
             qw.QSizePolicy.Minimum, qw.QSizePolicy.Minimum)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-
+        '''
         self.html = qwweb.QWebView()
         #self.qweb = QWebView()
         self.html.setRenderHints(
@@ -420,7 +424,7 @@ class Ui_MainWindow(qw.QMainWindow):
 
 
         self.webColPage.addWidget(self.html)
-        
+        '''
         self.verticalLayout_3.addWidget(self.webColPage)
 
 
@@ -449,6 +453,7 @@ class Ui_MainWindow(qw.QMainWindow):
 
         theTable.setEditTriggers(qw.QAbstractItemView.NoEditTriggers)
         #theTable.horizontalHeader().setResizeMode(qw.QHeaderView.Stretch)
+        '''
         theTable.horizontalHeader().setResizeMode(0, qw.QHeaderView.ResizeToContents)
         theTable.horizontalHeader().setResizeMode(1, qw.QHeaderView.ResizeToContents)
         theTable.horizontalHeader().setResizeMode(2, qw.QHeaderView.ResizeToContents)
@@ -457,6 +462,7 @@ class Ui_MainWindow(qw.QMainWindow):
         #theTable.horizontalHeader().setResizeMode(5, qw.QHeaderView.ResizeToContents)
         #theTable.horizontalHeader().setSectionResizeMode(qw.QHeaderView.Stretch)
         #QHeaderView::Fixed
+        '''
         return theTable
 
     def createFileVersionWidget(self):
